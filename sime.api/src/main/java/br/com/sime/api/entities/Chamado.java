@@ -15,7 +15,7 @@ public class Chamado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_chamado", nullable = false)
-    private Integer idChamado;
+    private Long idChamado;
 
     @Column(name = "dt_abertura_chamado")
     private LocalDateTime dt_aberturaChamado;
@@ -41,4 +41,7 @@ public class Chamado {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_chamado", nullable = false)
     private TipoChamadoEnum tipoChamado;
+
+    @ManyToMany(mappedBy = "chamadoList")
+    private List<Usuario> usuarioList;
 }
