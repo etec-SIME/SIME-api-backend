@@ -11,33 +11,36 @@ CREATE TABLE Escola (
 )
 
 CREATE TABLE Tipo_perfil (
-	id_tipo_perfil BIGINT IDENTITY(1,1) PRIMARY KEY,
+	id_tipo_perfil INT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_perfil VARCHAR(30)
 )
 
 CREATE TABLE Cadastra (
+    id_cadastra INT IDENTITY(1,1) PRIMARY KEY,
     cod_escola CHAR(3),
-    id_tipo_perfil BIGINT,
-	PRIMARY KEY (cod_escola, id_tipo_perfil),
-    FOREIGN KEY(cod_escola) REFERENCES Escola (cod_escola),
-    FOREIGN KEY(id_tipo_perfil) REFERENCES Tipo_perfil (id_tipo_perfil)
+    id_tipo_perfil INT,
+    FOREIGN KEY(cod_escola)
+        REFERENCES Escola (cod_escola),
+    FOREIGN KEY(id_tipo_perfil)
+        REFERENCES Tipo_perfil (id_tipo_perfil)
 )
 
 CREATE TABLE Usuario (
 	rm_usuario CHAR(6) PRIMARY KEY,
 	email_usuario VARCHAR(50),
 	nome_usuario VARCHAR(30),
-	dt_nascimento_usuario DATETIME,
+	dt_nascimento_usuario DATE,
 	telefone_usuario CHAR(11),
-	id_tipo_perfil BIGINT,
-	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
+	id_tipo_perfil INT,
+	FOREIGN KEY (id_tipo_perfil) 
+		REFERENCES Tipo_perfil(id_tipo_perfil) 
 )
 
 CREATE TABLE Chamado (
-	id_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
-	dt_abertura_chamado DATETIME,
+	id_chamado INT IDENTITY(1,1) PRIMARY KEY,
+	dt_abertura_chamado DATE,
 	desc_chamado VARCHAR(450),
-	dt_conclusao_chamado DATETIME,
+	dt_conclusao_chamado DATE,
 	img_chamado VARCHAR(255),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
@@ -47,22 +50,23 @@ CREATE TABLE Chamado (
 )
 
 CREATE TABLE Gerenciar (
+	id_gerenciar INT IDENTITY(1,1) PRIMARY KEY,
 	rm_usuario CHAR(6),
-	id_chamado BIGINT,
-	PRIMARY KEY(rm_usuario, id_chamado),
-	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
-	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
+	id_chamado INT,
+	FOREIGN KEY(rm_usuario) 
+		REFERENCES Usuario (rm_usuario),
+	FOREIGN KEY(id_chamado)
+		REFERENCES Chamado (id_chamado)
 )
 
 CREATE TABLE Feedback (
-	id_feedback BIGINT IDENTITY(1,1) PRIMARY KEY,
-	dt_feedback DATETIME,
+	id_feedback INT IDENTITY(1,1) PRIMARY KEY,
+	dt_feedback DATE,
 	desc_feedback VARCHAR(450),
-	id_chamado BIGINT,
+	id_chamado INT,
 	rm_usuario CHAR(6),
-	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado),
-	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario)
+	FOREIGN KEY(id_chamado)
+		REFERENCES Chamado (id_chamado),
+	FOREIGN KEY(rm_usuario)
+		REFERENCES Usuario (rm_usuario)
 )
-
-DROP DATABASE DBS_SIME
-
