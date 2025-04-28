@@ -12,7 +12,7 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_feedback", nullable = false)
-    private Integer idFeedback;
+    private Long idFeedback;
 
     @Column(name = "dt_feedback")
     private LocalDateTime dtFeedback;
