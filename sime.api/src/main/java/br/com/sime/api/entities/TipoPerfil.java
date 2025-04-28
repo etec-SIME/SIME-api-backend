@@ -12,11 +12,11 @@ public class TipoPerfil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_perfil", nullable = false)
-    private Long idTipoPerfil;
+    private Integer idTipoPerfil;
 
     @Column(name = "nome_tipo_perfil", length = 30)
     private String nomeTipoPerfil;
 
-    @ManyToMany(mappedBy = "tipoPerfilList")
-    private List<Escola> escolaList;
+    @OneToMany(mappedBy = "tipoPerfil")
+    private List<Cadastra> cadastraList;
 }

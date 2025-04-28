@@ -12,7 +12,7 @@ import java.util.List;
 public class Usuario {
 
     @Id
-    @Column(name = "rm_usuario", length = 6, columnDefinition = "CHAR(6)", nullable = false)
+    @Column(name = "rm_usuario", length = 6, nullable = false)
     private String rmUsuario;
 
     @Column(name = "email_usuario", length = 50)
@@ -24,7 +24,7 @@ public class Usuario {
     @Column(name = "dt_nascimento_usuario")
     private LocalDateTime dtNascimentoUsuario;
 
-    @Column(name = "telefone_usuario", length = 11, columnDefinition = "CHAR(11)")
+    @Column(name = "telefone_usuario", length = 11)
     private String telefoneUsuario;
 
     @ManyToOne
@@ -34,11 +34,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Feedback> feedbackList;
 
-    @ManyToMany
-    @JoinTable(
-        name = "Gerenciar",
-        joinColumns = @JoinColumn(name = "rm_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_chamado")
-    )
-    private List<Chamado> chamadoList;
+    @OneToMany(mappedBy = "usuario")
+    private List<Gerenciar> gerenciarList;
 }
