@@ -41,9 +41,15 @@ CREATE TABLE Chamado (
 	img_chamado VARCHAR(255),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
-	tipo_chamado VARCHAR(255),
+	tipo_chamado VARCHAR(30),
+	status_chamado VARCHAR(15),
+	prioridade_chamado VARCHAR(15),
 	CONSTRAINT CHK_tipo_chamado CHECK (tipo_chamado IN 
 		('Manutenção de Infraestrutura', 'Reparo de Equipamento', 'Limpeza')) -- Valores provisórios
+	CONSTRAINT CHK_status_chamado CHECK (status_chamado IN 
+		('Concluído', 'Pendente'))
+	CONSTRAINT CHK_prioridade_chamado CHECK (prioridade_chamado IN
+		('Alta', 'Média', 'Baixa'))
 )
 
 CREATE TABLE Gerenciar (

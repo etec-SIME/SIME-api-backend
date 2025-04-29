@@ -42,6 +42,14 @@ public class Chamado {
     @Column(name = "tipo_chamado", nullable = false)
     private TipoChamadoEnum tipoChamado;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_chamado", nullable = false)
+    private TipoChamadoEnum statusChamado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "prioridade_chamado", nullable = false)
+    private TipoChamadoEnum prioridadeChamado;
+
     @ManyToMany(mappedBy = "chamadoList")
     private List<Usuario> usuarioList;
 }
