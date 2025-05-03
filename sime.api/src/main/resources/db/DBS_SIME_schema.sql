@@ -44,10 +44,12 @@ CREATE TABLE Chamado (
 	tipo_chamado VARCHAR(30),
 	status_chamado VARCHAR(15),
 	prioridade_chamado VARCHAR(15),
+	rm_usuario CHAR(6),
+	FOREIGN KEY (rm_usuario) REFERENCES Usuario(rm_usuario),
 	CONSTRAINT CHK_tipo_chamado CHECK (tipo_chamado IN 
-		('Manutenção de Infraestrutura', 'Reparo de Equipamento', 'Limpeza')) -- Valores provisórios
+		('Manutenção de Infraestrutura', 'Reparo de Equipamento', 'Limpeza')), -- Valores provisórios
 	CONSTRAINT CHK_status_chamado CHECK (status_chamado IN 
-		('Concluído', 'Pendente'))
+		('Concluído', 'Pendente')),
 	CONSTRAINT CHK_prioridade_chamado CHECK (prioridade_chamado IN
 		('Alta', 'Média', 'Baixa'))
 )

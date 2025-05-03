@@ -8,5 +8,4 @@ public class SimeApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SimeApiApplication.class, args);
 	}
-
 }

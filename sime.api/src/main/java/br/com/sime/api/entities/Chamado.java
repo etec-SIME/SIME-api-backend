@@ -50,6 +50,7 @@ public class Chamado {
     @Column(name = "prioridade_chamado", nullable = false)
     private TipoChamadoEnum prioridadeChamado;
 
-    @ManyToMany(mappedBy = "chamadoList")
-    private List<Usuario> usuarioList;
+    @ManyToOne
+    @JoinColumn(name = "rm_usuario")
+    private Usuario usuario;
 }

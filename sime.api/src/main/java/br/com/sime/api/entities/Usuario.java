@@ -34,11 +34,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Feedback> feedbackList;
 
-    @ManyToMany
-    @JoinTable(
-        name = "Gerenciar",
-        joinColumns = @JoinColumn(name = "rm_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_chamado")
-    )
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chamado> chamadoList;
 }
