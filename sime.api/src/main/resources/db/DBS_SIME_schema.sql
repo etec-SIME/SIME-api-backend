@@ -15,6 +15,12 @@ CREATE TABLE Tipo_perfil (
 	nome_tipo_perfil VARCHAR(30)
 )
 
+CREATE TABLE Permissao (
+	id_permissao BIGINT IDENTITY(1,1) PRIMARY KEY,
+	nome_permissao VARCHAR(50),
+	desc_permissao VARCHAR(450)
+)
+
 CREATE TABLE Cadastra (
     cod_escola CHAR(3),
     id_tipo_perfil BIGINT,
@@ -25,12 +31,54 @@ CREATE TABLE Cadastra (
 
 CREATE TABLE Usuario (
 	rm_usuario CHAR(6) PRIMARY KEY,
+	chamados_abertos CHAR(3),
+	chamados_concluidos CHAR(3),
 	email_usuario VARCHAR(50),
 	nome_usuario VARCHAR(30),
-	dt_nascimento_usuario DATETIME,
+	senha VARCHAR(30),
 	telefone_usuario CHAR(11),
 	id_tipo_perfil BIGINT,
 	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
+)
+
+CREATE TABLE Departamento (
+	id_departamento BIGINT IDENTITY(1,1) PRIMARY KEY,
+	nome_departamento VARCHAR(50),
+	desc_departamento VARCHAR(450)
+)
+
+CREATE TABLE Conduz (
+	rm_usuario CHAR(6),
+	id_departamento BIGINT,
+	PRIMARY KEY (rm_usuario, id_departamento),
+	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
+	FOREIGN KEY(id_departamento) REFERENCES Departamento (id_departamento)
+)
+
+CREATE TABLE Ambiente (
+	id_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY,
+	desc_ambiente VARCHAR(450),
+	nome_ambiente VARCHAR(50)
+)
+
+CREATE TABLE Tipo_equipamento (
+	id_tipo_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
+	nome_tipo_equipamento VARCHAR(50),
+	id_ambiente BIGINT,
+	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente)
+)
+
+CREATE TABLE Equipamento (
+	cod_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
+	id_tipo_equipamento BIGINT,
+	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento)
+)
+
+CREATE TABLE Tipo_Chamado(
+	id_tipo_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
+	nome_tipo_chamado VARCHAR(50),
+	id_departamento BIGINT,
+	FOREIGN KEY(id_departamento) REFERENCES Departamento(id_departamento)
 )
 
 CREATE TABLE Chamado (
@@ -41,25 +89,12 @@ CREATE TABLE Chamado (
 	img_chamado VARCHAR(255),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
-	tipo_chamado VARCHAR(30),
-	status_chamado VARCHAR(15),
-	prioridade_chamado VARCHAR(15),
 	rm_usuario CHAR(6),
-	FOREIGN KEY (rm_usuario) REFERENCES Usuario(rm_usuario),
-	CONSTRAINT CHK_tipo_chamado CHECK (tipo_chamado IN 
-		('Manutenção de Infraestrutura', 'Reparo de Equipamento', 'Limpeza')), -- Valores provisórios
-	CONSTRAINT CHK_status_chamado CHECK (status_chamado IN 
-		('Concluído', 'Pendente')),
-	CONSTRAINT CHK_prioridade_chamado CHECK (prioridade_chamado IN
-		('Alta', 'Média', 'Baixa'))
-)
-
-CREATE TABLE Gerenciar (
-	rm_usuario CHAR(6),
-	id_chamado BIGINT,
-	PRIMARY KEY(rm_usuario, id_chamado),
+	id_ambiente BIGINT,
+	id_tipo_chamado BIGINT,
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
-	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
+	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
+	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado)
 )
 
 CREATE TABLE Feedback (
@@ -73,4 +108,3 @@ CREATE TABLE Feedback (
 )
 
 DROP DATABASE DBS_SIME
-
