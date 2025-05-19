@@ -90,9 +90,12 @@ CREATE TABLE Chamado (
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
+	rm_usuario_responsavel CHAR(6),
 	id_ambiente BIGINT,
 	id_tipo_chamado BIGINT,
-	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
+
+	CONSTRAINT FK_rm_usuario_criador FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
+	CONSTRAINT FK_rm_usuario_responsavel FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado)
 )
