@@ -19,4 +19,12 @@ public class TipoPerfil {
 
     @ManyToMany(mappedBy = "tipoPerfilList")
     private List<Escola> escolaList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "Possui",
+            joinColumns = @JoinColumn(name = "id_tipo_perfil"),
+            inverseJoinColumns = @JoinColumn(name = "id_permissao")
+    )
+    private List<Permissao> permissaoList;
 }

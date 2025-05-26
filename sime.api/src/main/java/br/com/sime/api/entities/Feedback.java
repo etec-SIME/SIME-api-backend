@@ -14,6 +14,12 @@ public class Feedback {
     @Column(name = "id_feedback", nullable = false)
     private Long idFeedback;
 
+    @Column(name = "destinatario_feedback", length = 50, nullable = false)
+    private String destinatarioFeedback;
+
+    @Column(name = "remetente_feedback", length = 50, nullable = false)
+    private String remetenteFeedback;
+
     @Column(name = "dt_feedback")
     private LocalDateTime dtFeedback;
 
@@ -21,10 +27,11 @@ public class Feedback {
     private String descFeedback;
 
     @ManyToOne
-    @JoinColumn(name = "id_chamado", referencedColumnName = "id_chamado", nullable = false)
-    private Chamado chamado;
-
-    @ManyToOne
     @JoinColumn(name = "rm_usuario", referencedColumnName = "rm_usuario", nullable = false)
     private Usuario usuario;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_chamado", referencedColumnName = "id_chamado", nullable = false)
+    private Chamado chamado;
 }

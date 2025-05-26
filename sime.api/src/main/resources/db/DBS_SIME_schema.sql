@@ -21,6 +21,14 @@ CREATE TABLE Permissao (
 	desc_permissao VARCHAR(450)
 )
 
+CREATE TABLE Possui (
+	id_permissao BIGINT,
+	id_tipo_perfil BIGINT,
+	PRIMARY KEY (id_permissao, id_tipo_perfil),
+    FOREIGN KEY(id_permissao) REFERENCES Permissao (id_permissao),
+    FOREIGN KEY(id_tipo_perfil) REFERENCES Tipo_perfil (id_tipo_perfil)
+)
+
 CREATE TABLE Cadastra (
     cod_escola CHAR(3),
     id_tipo_perfil BIGINT,
@@ -35,7 +43,7 @@ CREATE TABLE Usuario (
 	chamados_concluidos CHAR(3),
 	email_usuario VARCHAR(50),
 	nome_usuario VARCHAR(30),
-	senha VARCHAR(30),
+	senha_usuario VARCHAR(30),
 	telefone_usuario CHAR(11),
 	id_tipo_perfil BIGINT,
 	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
@@ -68,6 +76,14 @@ CREATE TABLE Tipo_equipamento (
 	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente)
 )
 
+CREATE TABLE Contem (
+	id_ambiente BIGINT,
+	id_tipo_equipamento BIGINT,
+	PRIMARY KEY (id_ambiente, id_tipo_equipamento),
+	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
+	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento (id_tipo_equipamento)
+)
+
 CREATE TABLE Equipamento (
 	cod_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	id_tipo_equipamento BIGINT,
@@ -83,6 +99,8 @@ CREATE TABLE Tipo_Chamado(
 
 CREATE TABLE Chamado (
 	id_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
+	prioridade_chamado VARCHAR(15),
+	status_chamado VARCHAR(15),
 	dt_abertura_chamado DATETIME,
 	desc_chamado VARCHAR(450),
 	dt_conclusao_chamado DATETIME,
@@ -94,16 +112,20 @@ CREATE TABLE Chamado (
 	id_ambiente BIGINT,
 	id_tipo_chamado BIGINT,
 
-	CONSTRAINT FK_rm_usuario_criador FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
-	CONSTRAINT FK_rm_usuario_responsavel FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
+	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
+	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
-	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado)
+	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
+	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
+	CHECK (status_chamado IN ('Concluído', 'Pendente'))
 )
 
 CREATE TABLE Feedback (
 	id_feedback BIGINT IDENTITY(1,1) PRIMARY KEY,
 	dt_feedback DATETIME,
 	desc_feedback VARCHAR(450),
+	destinatario_feedback VARCHAR(50),
+	remetente_feedback VARCHAR(50),
 	id_chamado BIGINT,
 	rm_usuario CHAR(6),
 	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado),

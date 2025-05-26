@@ -1,7 +1,7 @@
 package br.com.sime.api.enums;
 
 public enum PrioridadeChamadoEnum {
-    ALTA,
-    MEDIA,
-    BAIXA
+    ALTA_PRIORIDADE,
+    MEDIA_PRIORIDADE,
+    BAIXA_PRIORIDADE
 }
