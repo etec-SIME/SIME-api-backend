@@ -1,0 +1,19 @@
+package br.com.sime.api.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "Equipamento")
+public class Equipamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cod_equipamento", nullable = false)
+    private Long codEquipamento;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_equipamento")
+    private TipoEquipamento tipoEquipamento;
+}

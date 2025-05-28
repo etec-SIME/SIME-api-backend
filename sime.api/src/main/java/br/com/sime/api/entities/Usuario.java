@@ -15,14 +15,17 @@ public class Usuario {
     @Column(name = "rm_usuario", length = 6, columnDefinition = "CHAR(6)", nullable = false)
     private String rmUsuario;
 
+    @Column(name = "chamados_abertos", length = 3, columnDefinition = "CHAR(3)")
+    private String chamadosAbertos;
+
+    @Column(name = "chamados_concluidos", length = 3, columnDefinition = "CHAR(3)")
+    private String chamadosConcluidos;
+
     @Column(name = "email_usuario", length = 50)
     private String emailUsuario;
 
     @Column(name = "nome_usuario", length = 30)
     private String nomeUsuario;
-
-    @Column(name = "dt_nascimento_usuario")
-    private LocalDateTime dtNascimentoUsuario;
 
     @Column(name = "telefone_usuario", length = 11, columnDefinition = "CHAR(11)")
     private String telefoneUsuario;
@@ -34,11 +37,17 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Feedback> feedbackList;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chamado> chamadoList;
+
+    @OneToMany(mappedBy = "usuarioResponsavel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chamado> chamadoResponsavelList;
+
     @ManyToMany
     @JoinTable(
-        name = "Gerenciar",
-        joinColumns = @JoinColumn(name = "rm_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_chamado")
+            name = "Conduz",
+            joinColumns = @JoinColumn(name = "rm_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_departamento")
     )
-    private List<Chamado> chamadoList;
+    private List<Departamento> departamentoList;
 }

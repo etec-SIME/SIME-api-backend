@@ -1,6 +1,7 @@
 package br.com.sime.api.entities;
 
-import br.com.sime.api.enums.TipoChamadoEnum;
+import br.com.sime.api.enums.PrioridadeChamadoEnum;
+import br.com.sime.api.enums.StatusChamadoEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class Chamado {
     private Long idChamado;
 
     @Column(name = "dt_abertura_chamado")
-    private LocalDateTime dt_aberturaChamado;
+    private LocalDateTime dtAberturaChamado;
 
     @Column(name = "desc_chamado", length = 450)
     private String descChamado;
@@ -35,13 +36,30 @@ public class Chamado {
     @Column(name = "titulo_chamado")
     private String tituloChamado;
 
-    @OneToMany(mappedBy = "chamado")
-    private List<Feedback> feedbackList;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_chamado", nullable = false)
+    private StatusChamadoEnum statusChamado;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_chamado", nullable = false)
-    private TipoChamadoEnum tipoChamado;
+    @Column(name = "prioridade_chamado", nullable = false)
+    private PrioridadeChamadoEnum prioridadeChamado;
 
-    @ManyToMany(mappedBy = "chamadoList")
-    private List<Usuario> usuarioList;
+    @ManyToOne
+    @JoinColumn(name = "rm_usuario")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "rm_usuario_responsavel")
+    private Usuario usuarioResponsavel;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ambiente")
+    private Ambiente ambiente;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_chamado")
+    private TipoChamado tipoChamado;
+
+    @OneToMany(mappedBy = "chamado")
+    private List<Feedback> feedbackList;
 }
