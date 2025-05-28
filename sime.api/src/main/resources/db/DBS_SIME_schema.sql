@@ -72,6 +72,7 @@ CREATE TABLE Ambiente (
 CREATE TABLE Tipo_equipamento (
 	id_tipo_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_equipamento VARCHAR(50),
+	img_tipo_equipamento VARCHAR(255),
 	id_ambiente BIGINT,
 	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente)
 )
