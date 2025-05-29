@@ -1,5 +1,6 @@
-package br.com.sime.api.entities;
+package br.com.sime.api.entities.chamados;
 
+import br.com.sime.api.entities.outros.Departamento;
 import jakarta.persistence.*;
 import lombok.Data;
 

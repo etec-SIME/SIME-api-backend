@@ -117,8 +117,8 @@ CREATE TABLE Chamado (
 	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
-	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
-	CHECK (status_chamado IN ('Concluído', 'Pendente'))
+	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Mï¿½dia Prioridade', 'Baixa Prioridade')),
+	CHECK (status_chamado IN ('Concluï¿½do', 'Pendente'))
 )
 
 CREATE TABLE Feedback (
@@ -132,5 +132,7 @@ CREATE TABLE Feedback (
 	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado),
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario)
 )
+
+ALTER TABLE Usuario ADD DTYPE VARCHAR(31);
 
 DROP DATABASE DBS_SIME

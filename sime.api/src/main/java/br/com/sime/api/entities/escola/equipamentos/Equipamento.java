@@ -1,4 +1,4 @@
-package br.com.sime.api.entities;
+package br.com.sime.api.entities.escola.equipamentos;
 
 import jakarta.persistence.*;
 import lombok.Data;

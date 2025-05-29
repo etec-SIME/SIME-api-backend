@@ -1,5 +1,7 @@
-package br.com.sime.api.entities;
+package br.com.sime.api.entities.escola;
 
+import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import jakarta.persistence.*;
 import lombok.Data;
 

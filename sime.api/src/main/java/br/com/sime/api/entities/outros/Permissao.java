@@ -1,5 +1,6 @@
-package br.com.sime.api.entities;
+package br.com.sime.api.entities.outros;
 
+import br.com.sime.api.entities.outros.TipoPerfil;
 import jakarta.persistence.*;
 import lombok.Data;
 
