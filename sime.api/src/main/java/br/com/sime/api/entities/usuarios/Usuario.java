@@ -1,13 +1,18 @@
-package br.com.sime.api.entities;
+package br.com.sime.api.entities.usuarios;
 
+import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.entities.outros.Departamento;
+import br.com.sime.api.entities.chamados.Feedback;
+import br.com.sime.api.entities.outros.TipoPerfil;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
 @Table(name = "Usuario")
 public class Usuario {
 
