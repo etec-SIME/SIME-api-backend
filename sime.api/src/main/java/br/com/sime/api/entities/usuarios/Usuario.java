@@ -6,6 +6,8 @@ import br.com.sime.api.entities.chamados.Feedback;
 import br.com.sime.api.entities.outros.TipoPerfil;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -31,6 +33,9 @@ public class Usuario {
 
     @Column(name = "nome_usuario", length = 30)
     private String nomeUsuario;
+
+    @Column(name = "senha_usuario", length = 30)
+    private String senhaUsuario;
 
     @Column(name = "telefone_usuario", length = 11, columnDefinition = "CHAR(11)")
     private String telefoneUsuario;
