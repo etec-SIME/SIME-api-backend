@@ -32,6 +32,9 @@ public class Usuario {
     @Column(name = "nome_usuario", length = 30)
     private String nomeUsuario;
 
+    @Column(name = "senha_usuario", length = 30)
+    private String senhaUsuario;
+
     @Column(name = "telefone_usuario", length = 11, columnDefinition = "CHAR(11)")
     private String telefoneUsuario;
 
