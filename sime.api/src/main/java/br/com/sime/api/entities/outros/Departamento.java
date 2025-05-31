@@ -1,7 +1,6 @@
 package br.com.sime.api.entities.outros;
 
 import br.com.sime.api.entities.chamados.TipoChamado;
-import br.com.sime.api.entities.usuarios.GestorDepartamento;
 import br.com.sime.api.entities.usuarios.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,7 +28,4 @@ public class Departamento {
 
     @ManyToMany(mappedBy = "departamentoList")
     private List<Usuario> usuarioList;
-
-    @OneToOne(mappedBy = "departamento")
-    private GestorDepartamento gestorDepartamento;
 }

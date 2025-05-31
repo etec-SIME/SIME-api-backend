@@ -6,15 +6,10 @@ import br.com.sime.api.entities.chamados.Feedback;
 import br.com.sime.api.entities.outros.TipoPerfil;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DTYPE")
 @Table(name = "Usuario")
 public class Usuario {
 

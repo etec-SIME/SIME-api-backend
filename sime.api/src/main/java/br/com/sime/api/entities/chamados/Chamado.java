@@ -1,7 +1,5 @@
 package br.com.sime.api.entities.chamados;
 
-import br.com.sime.api.entities.chamados.Feedback;
-import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;

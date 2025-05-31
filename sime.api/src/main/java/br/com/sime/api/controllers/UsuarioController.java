@@ -1,28 +1,49 @@
 package br.com.sime.api.controllers;
 
+import br.com.sime.api.DTOs.ChamadoDTO;
+import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.entities.chamados.Chamado;
-import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-    private final UsuarioService usuarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    @GetMapping
+    public ResponseEntity<?> getAllUsuarios() {
+        try {
+            return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao buscar usuários: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestParam String rmUsuario, @RequestParam TipoPerfil tipoPerfilUsuario, @RequestParam String senhaUsuario) {
-        return usuarioService.login(rmUsuario, tipoPerfilUsuario, senhaUsuario);
+    public ResponseEntity<Boolean> login(@RequestBody LoginDTO dto) {
+        boolean loginSucesso = usuarioService.login(dto.getRmUsuario(), dto.getIdTipoPerfil(), dto.getSenhaUsuario());
+        return loginSucesso
+                ? new ResponseEntity<>(true, HttpStatus.OK)
+                : new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
     }
 
-//    @PostMapping("/{rm}/chamado")
-//    public Chamado criarChamado(@PathVariable String rm, @RequestParam TipoPerfil tipoPerfilUsuario,
-//                                @RequestParam String tituloChamado, @RequestParam String descChamado,
-//                                @RequestParam String localChamado) {
-//        return usuarioService.criarChamado(rm, tipoPerfilUsuario, tituloChamado, descChamado, localChamado);
-//    }
+    @PostMapping("/{rmUsuario}/chamado")
+    public ResponseEntity<Chamado> criarChamado(@RequestBody ChamadoDTO chamadoDTO, @PathVariable String rmUsuario) {
+        Chamado newChamado = usuarioService.criarChamado(
+                rmUsuario,
+                chamadoDTO.getIdTipoPerfil(),
+                chamadoDTO.getTituloChamado(),
+                chamadoDTO.getDescChamado(),
+                chamadoDTO.getLocalChamado()
+        );
+
+        return newChamado != null
+                ? new ResponseEntity<>(newChamado, HttpStatus.CREATED)
+                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

@@ -2,36 +2,70 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.outros.TipoPerfil;
+import br.com.sime.api.entities.usuarios.Usuario;
+import br.com.sime.api.enums.PrioridadeChamadoEnum;
+import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
-    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TipoPerfilRepository tipoPerfilRepository;
+
+    public List<Usuario> getAllUsuarios() {
+        try {
+            return usuarioRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
+        }
     }
 
-    public boolean login(String rmUsuario, TipoPerfil tipoPerfilUsuario, String senhaUsuario) {
-        return usuarioRepository.findByRmAndTipoPerfilUsuario(rmUsuario, tipoPerfilUsuario)
-                .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
-                .orElse(false);
+    public boolean login(String rmUsuario, Long idTipoPerfil, String senhaUsuario) {
+        try {
+            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+
+            return usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
+                    .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
+                    .orElse(false);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao realizar login: " + e.getMessage(), e);
+        }
     }
 
-    public Chamado criarChamado(String rmUsuario, TipoPerfil tipoPerfilUsuario, String tituloChamado, String descChamado, String localChamado) {
-        return usuarioRepository.findByRmAndTipoPerfilUsuario(rmUsuario, tipoPerfilUsuario)
-                .map(usuario -> {
-                    Chamado chamado = new Chamado();
-                    chamado.setTituloChamado(tituloChamado);
-                    chamado.setDescChamado(descChamado);
-                    chamado.setLocalChamado(localChamado);
-                    chamado.setUsuario(usuario);
-                    chamado.setStatusChamado(StatusChamadoEnum.ABERTO);
-                    //chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE);
-                    return chamado;
-                })
-                .orElse(null);
+    public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
+        try {
+            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+
+            Usuario usuario = usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + rmUsuario));
+
+            Chamado chamado = new Chamado();
+            chamado.setTituloChamado(tituloChamado);
+            chamado.setDescChamado(descChamado);
+            chamado.setLocalChamado(localChamado);
+            chamado.setUsuario(usuario);
+            chamado.setStatusChamado(StatusChamadoEnum.PENDENTE);
+            chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar
+
+            return chamado;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao criar chamado: " + e.getMessage(), e);
+        }
+    }
+
+    private TipoPerfil getTipoPerfilOrThrow(Long idTipoPerfil) {
+        return tipoPerfilRepository.findById(idTipoPerfil)
+                .orElseThrow(() -> new RuntimeException("Tipo de perfil não encontrado: " + idTipoPerfil));
     }
 
     //public void Operation() { }
