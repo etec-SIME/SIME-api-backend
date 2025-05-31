@@ -11,8 +11,6 @@ import java.util.List;
 
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DTYPE")
 @Table(name = "Usuario")
 public class Usuario {
 
