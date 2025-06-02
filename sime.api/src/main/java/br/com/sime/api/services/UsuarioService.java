@@ -41,6 +41,23 @@ public class UsuarioService {
         }
     }
 
+//    public boolean login(String rmUsuario, Long idTipoPerfil, String codEscola, String senhaUsuario) {
+//        try {
+//            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+//            tipoPerfil.getEscolaList()
+//                    .stream()
+//                    .filter(escola -> escola.getCodEscola().equals(codEscola))
+//                    .findFirst()
+//                    .orElseThrow(() -> new RuntimeException("Escola não encontrada: " + codEscola));
+//
+//            return usuarioRepository.findByRmUsuarioTipoPerfilAndCodEscola(rmUsuario, tipoPerfil, codEscola)
+//                    .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
+//                    .orElse(false);
+//        } catch (Exception e) {
+//            throw new RuntimeException("Erro ao realizar login: " + e.getMessage(), e);
+//        }
+//    }
+
     public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
         try {
             TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);

@@ -1,6 +1,7 @@
 package br.com.sime.api.entities.outros;
 
 import br.com.sime.api.entities.escola.Escola;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
