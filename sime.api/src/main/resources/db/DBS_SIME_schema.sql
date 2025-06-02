@@ -51,9 +51,10 @@ CREATE TABLE Usuario (
 
 SELECT u.rm_usuario, u.id_tipo_perfil, u.senha_usuario, es.cod_escola
 FROM Usuario u
-INNER JOIN Tipo_perfil tp ON u.id_tipo_perfil = tp.id_tipo_perfil
-INNER JOIN Cadastra cd ON tp.id_tipo_perfil = cd.id_tipo_perfil
-INNER JOIN Escola es ON cd.cod_escola = es.cod_escola
+JOIN Tipo_perfil tp ON u.id_tipo_perfil = tp.id_tipo_perfil
+JOIN Cadastra cd ON tp.id_tipo_perfil = cd.id_tipo_perfil
+JOIN Escola es ON cd.cod_escola = es.cod_escola
+
 
 CREATE TABLE Departamento (
 	id_departamento BIGINT IDENTITY(1,1) PRIMARY KEY,
