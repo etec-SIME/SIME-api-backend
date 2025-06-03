@@ -26,10 +26,8 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody LoginDTO dto) {
-        boolean loginSucesso = usuarioService.login(dto.getRmUsuario(), dto.getSenhaUsuario(), dto.getIdTipoPerfil(), dto.getCodEscola());
-        return loginSucesso
-                ? new ResponseEntity<>(true, HttpStatus.OK)
-                : new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        usuarioService.login(dto.getRmUsuario(), dto.getSenhaUsuario(), dto.getIdTipoPerfil(), dto.getCodEscola());
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PostMapping("/{rmUsuario}/chamado")

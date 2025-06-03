@@ -5,6 +5,10 @@ import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.exceptions.EscolaNotFoundException;
+import br.com.sime.api.exceptions.SenhaIncorretaException;
+import br.com.sime.api.exceptions.TipoPerfilNotFoundException;
+import br.com.sime.api.exceptions.UsuarioNotFoundException;
 import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,46 +34,44 @@ public class UsuarioService {
     }
 
     public boolean login(String rmUsuario, String senhaUsuario, Long idTipoPerfil, String codEscola) {
-        try {
-            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
-            boolean escolaExiste = tipoPerfil.getEscolaList()
-                    .stream()
-                    .anyMatch(escola -> escola.getCodEscola().equals(codEscola));
+        TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
 
-            if (!escolaExiste) return false;
+        boolean getEscola = tipoPerfil.getEscolaList()
+                .stream()
+                .anyMatch(escola -> escola.getCodEscola().equals(codEscola));
 
-            return usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
-                    .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
-                    .orElse(false);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao realizar login: " + e.getMessage(), e);
-        }
+        if (!getEscola)
+            throw new EscolaNotFoundException("Escola com código: " + codEscola + " não encontrada para o tipo de perfil: " + idTipoPerfil);
+
+        return usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
+            .map(usuario -> {
+                if (!usuario.getSenhaUsuario().equals(senhaUsuario)) {
+                    throw new SenhaIncorretaException("Senha incorreta para o usuário: " + rmUsuario);
+                }
+                return true;
+            })
+            .orElseThrow(() -> new UsuarioNotFoundException("Usuário com RM: " + rmUsuario + " não encontrado"));
     }
 
     public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
-        try {
-            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+        TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
 
-            Usuario usuario = usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
-                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + rmUsuario));
+        Usuario usuario = usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado: " + rmUsuario));
 
-            Chamado chamado = new Chamado();
-            chamado.setTituloChamado(tituloChamado);
-            chamado.setDescChamado(descChamado);
-            chamado.setLocalChamado(localChamado);
-            chamado.setUsuario(usuario);
-            chamado.setStatusChamado(StatusChamadoEnum.PENDENTE);
-            chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar
+        Chamado chamado = new Chamado();
+        chamado.setTituloChamado(tituloChamado);
+        chamado.setDescChamado(descChamado);
+        chamado.setLocalChamado(localChamado);
+        chamado.setUsuario(usuario);
+        chamado.setStatusChamado(StatusChamadoEnum.PENDENTE);
+        chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar
 
-            return chamado;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar chamado: " + e.getMessage(), e);
-        }
+        return chamado;
     }
 
     private TipoPerfil getTipoPerfilOrThrow(Long idTipoPerfil) {
         return tipoPerfilRepository.findById(idTipoPerfil)
-                .orElseThrow(() -> new RuntimeException("Tipo de perfil não encontrado: " + idTipoPerfil));
+                .orElseThrow(() -> new TipoPerfilNotFoundException("Tipo de perfil não encontrado: " + idTipoPerfil));
     }
 }
