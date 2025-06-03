@@ -1,5 +1,6 @@
 package br.com.sime.api.services;
 
+import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
@@ -51,16 +52,14 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + rmUsuario + " não encontrado"));
     }
 
-    public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
-        TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
-
-        Usuario usuario = usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
+    public Chamado criarChamado(String rmUsuario, ChamadoRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByRmUsuario(rmUsuario)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
 
         Chamado chamado = new Chamado();
-        chamado.setTituloChamado(tituloChamado);
-        chamado.setDescChamado(descChamado);
-        chamado.setLocalChamado(localChamado);
+        chamado.setTituloChamado(dto.getTituloChamado());
+        chamado.setDescChamado(dto.getDescChamado());
+        chamado.setLocalChamado(dto.getLocalChamado());
         chamado.setUsuario(usuario);
         chamado.setStatusChamado(StatusChamadoEnum.PENDENTE);
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar

@@ -31,5 +31,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
                                                      @Param("idTipoPerfil") Long idTipoPerfil,
                                                      @Param("codEscola") String codEscola);
 
-    Optional<Usuario> findByRmUsuarioAndTipoPerfil(String rmUsuario, TipoPerfil tipoPerfil);
+    Optional<Usuario> findByRmUsuario(String rmUsuario);
 }

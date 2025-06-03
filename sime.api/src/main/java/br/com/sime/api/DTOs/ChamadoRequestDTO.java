@@ -1,15 +1,14 @@
 package br.com.sime.api.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class ChamadoRequestDTO {
-
-    @NotNull(message = "Id do usuário é obrigatório")
-    private Long idTipoPerfil;
-
     @NotBlank(message = "Título do chamado é obrigatório")
     private String tituloChamado;
 
@@ -18,4 +17,17 @@ public class ChamadoRequestDTO {
 
     @NotBlank(message = "Local do chamado é obrigatório")
     private String localChamado;
+
+    @NotBlank(message = "Email do usuário é obrigatório")
+    @Email(message = "Email inválido")
+    private String emailUsuario;
+
+    @NotBlank(message = "Tipo de chamado é obrigatório")
+    private String tipoChamado;
+
+    //@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    //@NotNull(message = "Data de abertura é obrigatória")
+    //private LocalDateTime dtAberturaChamado;
+
+    private String imgChamado;
 }

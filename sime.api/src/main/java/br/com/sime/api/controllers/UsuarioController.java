@@ -32,14 +32,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/{rmUsuario}/chamado")
-    public ResponseEntity<?> criarChamado(@Valid @RequestBody ChamadoRequestDTO dto, @PathVariable String rmUsuario) {
-        Chamado newChamado = usuarioService.criarChamado(
-                rmUsuario,
-                dto.getIdTipoPerfil(),
-                dto.getTituloChamado(),
-                dto.getDescChamado(),
-                dto.getLocalChamado()
-        );
+    public ResponseEntity<?> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
+        Chamado newChamado = usuarioService.criarChamado(rmUsuario, ChamadoDTO);
         return new ResponseEntity<>(newChamado, HttpStatus.CREATED);
     }
 }
