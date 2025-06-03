@@ -6,4 +6,5 @@ public class LoginDTO {
     private String rmUsuario;
     private Long idTipoPerfil;
     private String senhaUsuario;
+    private String codEscola;
 }

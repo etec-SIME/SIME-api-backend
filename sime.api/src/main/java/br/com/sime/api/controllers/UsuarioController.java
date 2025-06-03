@@ -3,7 +3,6 @@ package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.ChamadoDTO;
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.entities.chamados.Chamado;
-import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,19 +26,11 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody LoginDTO dto) {
-        boolean loginSucesso = usuarioService.login(dto.getRmUsuario(), dto.getIdTipoPerfil(), dto.getSenhaUsuario());
+        boolean loginSucesso = usuarioService.login(dto.getRmUsuario(), dto.getSenhaUsuario(), dto.getIdTipoPerfil(), dto.getCodEscola());
         return loginSucesso
                 ? new ResponseEntity<>(true, HttpStatus.OK)
                 : new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<Boolean> login(@RequestBody LoginDTO dto) {
-//        boolean loginSucesso = usuarioService.login(dto.getRmUsuario(), dto.getTipoPerfil().getIdTipoPerfil(), dto.getSenhaUsuario(), dto.getTipoPerfil().getEscolaList().stream().map(Escola::getCodEscola).findFirst().orElse(null));
-//        return loginSucesso
-//                ? new ResponseEntity<>(true, HttpStatus.OK)
-//                : new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
-//    }
 
     @PostMapping("/{rmUsuario}/chamado")
     public ResponseEntity<Chamado> criarChamado(@RequestBody ChamadoDTO chamadoDTO, @PathVariable String rmUsuario) {

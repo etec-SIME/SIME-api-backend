@@ -29,34 +29,22 @@ public class UsuarioService {
         }
     }
 
-    public boolean login(String rmUsuario, Long idTipoPerfil, String senhaUsuario) {
+    public boolean login(String rmUsuario, String senhaUsuario, Long idTipoPerfil, String codEscola) {
         try {
             TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+            boolean escolaExiste = tipoPerfil.getEscolaList()
+                    .stream()
+                    .anyMatch(escola -> escola.getCodEscola().equals(codEscola));
 
-            return usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
+            if (!escolaExiste) return false;
+
+            return usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
                     .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
                     .orElse(false);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao realizar login: " + e.getMessage(), e);
         }
     }
-
-//    public boolean login(String rmUsuario, Long idTipoPerfil, String codEscola, String senhaUsuario) {
-//        try {
-//            TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
-//            tipoPerfil.getEscolaList()
-//                    .stream()
-//                    .filter(escola -> escola.getCodEscola().equals(codEscola))
-//                    .findFirst()
-//                    .orElseThrow(() -> new RuntimeException("Escola não encontrada: " + codEscola));
-//
-//            return usuarioRepository.findByRmUsuarioTipoPerfilAndCodEscola(rmUsuario, tipoPerfil, codEscola)
-//                    .map(usuario -> usuario.getSenhaUsuario().equals(senhaUsuario))
-//                    .orElse(false);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao realizar login: " + e.getMessage(), e);
-//        }
-//    }
 
     public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
         try {
@@ -84,6 +72,4 @@ public class UsuarioService {
         return tipoPerfilRepository.findById(idTipoPerfil)
                 .orElseThrow(() -> new RuntimeException("Tipo de perfil não encontrado: " + idTipoPerfil));
     }
-
-    //public void Operation() { }
 }
