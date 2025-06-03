@@ -5,10 +5,8 @@ import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
-import br.com.sime.api.exceptions.EscolaNotFoundException;
+import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.exceptions.SenhaIncorretaException;
-import br.com.sime.api.exceptions.TipoPerfilNotFoundException;
-import br.com.sime.api.exceptions.UsuarioNotFoundException;
 import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class UsuarioService {
         }
     }
 
-    public boolean login(String rmUsuario, String senhaUsuario, Long idTipoPerfil, String codEscola) {
+    public void login(String rmUsuario, String senhaUsuario, Long idTipoPerfil, String codEscola) {
         TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
 
         boolean getEscola = tipoPerfil.getEscolaList()
@@ -41,23 +39,23 @@ public class UsuarioService {
                 .anyMatch(escola -> escola.getCodEscola().equals(codEscola));
 
         if (!getEscola)
-            throw new EscolaNotFoundException("Escola com código: " + codEscola + " não encontrada para o tipo de perfil: " + idTipoPerfil);
+            throw new NotFoundException("Escola não encontrada", "Escola com código: " + codEscola + " não encontrada para o tipo de perfil: " + idTipoPerfil);
 
-        return usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
-            .map(usuario -> {
-                if (!usuario.getSenhaUsuario().equals(senhaUsuario)) {
-                    throw new SenhaIncorretaException("Senha incorreta para o usuário: " + rmUsuario);
-                }
-                return true;
-            })
-            .orElseThrow(() -> new UsuarioNotFoundException("Usuário com RM: " + rmUsuario + " não encontrado"));
+        usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
+                .map(usuario -> {
+                    if (!usuario.getSenhaUsuario().equals(senhaUsuario)) {
+                        throw new SenhaIncorretaException("Senha incorreta para o usuário: " + rmUsuario);
+                    }
+                    return true;
+                })
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + rmUsuario + " não encontrado"));
     }
 
     public Chamado criarChamado(String rmUsuario, Long idTipoPerfil, String tituloChamado, String descChamado, String localChamado) {
         TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
 
         Usuario usuario = usuarioRepository.findByRmUsuarioAndTipoPerfil(rmUsuario, tipoPerfil)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado: " + rmUsuario));
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
 
         Chamado chamado = new Chamado();
         chamado.setTituloChamado(tituloChamado);
@@ -72,6 +70,6 @@ public class UsuarioService {
 
     private TipoPerfil getTipoPerfilOrThrow(Long idTipoPerfil) {
         return tipoPerfilRepository.findById(idTipoPerfil)
-                .orElseThrow(() -> new TipoPerfilNotFoundException("Tipo de perfil não encontrado: " + idTipoPerfil));
+                .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + idTipoPerfil));
     }
 }

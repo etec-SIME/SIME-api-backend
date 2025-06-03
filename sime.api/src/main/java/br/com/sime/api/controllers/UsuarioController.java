@@ -1,9 +1,10 @@
 package br.com.sime.api.controllers;
 
-import br.com.sime.api.DTOs.ChamadoDTO;
+import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.services.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,17 +32,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/{rmUsuario}/chamado")
-    public ResponseEntity<Chamado> criarChamado(@RequestBody ChamadoDTO chamadoDTO, @PathVariable String rmUsuario) {
+    public ResponseEntity<?> criarChamado(@Valid @RequestBody ChamadoRequestDTO dto, @PathVariable String rmUsuario) {
         Chamado newChamado = usuarioService.criarChamado(
                 rmUsuario,
-                chamadoDTO.getIdTipoPerfil(),
-                chamadoDTO.getTituloChamado(),
-                chamadoDTO.getDescChamado(),
-                chamadoDTO.getLocalChamado()
+                dto.getIdTipoPerfil(),
+                dto.getTituloChamado(),
+                dto.getDescChamado(),
+                dto.getLocalChamado()
         );
-
-        return newChamado != null
-                ? new ResponseEntity<>(newChamado, HttpStatus.CREATED)
-                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(newChamado, HttpStatus.CREATED);
     }
 }
