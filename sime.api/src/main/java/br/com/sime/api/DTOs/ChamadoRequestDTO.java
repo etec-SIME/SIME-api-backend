@@ -1,5 +1,6 @@
 package br.com.sime.api.DTOs;
 
+import br.com.sime.api.entities.chamados.TipoChamado;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -2,12 +2,15 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.exceptions.SenhaIncorretaException;
+import br.com.sime.api.repositories.ChamadoRepository;
+import br.com.sime.api.repositories.TipoChamadoRepository;
 import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,12 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ChamadoRepository chamadoRepository;
+
+    @Autowired
+    private TipoChamadoRepository tipoChamadoRepository;
 
     @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
@@ -56,15 +65,20 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findByRmUsuario(rmUsuario)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
 
+        TipoChamado tipoChamado = tipoChamadoRepository.findByNomeTipoChamadoIgnoreCase(dto.getTipoChamado())
+                .orElseThrow(() -> new NotFoundException("Tipo de chamado não encontrado", "Tipo: " + dto.getTipoChamado()));
+
         Chamado chamado = new Chamado();
         chamado.setTituloChamado(dto.getTituloChamado());
         chamado.setDescChamado(dto.getDescChamado());
         chamado.setLocalChamado(dto.getLocalChamado());
         chamado.setUsuario(usuario);
         chamado.setStatusChamado(StatusChamadoEnum.PENDENTE);
-        chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar
+        chamado.setImgChamado(dto.getImgChamado());
+        chamado.setTipoChamado(tipoChamado);
+        //chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE); //Revisar
 
-        return chamado;
+        return chamadoRepository.save(chamado);
     }
 
     private TipoPerfil getTipoPerfilOrThrow(Long idTipoPerfil) {
