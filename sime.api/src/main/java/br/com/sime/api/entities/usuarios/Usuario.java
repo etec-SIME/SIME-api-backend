@@ -3,8 +3,6 @@ package br.com.sime.api.entities.usuarios;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.chamados.Feedback;
-import br.com.sime.api.entities.outros.TipoPerfil;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

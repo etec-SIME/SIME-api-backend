@@ -1,13 +1,15 @@
 package br.com.sime.api.services;
 
-import br.com.sime.api.entities.outros.TipoPerfil;
+import br.com.sime.api.DTOs.LoginDTO;
+import br.com.sime.api.DTOs.TokenDTO;
+import br.com.sime.api.entities.usuarios.TipoPerfil;
+import br.com.sime.api.security.model.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.exceptions.SenhaIncorretaException;
-import br.com.sime.api.repositories.ChamadoRepository;
-import br.com.sime.api.repositories.TipoChamadoRepository;
 import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
+import br.com.sime.api.security.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -19,13 +21,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private ChamadoRepository chamadoRepository;
-
-    @Autowired
-    private TipoChamadoRepository tipoChamadoRepository;
-
-    @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
+    @Autowired
+    private JwtService jwtService;
 
     public List<Usuario> getAllUsuarios() {
         try {
@@ -35,28 +33,28 @@ public class UsuarioService {
         }
     }
 
-    public void login(String rmUsuario, String senhaUsuario, Long idTipoPerfil, String codEscola) {
-        TipoPerfil tipoPerfil = getTipoPerfilOrThrow(idTipoPerfil);
+    public TokenDTO login(LoginDTO login) {
+        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
+                .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
 
         boolean getEscola = tipoPerfil.getEscolaList()
                 .stream()
-                .anyMatch(escola -> escola.getCodEscola().equals(codEscola));
+                .anyMatch(escola -> escola.getCodEscola().equals(login.getCodEscola()));
 
         if (!getEscola)
-            throw new NotFoundException("Escola não encontrada", "Escola com código: " + codEscola + " não encontrada para o tipo de perfil: " + idTipoPerfil);
+            throw new NotFoundException("Escola não encontrada", "Escola com código: " + login.getCodEscola() + " não encontrada para o tipo de perfil: " + login.getIdTipoPerfil());
 
-        usuarioRepository.findUsuarioTipoPerfilAndEscola(rmUsuario, idTipoPerfil, codEscola)
-                .map(usuario -> {
-                    if (!usuario.getSenhaUsuario().equals(senhaUsuario)) {
-                        throw new SenhaIncorretaException("Senha incorreta para o usuário: " + rmUsuario);
-                    }
-                    return true;
-                })
-                .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + rmUsuario + " não encontrado"));
-    }
+        Usuario usuario = usuarioRepository.findUsuarioTipoPerfilAndEscola(
+                login.getRmUsuario(),
+                login.getIdTipoPerfil(),
+                login.getCodEscola()
+        ).orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + login.getRmUsuario() + " não encontrado"));
 
-    private TipoPerfil getTipoPerfilOrThrow(Long idTipoPerfil) {
-        return tipoPerfilRepository.findById(idTipoPerfil)
-                .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + idTipoPerfil));
+        if (!usuario.getSenhaUsuario().equals(login.getSenhaUsuario()))
+            throw new SenhaIncorretaException("Senha incorreta para o usuário: " + login.getRmUsuario());
+
+        String token = jwtService.generateToken(new UserDetailsImpl(usuario));
+
+        return new TokenDTO(token);
     }
 }

@@ -1,6 +1,5 @@
 package br.com.sime.api.repositories;
 
-import br.com.sime.api.entities.outros.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

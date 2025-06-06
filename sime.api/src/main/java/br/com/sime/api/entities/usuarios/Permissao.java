@@ -1,5 +1,6 @@
-package br.com.sime.api.entities.outros;
+package br.com.sime.api.entities.usuarios;
 
+import br.com.sime.api.entities.usuarios.TipoPerfil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;

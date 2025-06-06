@@ -9,6 +9,7 @@ public class EnvLoader {
         setIfPresent("DB_URL", dotenv);
         setIfPresent("DB_USERNAME", dotenv);
         setIfPresent("DB_PASSWORD", dotenv);
+        setIfPresent("JWT_SECRET", dotenv);
     }
 
     private static void setIfPresent(String key, Dotenv dotenv) {

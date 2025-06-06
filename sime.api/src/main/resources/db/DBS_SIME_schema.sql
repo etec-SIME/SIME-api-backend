@@ -166,7 +166,8 @@ INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES
 ('Aluno');
 
 -- PERMISSAO
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES 
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES
+('Admin', 'Permite tudo'),
 ('Visualizar Chamado', 'Permite visualizar chamados abertos'),
 ('Editar Chamado', 'Permite editar qualquer chamado'),
 ('Criar Chamado', 'Permite criar um novo chamado');
@@ -177,7 +178,8 @@ INSERT INTO Possui VALUES
 (2, 1), 
 (3, 1), 
 (1, 2), 
-(3, 3);
+(3, 3),
+(4, 1);
 
 -- CADASTRA
 INSERT INTO Cadastra VALUES 
