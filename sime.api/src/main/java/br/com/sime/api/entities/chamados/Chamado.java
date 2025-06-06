@@ -42,9 +42,8 @@ public class Chamado {
     @Column(name = "status_chamado", nullable = false)
     private StatusChamadoEnum statusChamado;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "prioridade_chamado", nullable = false)
-    private PrioridadeChamadoEnum prioridadeChamado;
+    private String prioridadeChamado;
 
     @ManyToOne
     @JoinColumn(name = "rm_usuario")

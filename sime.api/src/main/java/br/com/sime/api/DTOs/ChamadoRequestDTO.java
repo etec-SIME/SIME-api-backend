@@ -1,7 +1,6 @@
 package br.com.sime.api.DTOs;
 
-import br.com.sime.api.entities.chamados.TipoChamado;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -26,9 +25,8 @@ public class ChamadoRequestDTO {
     @NotBlank(message = "Tipo de chamado é obrigatório")
     private String tipoChamado;
 
-    //@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    //@NotNull(message = "Data de abertura é obrigatória")
-    //private LocalDateTime dtAberturaChamado;
-
+    @NotBlank(message = "Imagem do chamado é obrigatória")
     private String imgChamado;
+
+    private PrioridadeChamadoEnum prioridadeChamado;
 }

@@ -1,12 +1,19 @@
 package br.com.sime.api.enums;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public enum PrioridadeChamadoEnum {
-    @JsonProperty("Alta Prioridade")
-    ALTA_PRIORIDADE,
-    @JsonProperty("Média Prioridade")
-    MEDIA_PRIORIDADE,
-    @JsonProperty("Baixa Prioridade")
-    BAIXA_PRIORIDADE
+
+    ALTA_PRIORIDADE("Alta Prioridade"),
+
+    MEDIA_PRIORIDADE("Média Prioridade"),
+
+    BAIXA_PRIORIDADE("Baixa Prioridade");
+
+    private final String descricao;
+
+    PrioridadeChamadoEnum(String descricao) {
+        this.descricao = descricao;
+    }
 }
