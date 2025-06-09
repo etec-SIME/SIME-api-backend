@@ -1,6 +1,8 @@
 package br.com.sime.api.entities.chamados;
 
 import br.com.sime.api.entities.outros.Departamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,5 +21,6 @@ public class TipoChamado {
 
     @ManyToOne
     @JoinColumn(name = "id_departamento")
+    @JsonManagedReference
     private Departamento departamento;
 }

@@ -2,6 +2,8 @@ package br.com.sime.api.entities.outros;
 
 import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.usuarios.Usuario;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,11 +26,10 @@ public class Departamento {
     private String descDepartamento;
 
     @OneToMany(mappedBy = "departamento")
+    @JsonBackReference
     private List<TipoChamado> tipoChamadoList;
 
     @ManyToMany(mappedBy = "departamentoList")
+    @JsonBackReference
     private List<Usuario> usuarioList;
-
-    @OneToOne(mappedBy = "departamento")
-    private GestorDepartamento gestorDepartamento;
 }

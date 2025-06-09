@@ -1,6 +1,7 @@
-package br.com.sime.api.entities.outros;
+package br.com.sime.api.entities.usuarios;
 
-import br.com.sime.api.entities.outros.TipoPerfil;
+import br.com.sime.api.entities.usuarios.TipoPerfil;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Permissao {
     @Column(name = "desc_permissao", length = 450)
     private String descricaoPermissao;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "permissaoList")
     private List<TipoPerfil> tipoPerfilList;
 }

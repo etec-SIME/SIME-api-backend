@@ -1,4 +1,4 @@
-package br.com.sime.api.entities.outros;
+package br.com.sime.api.entities.usuarios;
 
 import br.com.sime.api.entities.escola.Escola;
 import jakarta.persistence.*;
@@ -21,7 +21,7 @@ public class TipoPerfil {
     @ManyToMany(mappedBy = "tipoPerfilList")
     private List<Escola> escolaList;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Possui",
             joinColumns = @JoinColumn(name = "id_tipo_perfil"),
