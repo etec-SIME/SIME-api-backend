@@ -1,4 +1,4 @@
-package br.com.sime.api.security.model;
+package br.com.sime.api.security;
 
 import br.com.sime.api.entities.usuarios.Usuario;
 import lombok.Getter;
@@ -38,5 +38,4 @@ public class UserDetailsImpl implements UserDetails {
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
     @Override public boolean isEnabled() { return true; }
-
 }

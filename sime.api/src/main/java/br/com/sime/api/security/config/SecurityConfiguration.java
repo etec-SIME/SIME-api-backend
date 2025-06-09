@@ -1,5 +1,6 @@
 package br.com.sime.api.security.config;
 
+import br.com.sime.api.handlers.CustomAuthenticationEntryPoint;
 import br.com.sime.api.security.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +44,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/usuarios/login").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
                 )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

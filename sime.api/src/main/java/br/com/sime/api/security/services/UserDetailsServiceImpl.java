@@ -1,6 +1,6 @@
 package br.com.sime.api.security.services;
 
-import br.com.sime.api.security.model.UserDetailsImpl;
+import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
