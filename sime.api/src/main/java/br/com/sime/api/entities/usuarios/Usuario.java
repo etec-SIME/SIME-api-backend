@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Usuario")
 public class Usuario {
 
