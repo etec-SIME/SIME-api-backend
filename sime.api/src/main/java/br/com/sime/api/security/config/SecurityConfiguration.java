@@ -41,7 +41,7 @@ public class SecurityConfiguration {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/login").permitAll()  // libera o login
+                        .requestMatchers("/usuarios/login", "/gestor-departamento").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
                 )
                 .exceptionHandling(exception -> exception
