@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, String> {
@@ -31,4 +32,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
                                                      @Param("codEscola") String codEscola);
 
     Optional<Usuario> findByRmUsuario(String rmUsuario);
+    // Procurar um TipoPerfil relacionado ao Usuario pelo nome
+    List<Usuario> findByTipoPerfilNomeTipoPerfil(String nomeTipoPerfil);
+
 }

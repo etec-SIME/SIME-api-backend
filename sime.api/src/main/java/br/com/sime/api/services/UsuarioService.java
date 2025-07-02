@@ -2,7 +2,9 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
+import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
+import br.com.sime.api.repositories.ChamadoRepository;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -21,7 +23,11 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private ChamadoRepository chamadoRepository;
+
+    @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
+
     @Autowired
     private JwtService jwtService;
 
@@ -57,4 +63,14 @@ public class UsuarioService {
 
         return new TokenDTO(token);
     }
+
+    //Verificar todos os chamados feitos apenas por um usuário específico (Usado para as estatísticas)
+    public List<Chamado> getAllChamadosUsuario(String rmUsuario){ //Usei o parametro apenas para testes, mas o sistema pegaria automaticamente o RM do user logado
+        try{
+            return chamadoRepository.findByUsuarioRmUsuario(rmUsuario);
+        } catch (Exception e){
+            throw new RuntimeException("Erro ao encontrar os chamados feitos por esse usuário: " + e.getMessage(), e);
+        }
+    }
+
 }

@@ -1,6 +1,15 @@
 package br.com.sime.api.repositories;
 
 import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.entities.usuarios.Usuario;
+import br.com.sime.api.enums.StatusChamadoEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ChamadoRepository extends JpaRepository<Chamado, Long> { }
+import java.util.List;
+
+public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
+    List<Chamado> findByStatusChamado(StatusChamadoEnum status);
+    //List<Chamado> findByUsuario(Usuario usuario);
+    List<Chamado> findByUsuarioRmUsuario(String rmUsuario);
+
+}
