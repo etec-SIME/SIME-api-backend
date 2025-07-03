@@ -3,6 +3,7 @@ package br.com.sime.api.entities.usuarios;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.chamados.Feedback;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -37,19 +38,20 @@ public class Usuario {
     private String telefoneUsuario;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "id_tipo_perfil")
     private TipoPerfil tipoPerfil;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Feedback> feedbackList;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Chamado> chamadoList;
 
     @OneToMany(mappedBy = "usuarioResponsavel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Chamado> chamadoResponsavelList;
 
     @ManyToMany

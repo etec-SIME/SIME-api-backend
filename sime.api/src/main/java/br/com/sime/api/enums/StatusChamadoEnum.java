@@ -4,6 +4,14 @@ import lombok.Getter;
 
 @Getter
 public enum StatusChamadoEnum {
-    Concluído,
-    Pendente;
+
+    CONCLUIDO("Concluído"),
+
+    PENDENTE("Pendente");
+
+    private final String descricao;
+
+    StatusChamadoEnum(String descricao) {
+        this.descricao = descricao;
+    }
 }

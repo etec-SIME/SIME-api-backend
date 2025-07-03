@@ -33,6 +33,14 @@ public class ChamadoService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    public List<Chamado> getAllChamados() {
+        try {
+            return chamadoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar chamados: " + e.getMessage(), e);
+        }
+    }
+
     public Chamado criarChamado(String rmUsuario, ChamadoRequestDTO dto) {
         Usuario usuario = usuarioRepository.findByRmUsuario(rmUsuario)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
@@ -45,7 +53,7 @@ public class ChamadoService {
         chamado.setDescChamado(dto.getDescChamado());
         chamado.setLocalChamado(dto.getLocalChamado());
         chamado.setUsuario(usuario);
-        chamado.setStatusChamado(StatusChamadoEnum.Pendente);
+        chamado.setStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
         chamado.setImgChamado(dto.getImgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setDtAberturaChamado(LocalDateTime.now());
