@@ -5,6 +5,7 @@ import br.com.sime.api.security.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -41,7 +42,7 @@ public class SecurityConfiguration {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/login", "/gestor-departamento").permitAll()  // libera o login
+                        .requestMatchers("/usuarios/login").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
                 )
                 .exceptionHandling(exception -> exception

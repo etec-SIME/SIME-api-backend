@@ -59,13 +59,13 @@ public class ChamadoService {
         chamadoRepository.save(chamado);
     }
 
-    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
-        chamado.setDtConclusaoChamado(LocalDateTime.now());
-        chamado.setMsgResolucao(msgResolucao);
-        chamado.setStatusChamado(StatusChamadoEnum.Concluído);
-
-        chamadoRepository.save(chamado);
-    }
+//    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
+//        chamado.setDtConclusaoChamado(LocalDateTime.now());
+//        chamado.setMsgResolucao(msgResolucao);
+//        chamado.setStatusChamado(StatusChamadoEnum.Concluído);
+//
+//        chamadoRepository.save(chamado);
+//    }
 
     public void enviarFeedBack(Chamado chamado, String rmGestor, String destinatario, String descricaoFeedback, Usuario gestor) {
         Feedback feedback = new Feedback();

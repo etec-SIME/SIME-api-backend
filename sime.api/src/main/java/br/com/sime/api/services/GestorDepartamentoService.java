@@ -66,23 +66,23 @@ public class GestorDepartamentoService {
         chamadoService.enviarFeedBack(chamado, rmGestor, destinatario, descricaoFeedback, gestor);
     }
 
-    public void concluirChamado(Long idChamado, String mensagemResolucao, String rmGestor) {
-        Chamado chamado = chamadoRepository.findById(idChamado)
-                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
-
-        Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)
-                .orElseThrow(() -> new NotFoundException("Gestor não encontrado"));
-
-//        // Verifica se gestor gerencia o departamento do chamado
-//        boolean autorizado = gestor.getDepartamentoList().stream()
-//                .anyMatch(dep -> dep.equals(chamado.getTipoChamado().getDepartamento()));
+//    public void concluirChamado(Long idChamado, String mensagemResolucao, String rmGestor) {
+//        Chamado chamado = chamadoRepository.findById(idChamado)
+//                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
 //
-//        if (!autorizado) {
-//            throw new RuntimeException("Gestor não autorizado a concluir este chamado.");
-//        }
-
-        chamadoService.mandarResolucaoChamado(chamado, mensagemResolucao);
-    }
+//        Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)
+//                .orElseThrow(() -> new NotFoundException("Gestor não encontrado"));
+//
+////        // Verifica se gestor gerencia o departamento do chamado
+////        boolean autorizado = gestor.getDepartamentoList().stream()
+////                .anyMatch(dep -> dep.equals(chamado.getTipoChamado().getDepartamento()));
+////
+////        if (!autorizado) {
+////            throw new RuntimeException("Gestor não autorizado a concluir este chamado.");
+////        }
+//
+//        chamadoService.mandarResolucaoChamado(chamado, mensagemResolucao);
+//    }
 
     public List<Chamado> visualizarChamadoDepartamento(String rmGestor) {
         Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)

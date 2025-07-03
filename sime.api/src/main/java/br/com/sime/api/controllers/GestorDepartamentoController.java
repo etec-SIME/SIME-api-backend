@@ -39,13 +39,13 @@ public class GestorDepartamentoController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/gestores/{rmGestor}/chamados/{id}/concluir")
-    public ResponseEntity<Void> concluirChamado(@PathVariable String rmGestor,
-                                                @PathVariable Long id,
-                                                @RequestBody String mensagemResolucao) {
-        gestorDepartamentoService.concluirChamado(id, mensagemResolucao, rmGestor);
-        return ResponseEntity.ok().build();
-    }
+//    @PutMapping("/gestores/{rmGestor}/chamados/{id}/concluir")
+//    public ResponseEntity<Void> concluirChamado(@PathVariable String rmGestor,
+//                                                @PathVariable Long id,
+//                                                @RequestBody String mensagemResolucao) {
+//        gestorDepartamentoService.concluirChamado(id, mensagemResolucao, rmGestor);
+//        return ResponseEntity.ok().build();
+//    }
 
 
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/prioridade")
