@@ -1,5 +1,6 @@
 package br.com.sime.api.entities.escola.equipamentos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class Equipamento {
     private Long codEquipamento;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "id_tipo_equipamento")
     private TipoEquipamento tipoEquipamento;
 }

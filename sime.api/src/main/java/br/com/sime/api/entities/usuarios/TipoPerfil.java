@@ -1,6 +1,7 @@
 package br.com.sime.api.entities.usuarios;
 
 import br.com.sime.api.entities.escola.Escola;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,9 +20,11 @@ public class TipoPerfil {
     private String nomeTipoPerfil;
 
     @ManyToMany(mappedBy = "tipoPerfilList")
+    @JsonManagedReference
     private List<Escola> escolaList;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinTable(
             name = "Possui",
             joinColumns = @JoinColumn(name = "id_tipo_perfil"),
