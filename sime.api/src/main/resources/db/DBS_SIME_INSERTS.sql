@@ -6,7 +6,7 @@ INSERT INTO Escola VALUES
 INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES 
 ('Administrador'), 
 ('Técnico'), 
-('Funcionário');
+('Aluno');
 
 -- PERMISSAO
 INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES
@@ -34,7 +34,7 @@ INSERT INTO Cadastra VALUES
 INSERT INTO Usuario VALUES 
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', 1),
 ('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', 2),
-('345678', '1', '0', 'func@etec.com', 'Funcionário User', 'func123', '11777777777', 3);
+('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777', 3);
 
 -- DEPARTAMENTO
 INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 
@@ -82,4 +82,4 @@ INSERT INTO Chamado (
 
 -- FEEDBACK
 INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
-(GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Funcionário', 1, '345678');
+(GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Aluno', 1, '345678');

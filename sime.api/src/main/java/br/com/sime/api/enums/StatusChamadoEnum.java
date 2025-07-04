@@ -5,13 +5,9 @@ import lombok.Getter;
 @Getter
 public enum StatusChamadoEnum {
 
-    AGUARDANDO_APROVACAO("Aguardando aprovação"),
+    CONCLUIDO("Concluído"),
 
-    RECUSADO("Recusado"),
-
-    PENDENTE("Pendente"),
-
-    CONCLUIDO("Concluído");
+    PENDENTE("Pendente");
 
     private final String descricao;
 

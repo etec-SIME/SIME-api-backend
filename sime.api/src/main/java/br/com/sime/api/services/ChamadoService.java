@@ -53,7 +53,7 @@ public class ChamadoService {
         chamado.setDescChamado(dto.getDescChamado());
         chamado.setLocalChamado(dto.getLocalChamado());
         chamado.setUsuario(usuario);
-        chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
+        chamado.setStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
         chamado.setImgChamado(dto.getImgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setDtAberturaChamado(LocalDateTime.now());
