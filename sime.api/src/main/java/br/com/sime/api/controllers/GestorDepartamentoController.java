@@ -31,22 +31,13 @@ public class GestorDepartamentoController {
         return new ResponseEntity<>(chamados, HttpStatus.OK);
     }
 
-    @PutMapping("/gestores/{rmGestor}/chamados/{id}/feedback")
-    public ResponseEntity<Void> enviarFeedback(@PathVariable String rmGestor,
-                                               @PathVariable Long id,
-                                               @RequestBody FeedbackDTO dto) {
-        gestorDepartamentoService.enviarFeedback(id, rmGestor, dto.getDestinatario(), dto.getDescricao());
-        return ResponseEntity.ok().build();
+    @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/feedback")
+    public ResponseEntity<String> enviarFeedback(@PathVariable String rmGestor,
+                                                 @PathVariable Long idChamado,
+                                                 @RequestBody String descricaoFeedback) {
+        gestorDepartamentoService.enviarFeedback(idChamado, rmGestor, descricaoFeedback);
+        return new ResponseEntity<>(descricaoFeedback, HttpStatus.OK);
     }
-
-//    @PutMapping("/gestores/{rmGestor}/chamados/{id}/concluir")
-//    public ResponseEntity<Void> concluirChamado(@PathVariable String rmGestor,
-//                                                @PathVariable Long id,
-//                                                @RequestBody String mensagemResolucao) {
-//        gestorDepartamentoService.concluirChamado(id, mensagemResolucao, rmGestor);
-//        return ResponseEntity.ok().build();
-//    }
-
 
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/prioridade")
     public ResponseEntity<Void> definirPrioridadeChamado(@PathVariable String rmGestor,

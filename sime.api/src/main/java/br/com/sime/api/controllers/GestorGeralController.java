@@ -23,19 +23,19 @@ public class GestorGeralController {
         return new ResponseEntity<>(chamados, HttpStatus.OK);
     }
 
-    @PutMapping("/gestores/chamados/{rmGestor}/{idChamado}/prioridade")
+    @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/prioridade")
     public ResponseEntity<Void> definirPrioridaeChamado(@PathVariable String rmGestor, @PathVariable Long idChamado, @RequestParam PrioridadeChamadoEnum novaPrioridade){
         gestorGeralService.definirPrioridadeChamado(rmGestor, idChamado, novaPrioridade);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/gestores/chamados/{rmGestor}/{idChamado}/aceitar")
+    @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/aceitar")
     public ResponseEntity<Void> aceitarChamado(@PathVariable Long idChamado){
         gestorGeralService.aceitarChamado(idChamado);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/gestores/chamados/{rmGestor}/{idChamado}/recusar")
+    @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/recusar")
     public ResponseEntity<String> recusarChamado(@PathVariable Long idChamado, @RequestBody String msgRecusa){
         gestorGeralService.recusarChamado(idChamado, msgRecusa);
         return new ResponseEntity<>(msgRecusa, HttpStatus.OK);
