@@ -4,6 +4,7 @@ import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.ChamadoRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,10 @@ public class GestorGeralService {
 
     public void definirPrioridadeChamado(String rmGestor, Long idChamado, PrioridadeChamadoEnum novaPrioridade){
         Usuario gestor = usuarioRepository.findById(rmGestor)
-                .orElseThrow(() -> new RuntimeException("Gestor não encontrado com ID: " + rmGestor));
+                .orElseThrow(() -> new NotFoundException("Gestor não encontrado com ID: " + rmGestor));
 
         Chamado chamado = chamadoRepository.findById(idChamado)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado com ID: "+ idChamado));
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: "+ idChamado));
 
         chamado.setPrioridadeChamado(novaPrioridade.getDescricao());
 
@@ -45,7 +46,7 @@ public class GestorGeralService {
 
     public void aceitarChamado(Long idChamado){
         Chamado chamado = chamadoRepository.findById(idChamado)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado com ID: " + idChamado));
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 
         chamado.setStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
 
@@ -54,7 +55,7 @@ public class GestorGeralService {
 
     public String recusarChamado(Long idChamado, String msgRecusa){
         Chamado chamado = chamadoRepository.findById(idChamado)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado com ID: " + idChamado));
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 
         chamado.setStatusChamado(StatusChamadoEnum.RECUSADO.getDescricao());
 

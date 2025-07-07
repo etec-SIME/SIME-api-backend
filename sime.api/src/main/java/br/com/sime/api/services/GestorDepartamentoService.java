@@ -23,6 +23,9 @@ public class GestorDepartamentoService {
     @Autowired
     private ChamadoService chamadoService;
 
+    @Autowired
+    private GestorGeralService gestorGeralService;
+
     public List<Usuario> getUsuariosByTipoPerfilAndDepartamento(Long idTipoPerfil, Long idDepartamento) {
         try {
             return usuarioRepository.findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(idTipoPerfil, idDepartamento);
@@ -32,57 +35,20 @@ public class GestorDepartamentoService {
     }
 
     public void definirPrioridadeChamado(String rmGestor, Long idChamado, PrioridadeChamadoEnum novaPrioridade) {
-        Usuario gestor = usuarioRepository.findById(rmGestor)
-                .orElseThrow(() -> new RuntimeException("Gestor não encontrado com ID: " + rmGestor));
-
-        Chamado chamado = chamadoRepository.findById(idChamado)
-                .orElseThrow(() -> new RuntimeException("Chamado não encontrado com ID: " + idChamado));
-
-//        boolean autorizado = gestor.getDepartamentoList().stream()
-//                .anyMatch(departamento -> chamado.getUsuario().getDepartamentoList().contains(departamento));
-//
-//        if (!autorizado) {
-//            throw new RuntimeException("Gestor não autorizado a alterar prioridade deste chamado.");
-//        }
-
-        chamadoService.definirPrioridadeChamado(chamado, novaPrioridade);
+        gestorGeralService.definirPrioridadeChamado(rmGestor, idChamado, novaPrioridade);
     }
 
-    public void enviarFeedback(Long idChamado, String rmGestor, String destinatario, String descricaoFeedback) {
+    public String enviarFeedback(Long idChamado, String rmGestor, String descricaoFeedback) {
         Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)
                 .orElseThrow(() -> new NotFoundException("Gestor não encontrado"));
 
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
 
-//        // Verifica se gestor está autorizado (se gerencia o departamento do chamado)
-//        boolean autorizado = gestor.getDepartamentoList().stream()
-//                .anyMatch(departamento -> departamento.equals(chamado.getTipoChamado().getDepartamento()));
-//
-//        if (!autorizado) {
-//            throw new RuntimeException("Gestor não autorizado a enviar feedback para este chamado.");
-//        }
+        chamadoService.enviarFeedBack(chamado, rmGestor, descricaoFeedback, gestor);
 
-        chamadoService.enviarFeedBack(chamado, rmGestor, destinatario, descricaoFeedback, gestor);
+        return descricaoFeedback;
     }
-
-//    public void concluirChamado(Long idChamado, String mensagemResolucao, String rmGestor) {
-//        Chamado chamado = chamadoRepository.findById(idChamado)
-//                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
-//
-//        Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)
-//                .orElseThrow(() -> new NotFoundException("Gestor não encontrado"));
-//
-////        // Verifica se gestor gerencia o departamento do chamado
-////        boolean autorizado = gestor.getDepartamentoList().stream()
-////                .anyMatch(dep -> dep.equals(chamado.getTipoChamado().getDepartamento()));
-////
-////        if (!autorizado) {
-////            throw new RuntimeException("Gestor não autorizado a concluir este chamado.");
-////        }
-//
-//        chamadoService.mandarResolucaoChamado(chamado, mensagemResolucao);
-//    }
 
     public List<Chamado> visualizarChamadoDepartamento(String rmGestor) {
         Usuario gestor = usuarioRepository.findByRmUsuario(rmGestor)
