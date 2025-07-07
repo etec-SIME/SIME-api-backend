@@ -45,6 +45,7 @@ CREATE TABLE Usuario (
 	nome_usuario VARCHAR(30),
 	senha_usuario VARCHAR(30),
 	telefone_usuario CHAR(11),
+	cpf_usuario CHAR(11),
 	id_tipo_perfil BIGINT,
 	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
 )
@@ -141,5 +142,6 @@ CREATE TABLE Feedback (
 )
 
 ALTER TABLE Usuario ADD DTYPE VARCHAR(31);
+ALTER TABLE Usuario ADD cpf_usuario CHAR(11);
 
 DROP DATABASE DBS_SIME
