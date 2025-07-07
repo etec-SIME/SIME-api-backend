@@ -2,6 +2,8 @@ CREATE DATABASE DBS_SIME
 
 USE DBS_SIME
 
+
+
 CREATE TABLE Escola (
 	cod_escola CHAR(3) PRIMARY KEY,
 	cnpj_escola CHAR(14),
@@ -106,7 +108,7 @@ CREATE TABLE Tipo_Chamado(
 
 CREATE TABLE Chamado (
 	id_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
-	prioridade_chamado VARCHAR(15),
+	prioridade_chamado VARCHAR(20),
 	status_chamado VARCHAR(15),
 	dt_abertura_chamado DATETIME,
 	desc_chamado VARCHAR(450),
