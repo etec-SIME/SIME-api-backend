@@ -2,6 +2,8 @@ CREATE DATABASE DBS_SIME
 
 USE DBS_SIME
 
+
+
 CREATE TABLE Escola (
 	cod_escola CHAR(3) PRIMARY KEY,
 	cnpj_escola CHAR(14),
@@ -55,7 +57,6 @@ JOIN Tipo_perfil tp ON u.id_tipo_perfil = tp.id_tipo_perfil
 JOIN Cadastra cd ON tp.id_tipo_perfil = cd.id_tipo_perfil
 JOIN Escola es ON cd.cod_escola = es.cod_escola
 
-
 CREATE TABLE Departamento (
 	id_departamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_departamento VARCHAR(50),
@@ -107,7 +108,7 @@ CREATE TABLE Tipo_Chamado(
 
 CREATE TABLE Chamado (
 	id_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
-	prioridade_chamado VARCHAR(15),
+	prioridade_chamado VARCHAR(20),
 	status_chamado VARCHAR(15),
 	dt_abertura_chamado DATETIME,
 	desc_chamado VARCHAR(450),
@@ -125,7 +126,7 @@ CREATE TABLE Chamado (
 	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
 	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
-	CHECK (status_chamado IN ('Concluído', 'Pendente'))
+	CHECK (status_chamado IN ('Aguardando Avaliação', 'Recusado','Concluído', 'Pendente'))
 )
 
 CREATE TABLE Feedback (
@@ -141,5 +142,6 @@ CREATE TABLE Feedback (
 )
 
 ALTER TABLE Usuario ADD DTYPE VARCHAR(31);
+
 
 DROP DATABASE DBS_SIME
