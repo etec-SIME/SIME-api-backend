@@ -1,3 +1,5 @@
+-- INSERTS: --
+
 -- ESCOLA
 INSERT INTO Escola VALUES 
 ('E01', '12345678000100', '01234567', '100', 'ETEC Central');
@@ -35,7 +37,6 @@ INSERT INTO Usuario VALUES
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', 1),
 ('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', 2),
 ('345678', '1', '0', 'func@etec.com', 'Funcionário User', 'func123', '11777777777', 3);
---('456789', '2', '1', 'func2@etec.com', 'Funcionário User2', 'func234', '11666666666', 3);
 
 -- DEPARTAMENTO
 INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 
@@ -76,9 +77,11 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
 	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_ambiente, id_tipo_chamado
-) VALUES 
+) VALUES
 ('Alta Prioridade', 'PENDENTE', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
-	'Computador quebrado', '345678', '234567', 1, 1);
+	'Computador quebrado', '345678', '234567', 1, 1),
+('Alta Prioridade', 'CONCLUIDO', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informática',
+	'Monitor foi rachado', '345678', '234567', 1, 2);
 
 -- FEEDBACK
 INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
