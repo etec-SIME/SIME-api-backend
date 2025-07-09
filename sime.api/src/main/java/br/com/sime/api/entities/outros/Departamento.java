@@ -26,7 +26,7 @@ public class Departamento {
     private String descDepartamento;
 
     @OneToMany(mappedBy = "departamento")
-    @JsonBackReference
+    @JsonManagedReference
     private List<TipoChamado> tipoChamadoList;
 
     @ManyToMany(mappedBy = "departamentoList")

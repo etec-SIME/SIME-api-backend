@@ -23,7 +23,6 @@ public class FuncionarioController {
     @GetMapping
     public ResponseEntity<?> getAllFuncionarios() {
         return new ResponseEntity<>(funcionarioService.getAllFuncionarios(), HttpStatus.OK);
-
     }
 
     @PreAuthorize("hasAuthority('Funcionario')") //"permitAll()"
@@ -31,7 +30,6 @@ public class FuncionarioController {
     public ResponseEntity<?> getAllChamadosPendentes() {
         List<Chamado> chamadosPendentes = funcionarioService.getAllChamadosPendentes();
         return new ResponseEntity<>(chamadosPendentes, HttpStatus.OK);
-
     }
 
     @PreAuthorize("hasAuthority('Funcionario')" ) //"permitAll()"

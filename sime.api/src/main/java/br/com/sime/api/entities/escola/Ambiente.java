@@ -29,6 +29,7 @@ public class Ambiente {
     private List<Chamado> chamadosList;
 
     @ManyToMany
+    @JsonManagedReference
     @JoinTable(
             name = "Contem",
             joinColumns = @JoinColumn(name = "id_ambiente"),

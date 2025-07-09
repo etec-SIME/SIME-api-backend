@@ -20,14 +20,15 @@ public class TipoPerfil {
     private String nomeTipoPerfil;
 
     @ManyToMany(mappedBy = "tipoPerfilList")
+    @JsonManagedReference
     private List<Escola> escolaList;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinTable(
             name = "Possui",
             joinColumns = @JoinColumn(name = "id_tipo_perfil"),
             inverseJoinColumns = @JoinColumn(name = "id_permissao")
     )
-    @JsonManagedReference
     private List<Permissao> permissaoList;
 }

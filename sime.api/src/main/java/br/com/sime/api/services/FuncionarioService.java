@@ -28,16 +28,16 @@ public class FuncionarioService {
     }
 
     public List<Chamado> getAllChamadosPendentes(){ // Fazer um metodo que exiba tambem apenas os pendentes de um funcionario especifico para as estatisticas?
-        try{
-            return chamadoRepository.findByStatusChamado(StatusChamadoEnum.PENDENTE);
+        try {
+            return chamadoRepository.findByStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
         } catch (Exception e){
             throw new RuntimeException("Erro ao encontrar os chamados pendentes: " + e.getMessage(), e);
         }
     }
 
     public List<Chamado> getAllChamadosConcluidos(){ // Fazer um metodo que exiba tambem apenas os concluidos de um funcionário especifico para as estatisticas?
-        try{
-            return chamadoRepository.findByStatusChamado(StatusChamadoEnum.CONCLUIDO);
+        try {
+            return chamadoRepository.findByStatusChamado(StatusChamadoEnum.CONCLUIDO.getDescricao());
         } catch (Exception e){
             throw new RuntimeException("Erro ao encontrar os chamados concluídos: " + e.getMessage(), e);
         }
@@ -50,5 +50,4 @@ public class FuncionarioService {
             throw new RuntimeException("Erro ao buscar chamados: " + e.getMessage(), e);
         }
     }*/
-
 }

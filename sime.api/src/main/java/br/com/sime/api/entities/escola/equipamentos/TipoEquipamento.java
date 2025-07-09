@@ -1,6 +1,8 @@
 package br.com.sime.api.entities.escola.equipamentos;
 
 import br.com.sime.api.entities.escola.Ambiente;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,8 +25,10 @@ public class TipoEquipamento {
     private String imgTipoEquipamento;
 
     @OneToMany(mappedBy = "tipoEquipamento")
+    @JsonManagedReference
     private List<Equipamento> equipamentoList;
 
     @ManyToMany(mappedBy = "tipoEquipamentoList")
+    @JsonBackReference
     private List<Ambiente> ambienteList;
 }

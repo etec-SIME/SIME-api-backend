@@ -1,7 +1,7 @@
 package br.com.sime.api.entities.chamados;
 
 import br.com.sime.api.entities.usuarios.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,12 +29,12 @@ public class Feedback {
     private String descFeedback;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "rm_usuario", referencedColumnName = "rm_usuario", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     @JoinColumn(name = "id_chamado", referencedColumnName = "id_chamado", nullable = false)
     private Chamado chamado;
 }

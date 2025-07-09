@@ -32,7 +32,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
                                                      @Param("codEscola") String codEscola);
 
     Optional<Usuario> findByRmUsuario(String rmUsuario);
+
     // Procurar um TipoPerfil relacionado ao Usuario pelo nome
     List<Usuario> findByTipoPerfilNomeTipoPerfil(String nomeTipoPerfil);
 
+    List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
 }

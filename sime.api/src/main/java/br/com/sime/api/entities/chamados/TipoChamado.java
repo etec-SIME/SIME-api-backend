@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "Tipo_Chamado")
@@ -19,8 +21,12 @@ public class TipoChamado {
     @Column(name = "nome_tipo_chamado", length = 50, nullable = false)
     private String nomeTipoChamado;
 
+    @OneToMany(mappedBy = "tipoChamado")
+    @JsonManagedReference
+    private List<Chamado> chamadoList;
+
     @ManyToOne
     @JoinColumn(name = "id_departamento")
-    @JsonManagedReference
+    @JsonBackReference
     private Departamento departamento;
 }
