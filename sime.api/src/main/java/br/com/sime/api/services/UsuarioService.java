@@ -2,7 +2,9 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
+import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
+import br.com.sime.api.repositories.ChamadoRepository;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -22,6 +24,7 @@ public class UsuarioService {
 
     @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
+
     @Autowired
     private JwtService jwtService;
 
@@ -34,6 +37,7 @@ public class UsuarioService {
     }
 
     public TokenDTO login(LoginDTO login) {
+
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
 
@@ -57,4 +61,5 @@ public class UsuarioService {
 
         return new TokenDTO(token);
     }
+
 }
