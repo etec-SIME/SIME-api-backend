@@ -25,6 +25,7 @@ public class UsuarioController {
         }
     }
 
+    //@PreAuthorize("permitAll()")
     @PostMapping("login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login) {
         TokenDTO token = usuarioService.login(login);

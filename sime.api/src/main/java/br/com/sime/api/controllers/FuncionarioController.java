@@ -19,36 +19,26 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin')") //"permitAll()"
     @GetMapping
     public ResponseEntity<?> getAllFuncionarios() {
-        try {
-            return new ResponseEntity<>(funcionarioService.getAllFuncionarios(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao buscar funcionários: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(funcionarioService.getAllFuncionarios(), HttpStatus.OK);
+
     }
 
-    @PreAuthorize("hasAuthority('Funcionario')")
+    @PreAuthorize("hasAuthority('Funcionario')") //"permitAll()"
     @GetMapping("/pendentes")
     public ResponseEntity<?> getAllChamadosPendentes() {
-        try {
-            List<Chamado> chamadosPendentes = funcionarioService.getAllChamadosPendentes();
-            return new ResponseEntity<>(chamadosPendentes, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao buscar chamados pendentes: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Chamado> chamadosPendentes = funcionarioService.getAllChamadosPendentes();
+        return new ResponseEntity<>(chamadosPendentes, HttpStatus.OK);
+
     }
 
-    @PreAuthorize("hasAuthority('Funcionario')")
+    @PreAuthorize("hasAuthority('Funcionario')" ) //"permitAll()"
     @GetMapping("/concluidos")
     public ResponseEntity<?> getAllChamadosConcluidos() {
-        try {
-            List<Chamado> chamadosConcluidos = funcionarioService.getAllChamadosConcluidos();
-            return new ResponseEntity<>(chamadosConcluidos, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao buscar chamados concluidos: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Chamado> chamadosConcluidos = funcionarioService.getAllChamadosConcluidos();
+        return new ResponseEntity<>(chamadosConcluidos, HttpStatus.OK);
     }
 
 }

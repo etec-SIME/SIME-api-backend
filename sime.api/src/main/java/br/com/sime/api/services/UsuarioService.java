@@ -23,9 +23,6 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private ChamadoRepository chamadoRepository;
-
-    @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
 
     @Autowired
@@ -40,6 +37,7 @@ public class UsuarioService {
     }
 
     public TokenDTO login(LoginDTO login) {
+
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
 
@@ -62,15 +60,6 @@ public class UsuarioService {
         String token = jwtService.generateToken(new UserDetailsImpl(usuario));
 
         return new TokenDTO(token);
-    }
-
-    //Verificar todos os chamados feitos apenas por um usuário específico (Usado para as estatísticas)
-    public List<Chamado> getAllChamadosUsuario(String rmUsuario){ //Usei o parametro apenas para testes, mas o sistema pegaria automaticamente o RM do user logado
-        try{
-            return chamadoRepository.findByUsuarioRmUsuario(rmUsuario);
-        } catch (Exception e){
-            throw new RuntimeException("Erro ao encontrar os chamados feitos por esse usuário: " + e.getMessage(), e);
-        }
     }
 
 }

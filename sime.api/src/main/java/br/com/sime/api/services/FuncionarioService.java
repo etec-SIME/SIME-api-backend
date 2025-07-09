@@ -21,7 +21,7 @@ public class FuncionarioService {
 
     public List<Usuario> getAllFuncionarios() {
         try {
-            return usuarioRepository.findByTipoPerfilNomeTipoPerfil("FUNCIONARIO");
+            return usuarioRepository.findByTipoPerfilNomeTipoPerfil("Funcionário");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar funcionarios: " + e.getMessage(), e);
         }

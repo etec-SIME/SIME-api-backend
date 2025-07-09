@@ -41,8 +41,10 @@ public class SecurityConfiguration {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                                /*.anyRequest().permitAll()*/
                         .requestMatchers("/usuarios/login").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
+
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))

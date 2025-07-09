@@ -1,6 +1,7 @@
 package br.com.sime.api.entities.usuarios;
 
 import br.com.sime.api.entities.escola.Escola;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,5 +28,6 @@ public class TipoPerfil {
             joinColumns = @JoinColumn(name = "id_tipo_perfil"),
             inverseJoinColumns = @JoinColumn(name = "id_permissao")
     )
+    @JsonManagedReference
     private List<Permissao> permissaoList;
 }

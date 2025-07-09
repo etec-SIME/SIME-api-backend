@@ -47,6 +47,4 @@ public class ChamadoService {
 
         return chamadoRepository.save(chamado);
     }
-
-
 }

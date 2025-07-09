@@ -4,6 +4,8 @@ import br.com.sime.api.entities.escola.Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -46,21 +48,26 @@ public class Chamado {
     private String prioridadeChamado;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "rm_usuario")
     private Usuario usuario;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "rm_usuario_responsavel")
     private Usuario usuarioResponsavel;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "id_ambiente")
     private Ambiente ambiente;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_tipo_chamado")
     private TipoChamado tipoChamado;
 
     @OneToMany(mappedBy = "chamado")
+    @JsonIgnore
     private List<Feedback> feedbackList;
 }
