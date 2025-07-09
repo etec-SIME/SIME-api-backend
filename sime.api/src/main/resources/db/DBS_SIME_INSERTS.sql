@@ -33,7 +33,7 @@ INSERT INTO Cadastra VALUES
 -- USUARIO
 INSERT INTO Usuario VALUES 
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
-('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888',, '11222333445' 2),
+('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
 ('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3);
 
 -- DEPARTAMENTO

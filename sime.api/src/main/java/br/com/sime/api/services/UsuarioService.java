@@ -46,18 +46,18 @@ public class UsuarioService {
     public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
     {
 
-        if(!usuarioRepository.existByRmUsuario(dto.getRmUsuario())) {throw new ConflictException("Usuário com esse RM já existe!");}
+        if(!usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new ConflictException("Usuário com esse RM já existe!");}
 
-        //if(!usuarioRepository.existByCpfUsuario(dto.getCpfUsuario())){throw new ConflictException("Usuário com esse CPF já existe!");}
+        if(!usuarioRepository.existByCpfUsuario(dto.getCpfUsuario())){throw new ConflictException("Usuário com esse CPF já existe!");}
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
 
 
         List<Long> ids = dto.getDepartamentoIds();
-        List<Departamento> departamento = departamentoRepository.findAllById(ids);
+        List<Departamento> departamentos = departamentoRepository.findAllById(ids);
 
-        Set<Long> idsEncontrados = departamento.stream()
+        Set<Long> idsEncontrados = departamentos.stream()
                 .map(Departamento::getIdDepartamento)
                 .collect(Collectors.toSet());
 
@@ -78,9 +78,9 @@ public class UsuarioService {
         usuario.setTelefoneUsuario(dto.getTelefoneUsuario());
         usuario.setEmailUsuario(dto.getEmailUsuario());
         usuario.setSenhaUsuario(dto.getSenhaUsuario());
-        //usuario.setCpfUsuario(dto.cpfUsuario());
+        usuario.setCpfUsuario(dto.getCpfUsuario());
         usuario.setTipoPerfil(tipoPerfil);
-        usuario.setDepartamentoList(departamento);
+        usuario.setDepartamentoList(departamentos);
 
         return usuarioRepository.save(usuario);
     }

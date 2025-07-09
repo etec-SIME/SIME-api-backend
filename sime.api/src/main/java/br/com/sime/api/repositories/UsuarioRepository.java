@@ -35,7 +35,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
 
-    Boolean existByRmUsuario(String rmUsuario);
-    //Boolean existByCpfUsuario(String cpfUsuario);
+    Boolean existsByRmUsuario(String rmUsuario);
+    Boolean existByCpfUsuario(String cpfUsuario);
 
 }

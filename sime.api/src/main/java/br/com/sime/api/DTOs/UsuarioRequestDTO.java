@@ -27,8 +27,8 @@ public class UsuarioRequestDTO {
     @NotBlank(message = "Telefone do usuário é obrigatório")
     private String telefoneUsuario;
 
-    //@NotBlank(message = "CPF do usuário é obrigatório")
-    //private String cpfUsuario;
+    @NotBlank(message = "CPF do usuário é obrigatório")
+    private String cpfUsuario;
 
     @NotBlank(message = "Id do tipo perfil do usuário é obrigatório")
     private Long idTipoPerfil;

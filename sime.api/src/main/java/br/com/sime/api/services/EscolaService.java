@@ -1,10 +1,13 @@
 package br.com.sime.api.services;
 
+import br.com.sime.api.DTOs.DepartamentoDTO;
 import br.com.sime.api.DTOs.LoginEscolaDTO;
 import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.DTOs.TokenEscolaDTO;
 import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.exceptions.NotFoundException;
+import br.com.sime.api.repositories.DepartamentoRepository;
 import br.com.sime.api.repositories.EscolaRepository;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.security.services.JwtService;
@@ -18,6 +21,9 @@ public class EscolaService {
 
     @Autowired
     private EscolaRepository escolaRepository;
+
+    @Autowired
+    private DepartamentoRepository departamentoRepository;
 
     public List<Escola> getAllEscolas(){
         try {
