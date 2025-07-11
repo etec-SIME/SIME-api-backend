@@ -54,5 +54,4 @@ public class EscolaService {
         //return new TokenDTO(tokenEscola);
     }
     */
-
 }

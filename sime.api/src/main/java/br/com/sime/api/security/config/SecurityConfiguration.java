@@ -2,6 +2,7 @@ package br.com.sime.api.security.config;
 
 import br.com.sime.api.handlers.CustomAuthenticationEntryPoint;
 import br.com.sime.api.security.filter.JwtAuthFilter;
+import br.com.sime.api.security.services.EscolaDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
+    private final EscolaDetailsService escolaDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
     @Profile("dev")
@@ -49,27 +51,38 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 /*.anyRequest().permitAll()*/
-                        .requestMatchers("/usuarios/login").permitAll()  // libera o login
+                        .requestMatchers("/usuarios/login", "/escolas/login").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
 
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
+                .authenticationManager(authenticationManager())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager() {
-        return new ProviderManager(authenticationProvider());
+        return new ProviderManager(
+                usuarioAuthProvider(),
+                escolaAuthProvider()
+        );
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider usuarioAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public DaoAuthenticationProvider escolaAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(escolaDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

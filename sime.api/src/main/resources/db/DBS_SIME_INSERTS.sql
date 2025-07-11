@@ -2,12 +2,13 @@
 
 -- ESCOLA
 INSERT INTO Escola VALUES 
-('E01', '12345678000100', '01234567', '100', 'ETEC Central');
+('E01', '12345678000100', '123', '01234567', '100', 'ETEC Central');
 
 -- TIPO PERFIL
 INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES 
-('Administrador'), 
-('T�cnico'), 
+('Escola'),
+('Administrador'),
+('T�cnico'),
 ('Funcion�rio');
 
 -- PERMISSAO

@@ -19,6 +19,9 @@ public class Escola {
     @Column(name = "cnpj_escola", length = 14, columnDefinition = "CHAR(14)")
     private String cnpjEscola;
 
+    @Column(name = "senha_escola", length = 30)
+    private String senhaEscola;
+
     @Column(name = "cep_escola", length = 8, columnDefinition = "CHAR(8)")
     private String cepEscola;
 
