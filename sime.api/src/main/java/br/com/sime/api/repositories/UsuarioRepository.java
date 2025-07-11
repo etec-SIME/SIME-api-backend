@@ -33,9 +33,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     Optional<Usuario> findByRmUsuario(String rmUsuario);
 
-    List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
+    // Procurar um TipoPerfil relacionado ao Usuario pelo nome
+    List<Usuario> findByTipoPerfilNomeTipoPerfil(String nomeTipoPerfil);
 
     Boolean existsByRmUsuario(String rmUsuario);
+
     Boolean existByCpfUsuario(String cpfUsuario);
 
+    List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
 }

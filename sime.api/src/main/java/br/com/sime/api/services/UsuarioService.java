@@ -29,6 +29,7 @@ public class UsuarioService {
     @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
 
+
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
@@ -86,6 +87,7 @@ public class UsuarioService {
     }
 
     public TokenDTO login(LoginDTO login) {
+
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
 

@@ -40,6 +40,4 @@ public class PermissaoService {
         return permissaoRepository.save(permissao);
 
     }
-
-
 }

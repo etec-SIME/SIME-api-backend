@@ -67,7 +67,4 @@ public class Chamado {
     @OneToMany(mappedBy = "chamado")
     @JsonManagedReference
     private List<Feedback> feedbackList;
-
-//    @Column(name = "msg_resolucao", length = 500)
-//    private String msgResolucao;
 }

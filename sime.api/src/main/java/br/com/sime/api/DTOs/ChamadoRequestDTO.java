@@ -3,6 +3,7 @@ package br.com.sime.api.DTOs;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -29,4 +30,5 @@ public class ChamadoRequestDTO {
     private String imgChamado;
 
     private PrioridadeChamadoEnum prioridadeChamado;
+
 }

@@ -33,7 +33,6 @@ public class Feedback {
     @JoinColumn(name = "rm_usuario", referencedColumnName = "rm_usuario", nullable = false)
     private Usuario usuario;
 
-
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "id_chamado", referencedColumnName = "id_chamado", nullable = false)

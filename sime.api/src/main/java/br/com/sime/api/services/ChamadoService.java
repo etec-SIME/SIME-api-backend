@@ -53,7 +53,7 @@ public class ChamadoService {
         chamado.setDescChamado(dto.getDescChamado());
         chamado.setLocalChamado(dto.getLocalChamado());
         chamado.setUsuario(usuario);
-        chamado.setStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
+        chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
         chamado.setImgChamado(dto.getImgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setDtAberturaChamado(LocalDateTime.now());
@@ -62,23 +62,10 @@ public class ChamadoService {
         return chamadoRepository.save(chamado);
     }
 
-    public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
-        chamado.setPrioridadeChamado(prioridade.getDescricao());
-        chamadoRepository.save(chamado);
-    }
-
-//    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
-//        chamado.setDtConclusaoChamado(LocalDateTime.now());
-//        chamado.setMsgResolucao(msgResolucao);
-//        chamado.setStatusChamado(StatusChamadoEnum.Concluído);
-//
-//        chamadoRepository.save(chamado);
-//    }
-
-    public void enviarFeedBack(Chamado chamado, String rmGestor, String destinatario, String descricaoFeedback, Usuario gestor) {
+    public void enviarFeedBack(Chamado chamado, String rmGestor, String descricaoFeedback, Usuario gestor) {
         Feedback feedback = new Feedback();
         feedback.setRemetenteFeedback(rmGestor);
-        feedback.setDestinatarioFeedback(destinatario);
+        feedback.setDestinatarioFeedback("quicas");
         feedback.setDescFeedback(descricaoFeedback);
         feedback.setDtFeedback(LocalDateTime.now());
         feedback.setUsuario(gestor);
