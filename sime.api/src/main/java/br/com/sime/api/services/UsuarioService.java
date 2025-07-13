@@ -2,9 +2,8 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
-import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
-import br.com.sime.api.repositories.ChamadoRepository;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -28,9 +27,9 @@ public class UsuarioService {
     @Autowired
     private JwtService jwtService;
 
-    public List<Usuario> getAllUsuarios() {
+    public List<UsuarioProjection> getAllUsuarios() {
         try {
-            return usuarioRepository.findAll();
+            return usuarioRepository.findAllBy();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
         }

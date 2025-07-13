@@ -31,6 +31,7 @@ public class Usuario {
     @Column(name = "nome_usuario", length = 30)
     private String nomeUsuario;
 
+    @JsonIgnore
     @Column(name = "senha_usuario", length = 30)
     private String senhaUsuario;
 

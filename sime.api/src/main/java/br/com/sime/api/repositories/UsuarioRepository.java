@@ -1,5 +1,6 @@
 package br.com.sime.api.repositories;
 
+import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.entities.usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -37,4 +38,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     List<Usuario> findByTipoPerfilNomeTipoPerfil(String nomeTipoPerfil);
 
     List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
+    List<UsuarioProjection> findAllBy();
 }

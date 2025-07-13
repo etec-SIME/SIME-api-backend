@@ -2,7 +2,7 @@ package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
-import br.com.sime.api.entities.usuarios.Usuario;
+import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class UsuarioController {
 
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping
-    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+    public ResponseEntity<List<UsuarioProjection>> getAllUsuarios() {
         return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
     }
 
