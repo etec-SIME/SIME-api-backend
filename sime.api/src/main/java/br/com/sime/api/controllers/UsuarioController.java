@@ -2,6 +2,7 @@ package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
+import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -17,15 +21,10 @@ public class UsuarioController {
 
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping
-    public ResponseEntity<?> getAllUsuarios() {
-        try {
-            return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao buscar usuários: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+        return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
     }
 
-    //@PreAuthorize("permitAll()")
     @PostMapping("login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login) {
         TokenDTO token = usuarioService.login(login);
