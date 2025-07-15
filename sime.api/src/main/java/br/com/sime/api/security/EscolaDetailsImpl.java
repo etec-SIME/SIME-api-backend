@@ -28,7 +28,7 @@ public class EscolaDetailsImpl implements UserDetails {
     @Override
     public String getPassword() { return escola.getSenhaEscola(); }
     @Override
-    public String getUsername() { return escola.getSenhaEscola(); }
+    public String getUsername() { return escola.getCnpjEscola(); }
 
     @Override public boolean isAccountNonExpired()     { return true; }
     @Override public boolean isAccountNonLocked()      { return true; }

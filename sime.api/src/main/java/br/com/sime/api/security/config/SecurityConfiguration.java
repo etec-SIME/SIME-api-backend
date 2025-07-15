@@ -2,7 +2,6 @@ package br.com.sime.api.security.config;
 
 import br.com.sime.api.handlers.CustomAuthenticationEntryPoint;
 import br.com.sime.api.security.filter.JwtAuthFilter;
-import br.com.sime.api.security.services.EscolaDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
-    private final EscolaDetailsService escolaDetailsService;
+    private final UserDetailsService escolaDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
     @Profile("dev")

@@ -39,7 +39,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     Boolean existsByRmUsuario(String rmUsuario);
 
-    Boolean existByCpfUsuario(String cpfUsuario);
+    Boolean existsByCpfUsuario(String cpfUsuario);
 
     List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
     List<UsuarioProjection> findAllBy();

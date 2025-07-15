@@ -6,5 +6,5 @@ import lombok.Data;
 public class LoginEscolaDTO {
     private String codEscola;
     private String cnpjEscola;
-    private String nomeEscola;
+    private String senhaEscola;
 }

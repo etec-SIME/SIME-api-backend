@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface EscolaRepository extends JpaRepository<Escola, String> {
     Optional<Escola> findByCnpjEscola(String cnpjEscola);
+    Boolean existsByCnpjEscola(String cnpjEscola);
+    Optional<Escola> findByCodEscola(String codEscola);
+    Boolean existsByCodEscola(String codEscola);
 }

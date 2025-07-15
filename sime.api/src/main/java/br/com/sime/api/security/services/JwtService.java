@@ -30,6 +30,10 @@ public class JwtService {
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
     }
+    public <T> T extractClaim(String token, java.util.function.Function<Claims, T> claimsResolver) {
+        final Claims claims = getClaims(token);
+        return claimsResolver.apply(claims);
+    }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);

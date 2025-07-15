@@ -49,7 +49,7 @@ public class UsuarioService {
 
         if(!usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new ConflictException("Usuário com esse RM já existe!");}
 
-        if(!usuarioRepository.existByCpfUsuario(dto.getCpfUsuario())){throw new ConflictException("Usuário com esse CPF já existe!");}
+        if(!usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new ConflictException("Usuário com esse CPF já existe!");}
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
