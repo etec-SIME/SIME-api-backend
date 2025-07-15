@@ -7,6 +7,7 @@ import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.exceptions.ConflictException;
 import br.com.sime.api.repositories.DepartamentoRepository;
+import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -35,9 +36,9 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Usuario> getAllUsuarios() {
+    public List<UsuarioProjection> getAllUsuarios() {
         try {
-            return usuarioRepository.findAll();
+            return usuarioRepository.findAllBy();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
         }
