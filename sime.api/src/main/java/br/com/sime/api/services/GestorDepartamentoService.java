@@ -6,6 +6,7 @@ import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.ChamadoRepository;
+import br.com.sime.api.repositories.FeedbackRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class GestorDepartamentoService {
 
     @Autowired
     private ChamadoService chamadoService;
+
+    @Autowired
+    private FeedbackService feedbackService;
 
     public List<Usuario> getUsuariosByTipoPerfilAndDepartamento(Long idTipoPerfil, Long idDepartamento) {
         try {
@@ -63,7 +67,7 @@ public class GestorDepartamentoService {
 //            throw new RuntimeException("Gestor não autorizado a enviar feedback para este chamado.");
 //        }
 
-        chamadoService.enviarFeedBack(chamado, rmGestor, destinatario, descricaoFeedback, gestor);
+        feedbackService.criarFeedback(chamado, rmGestor, destinatario, descricaoFeedback, gestor);
     }
 
 //    public void concluirChamado(Long idChamado, String mensagemResolucao, String rmGestor) {

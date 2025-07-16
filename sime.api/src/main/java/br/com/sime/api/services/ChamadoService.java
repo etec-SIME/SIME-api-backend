@@ -75,15 +75,4 @@ public class ChamadoService {
 //        chamadoRepository.save(chamado);
 //    }
 
-    public void enviarFeedBack(Chamado chamado, String rmGestor, String destinatario, String descricaoFeedback, Usuario gestor) {
-        Feedback feedback = new Feedback();
-        feedback.setRemetenteFeedback(rmGestor);
-        feedback.setDestinatarioFeedback(destinatario);
-        feedback.setDescFeedback(descricaoFeedback);
-        feedback.setDtFeedback(LocalDateTime.now());
-        feedback.setUsuario(gestor);
-        feedback.setChamado(chamado);
-
-        feedbackRepository.save(feedback);
-    }
 }

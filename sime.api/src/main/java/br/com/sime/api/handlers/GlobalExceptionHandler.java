@@ -54,5 +54,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
-    //Conflict exception
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> hadleConflictException(ConflictException ex){
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getTitle(),
+                ex.getMessage(),
+                HttpStatus.CONFLICT.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
 }
