@@ -30,10 +30,9 @@ public class FeedbackService {
                 .orElseThrow(() -> new NotFoundException("Feedback de ID: " + idFeedback + "não encontrado"));
     }
 
-    public void criarFeedback(Chamado chamado, String rmGestor, String destinatario,  String descricaoFeedback, Usuario gestor) {
+    public void criarFeedback(Chamado chamado, String rmGestor, String descricaoFeedback, Usuario gestor) {
         Feedback feedback = new Feedback();
         feedback.setRemetenteFeedback(rmGestor);
-        feedback.setDestinatarioFeedback(destinatario);
         feedback.setDescFeedback(descricaoFeedback);
         feedback.setDtFeedback(LocalDateTime.now());
         feedback.setUsuario(gestor);

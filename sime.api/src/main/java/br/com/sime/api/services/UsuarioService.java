@@ -8,6 +8,7 @@ import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.exceptions.ConflictException;
 import br.com.sime.api.repositories.DepartamentoRepository;
 import br.com.sime.api.repositories.EscolaRepository;
+import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -16,6 +17,7 @@ import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import br.com.sime.api.security.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,22 +30,21 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     @Autowired
     private TipoPerfilRepository tipoPerfilRepository;
-
     @Autowired
     private DepartamentoRepository departamentoRepository;
-
     @Autowired
     private EscolaRepository escolaRepository;
 
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public List<Usuario> getAllUsuarios() {
+    public List<UsuarioProjection> getAllUsuarios() {
         try {
-            return usuarioRepository.findAll();
+            return usuarioRepository.findAllBy();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
         }
@@ -53,7 +54,6 @@ public class UsuarioService {
     public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
     {
         if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
-
         if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
@@ -85,7 +85,7 @@ public class UsuarioService {
         usuario.setNomeUsuario(dto.getNomeUsuario());
         usuario.setTelefoneUsuario(dto.getTelefoneUsuario());
         usuario.setEmailUsuario(dto.getEmailUsuario());
-        usuario.setSenhaUsuario(dto.getSenhaUsuario());
+        usuario.setSenhaUsuario(passwordEncoder.encode(dto.getSenhaUsuario()));
         usuario.setCpfUsuario(dto.getCpfUsuario());
         usuario.setTipoPerfil(tipoPerfil);
         usuario.setDepartamentoList(departamentos);
@@ -93,6 +93,7 @@ public class UsuarioService {
     }
 
     public TokenDTO login(LoginDTO login) {
+
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
 

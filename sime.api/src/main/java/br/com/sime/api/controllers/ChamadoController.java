@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/chamados")
 public class ChamadoController {
@@ -18,7 +20,7 @@ public class ChamadoController {
 
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping
-    public ResponseEntity<?> getAllChamados() {
+    public ResponseEntity<List<Chamado>> getAllChamados() {
         return new ResponseEntity<>(chamadoService.getAllChamados(), HttpStatus.OK);
     }
 

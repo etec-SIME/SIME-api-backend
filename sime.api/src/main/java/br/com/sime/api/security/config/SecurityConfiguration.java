@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
+    private final UserDetailsService escolaDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
     @Profile("dev")
@@ -34,6 +36,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain devSecurityFilterChain(HttpSecurity http) throws Exception {
         System.out.println(">> DEV SecurityFilterChain ativado");
         return http
+                .cors(Customizer.withDefaults()) // habilita CORS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll() // libera tudo em dev
@@ -46,28 +49,42 @@ public class SecurityConfiguration {
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults()) // habilita CORS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/login").permitAll()  // libera o login
+                                /*.anyRequest().permitAll()*/
+                        .requestMatchers("/usuarios/login", "/escolas/login").permitAll()  // libera o login
                         .anyRequest().authenticated()                // protege todo o resto
+
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
+                .authenticationManager(authenticationManager())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager() {
-        return new ProviderManager(authenticationProvider());
+        return new ProviderManager(
+                usuarioAuthProvider(),
+                escolaAuthProvider()
+        );
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider usuarioAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public DaoAuthenticationProvider escolaAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(escolaDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

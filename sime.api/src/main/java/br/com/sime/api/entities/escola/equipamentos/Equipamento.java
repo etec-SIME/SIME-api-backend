@@ -10,7 +10,6 @@ import lombok.Data;
 public class Equipamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//Remover
     @Column(name = "cod_equipamento", nullable = false)
     private Long codEquipamento;
 

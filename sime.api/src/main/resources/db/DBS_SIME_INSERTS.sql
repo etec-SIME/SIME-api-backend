@@ -1,12 +1,15 @@
+-- INSERTS: --
+
 -- ESCOLA
 INSERT INTO Escola VALUES 
-('E01', '12345678000100', '01234567', '100', 'ETEC Central');
+('E01', '12345678000100', '123', '01234567', '100', 'ETEC Central');
 
 -- TIPO PERFIL
 INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES 
-('Administrador'), 
-('Técnico'), 
-('Aluno');
+('Escola'),
+('Administrador'),
+('Tï¿½cnico'),
+('Funcionï¿½rio');
 
 -- PERMISSAO
 INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES
@@ -31,15 +34,16 @@ INSERT INTO Cadastra VALUES
 ('E01', 3);
 
 -- USUARIO
-INSERT INTO Usuario VALUES 
+INSERT INTO Usuario VALUES
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
 ('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
 ('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3);
+('456789', '1', '0', 'func@etec.com', 'Funcionï¿½rio User', 'func123', '11666666666', '11677228910', 3);
 
 -- DEPARTAMENTO
 INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 
-('TI', 'Departamento de Tecnologia da Informação'),
-('Manutenção', 'Responsável por reparos físicos');
+('TI', 'Departamento de Tecnologia da Informaï¿½ï¿½o'),
+('Manutenï¿½ï¿½o', 'Responsï¿½vel por reparos fï¿½sicos');
 
 -- CONDUZ
 INSERT INTO Conduz VALUES 
@@ -48,7 +52,7 @@ INSERT INTO Conduz VALUES
 
 -- AMBIENTE
 INSERT INTO Ambiente (desc_ambiente, nome_ambiente) VALUES 
-('Laboratório com 20 computadores', 'Lab de Informática'),
+('Laboratï¿½rio com 20 computadores', 'Lab de Informï¿½tica'),
 ('Sala com projetor', 'Sala 101');
 
 -- TIPO EQUIPAMENTO
@@ -68,18 +72,19 @@ INSERT INTO Equipamento (id_tipo_equipamento) VALUES
 
 -- TIPO CHAMADO
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES 
-('Problema Técnico', 1),
-('Reparo Elétrico', 2);
+('Problema Tï¿½cnico', 1),
+('Reparo Elï¿½trico', 2);
 
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
 	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_ambiente, id_tipo_chamado
-) VALUES (
-	'Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
-	'Computador quebrado', '345678', '234567', 1, 1
-);
+) VALUES
+('Alta Prioridade', 'PENDENTE', GETDATE(), 'PC nï¿½o liga', NULL, 'img1.png', 'Lab de Informï¿½tica',
+	'Computador quebrado', '345678', '234567', 1, 1),
+('Alta Prioridade', 'CONCLUIDO', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informï¿½tica',
+	'Monitor foi rachado', '345678', '234567', 1, 2);
 
 -- FEEDBACK
 INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
-(GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Aluno', 1, '345678');
+(GETDATE(), 'Resolvido rapidamente, obrigado!', 'Tï¿½cnico', 'Funcionï¿½rio', 1, '345678');

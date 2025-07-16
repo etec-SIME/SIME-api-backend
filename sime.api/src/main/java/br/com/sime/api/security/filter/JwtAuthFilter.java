@@ -6,8 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,11 +22,21 @@ import java.io.IOException;
 // ela verifica se o token JWT está presente no cabeçalho da requisição, valida o token e, se for válido,
 // autentica o usuário no contexto de segurança do Spring Security.
 @Component
-@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserDetailsService escolaDetailsService;
+
+    public JwtAuthFilter(
+            JwtService jwtService,
+            @Qualifier("usuarioDetailsService") UserDetailsService usuarioDetailsService,
+            @Qualifier("escolaDetailsService") UserDetailsService escolaDetailsService
+    ) {
+        this.jwtService = jwtService;
+        this.userDetailsService = usuarioDetailsService;
+        this.escolaDetailsService = escolaDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -42,10 +51,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         final String jwt = authHeader.substring(7);
-        final String username = jwtService.extractUsername(jwt); // ou RM
+        final String username = jwtService.extractUsername(jwt); // ou RM ou CNPJ
+        final String tipo = jwtService.extractClaim(jwt, claims -> claims.get("tipo", String.class));
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = "ESCOLA".equalsIgnoreCase(tipo) ?
+                    escolaDetailsService.loadUserByUsername(username) :
+                    userDetailsService.loadUserByUsername(username);
 
             if (!jwtService.isTokenValid(jwt, userDetails)) {
                 throw new BadCredentialsException("Token JWT inválido ou expirado");
