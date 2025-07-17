@@ -1,9 +1,7 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
-import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
-import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -14,15 +12,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import br.com.sime.api.DTOs.LoginEscolaDTO;
 import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.services.EscolaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -163,7 +157,6 @@ public class EscolaController {
         EquipamentoResponseDTO equipamentoResponseDTO = equipamentoService.cadastrarEquipamento(equipamentoDTO);
         return new ResponseEntity<>(equipamentoResponseDTO, HttpStatus.CREATED);
     }
-
 
     @PostMapping("/tipo-chamado")
     public ResponseEntity<?> criarTipoChamado(@Valid @RequestBody TipoChamadoDTO tipoChamadoDTO){
