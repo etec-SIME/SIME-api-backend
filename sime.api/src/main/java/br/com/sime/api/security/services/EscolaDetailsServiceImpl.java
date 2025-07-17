@@ -18,6 +18,6 @@ public class EscolaDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String cnpj) throws UsernameNotFoundException {
         Escola escola = escolaRepository.findByCnpjEscola(cnpj)
                 .orElseThrow(() -> new UsernameNotFoundException("CNPJ não encontrado"));
-        return new EscolaDetailsImpl(escola);
+        return new EscolaDetailsImpl(escola, "ESCOLA");
     }
 }

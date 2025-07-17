@@ -107,7 +107,7 @@ public class UsuarioService {
         if (!usuario.getSenhaUsuario().equals(login.getSenhaUsuario()))
             throw new SenhaIncorretaException("Senha incorreta para o usuário: " + login.getRmUsuario());
 
-        String token = jwtService.generateToken(new UserDetailsImpl(usuario));
+        String token = jwtService.generateToken(new UserDetailsImpl(usuario, "USUARIO"));
 
         return new TokenDTO(token);
     }

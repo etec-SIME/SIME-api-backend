@@ -1,6 +1,7 @@
 package br.com.sime.api.security;
 
 import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.security.config.auth.EntidadeAutenticavel;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,12 +13,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class EscolaDetailsImpl implements UserDetails {
+public class EscolaDetailsImpl implements UserDetails, EntidadeAutenticavel {
 
     private final Escola escola;
+    private final String entidade;
 
-    public EscolaDetailsImpl(Escola escola) {
+    public EscolaDetailsImpl(Escola escola, String entidade) {
         this.escola = escola;
+        this.entidade = entidade;
+    }
+
+    @Override
+    public String getEntidade() {
+        return "ESCOLA";
     }
 
     @Override

@@ -44,7 +44,7 @@ public class EscolaService {
         if (!escola.getSenhaEscola().equals(login.getSenhaEscola()))
             throw new RuntimeException("Senha incorreta para a escola com CNPJ: " + login.getCnpjEscola());
 
-        String token = jwtService.generateToken(new EscolaDetailsImpl(escola));
+        String token = jwtService.generateToken(new EscolaDetailsImpl(escola, "ESCOLA"));
 
         return new TokenDTO(token);
     }

@@ -2,7 +2,6 @@ package br.com.sime.api.security;
 
 import br.com.sime.api.entities.usuarios.Usuario;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,7 @@ o acesso a recursos com base nas permissões definidas no TipoPerfil.*/
 public class UserDetailsImpl implements UserDetails {
     private final Usuario usuario;
 
-    public UserDetailsImpl(Usuario usuario) {
+    public UserDetailsImpl(Usuario usuario, String s) {
         this.usuario = usuario;
     }
 

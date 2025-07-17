@@ -1,8 +1,10 @@
 package br.com.sime.api.security.config;
 
 import br.com.sime.api.handlers.CustomAuthenticationEntryPoint;
+import br.com.sime.api.security.config.auth.EntidadeAuthorizationManager;
 import br.com.sime.api.security.filter.JwtAuthFilter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,12 +25,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // Essa classe configura a segurança da aplicação, definindo filtros, autenticação e autorização globalmente, porém sem a proteção de rotas
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    @Autowired
+    private EntidadeAuthorizationManager escolaAuthorizationManager; // gerenciador de autorização para escolas
 
     private final UserDetailsService userDetailsService;
     private final UserDetailsService escolaDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
+
+    public SecurityConfiguration(
+            JwtAuthFilter jwtAuthFilter,
+            @Qualifier("usuarioDetailsService") UserDetailsService userDetailsService,
+            @Qualifier("escolaDetailsService") UserDetailsService escolaDetailsService
+    ) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userDetailsService = userDetailsService;
+        this.escolaDetailsService = escolaDetailsService;
+    }
 
     @Profile("dev")
     @Bean
@@ -52,10 +66,8 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults()) // habilita CORS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                /*.anyRequest().permitAll()*/
-                        .requestMatchers("/usuarios/login", "/escolas/login").permitAll()  // libera o login
-                        .anyRequest().authenticated()                // protege todo o resto
-
+                        .requestMatchers("/usuarios/login", "/escolas/login").permitAll()// libera o login
+                        .anyRequest().authenticated()       // protege todo o resto
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))

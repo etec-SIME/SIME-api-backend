@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,11 +31,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     public JwtAuthFilter(
             JwtService jwtService,
-            @Qualifier("usuarioDetailsService") UserDetailsService usuarioDetailsService,
+            @Qualifier("usuarioDetailsService") UserDetailsService userDetailsService,
             @Qualifier("escolaDetailsService") UserDetailsService escolaDetailsService
     ) {
         this.jwtService = jwtService;
-        this.userDetailsService = usuarioDetailsService;
+        this.userDetailsService = userDetailsService;
         this.escolaDetailsService = escolaDetailsService;
     }
 
@@ -52,12 +53,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         final String jwt = authHeader.substring(7);
         final String username = jwtService.extractUsername(jwt); // ou RM ou CNPJ
-        final String tipo = jwtService.extractClaim(jwt, claims -> claims.get("tipo", String.class));
+        final String entidade = jwtService.extractEntidade(jwt); // "ESCOLA" ou "USUARIO"
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = "ESCOLA".equalsIgnoreCase(tipo) ?
+            System.out.println(">>> jwt: " + jwt);
+            System.out.println(">>> entidade extraída: " + entidade);
+            System.out.println(">>> username extraído: " + username);
+
+            UserDetails userDetails = "ESCOLA".equalsIgnoreCase(entidade) ?
                     escolaDetailsService.loadUserByUsername(username) :
                     userDetailsService.loadUserByUsername(username);
+
+            System.out.println(">>> userDetails class: " + userDetails.getClass().getName());
+            System.out.println("Authorities escola: " + userDetails.getAuthorities());
 
             if (!jwtService.isTokenValid(jwt, userDetails)) {
                 throw new BadCredentialsException("Token JWT inválido ou expirado");
@@ -68,8 +76,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     null,
                     userDetails.getAuthorities()
             );
+            System.out.println(">>> authToken principal: " + authToken.getPrincipal().getClass().getName());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
+            System.out.println(">>> context principal: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().getName());
         }
 
         filterChain.doFilter(request, response);
