@@ -62,15 +62,17 @@ public class ChamadoService {
         return chamadoRepository.save(chamado);
     }
 
-    public void enviarFeedBack(Chamado chamado, String rmGestor, String descricaoFeedback, Usuario gestor) {
-        Feedback feedback = new Feedback();
-        feedback.setRemetenteFeedback(rmGestor);
-        feedback.setDestinatarioFeedback("quicas");
-        feedback.setDescFeedback(descricaoFeedback);
-        feedback.setDtFeedback(LocalDateTime.now());
-        feedback.setUsuario(gestor);
-        feedback.setChamado(chamado);
-
-        feedbackRepository.save(feedback);
+    public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
+        chamado.setPrioridadeChamado(prioridade.getDescricao());
+        chamadoRepository.save(chamado);
     }
+
+//    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
+//        chamado.setDtConclusaoChamado(LocalDateTime.now());
+//        chamado.setMsgResolucao(msgResolucao);
+//        chamado.setStatusChamado(StatusChamadoEnum.Concluído);
+//
+//        chamadoRepository.save(chamado);
+//    }
+
 }

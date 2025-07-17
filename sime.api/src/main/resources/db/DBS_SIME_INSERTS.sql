@@ -2,12 +2,13 @@
 
 -- ESCOLA
 INSERT INTO Escola VALUES 
-('E01', '12345678000100', '01234567', '100', 'ETEC Central');
+('E01', '12345678000100', '123', '01234567', '100', 'ETEC Central');
 
 -- TIPO PERFIL
 INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES 
-('Administrador'), 
-('T�cnico'), 
+('Escola'),
+('Administrador'),
+('T�cnico'),
 ('Funcion�rio');
 
 -- PERMISSAO
@@ -33,11 +34,11 @@ INSERT INTO Cadastra VALUES
 ('E01', 3);
 
 -- USUARIO
-INSERT INTO Usuario VALUES 
-('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', 1),
-('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', 2),
-('345678', '1', '0', 'func@etec.com', 'Funcion�rio User', 'func123', '11777777777', 3);
-('456789', '2', '1', 'func2@etec.com', 'Funcion�rio User2', 'func234', '11666666666', 3);
+INSERT INTO Usuario VALUES
+('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
+('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
+('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3);
+('456789', '1', '0', 'func@etec.com', 'Funcion�rio User', 'func123', '11666666666', '11677228910', 3);
 
 -- DEPARTAMENTO
 INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 

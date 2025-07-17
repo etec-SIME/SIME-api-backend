@@ -38,6 +38,9 @@ public class Usuario {
     @Column(name = "telefone_usuario", length = 11, columnDefinition = "CHAR(11)")
     private String telefoneUsuario;
 
+    @Column(name = "cpf_usuario", length = 11, columnDefinition = "CHAR(11)")
+    private String cpfUsuario;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "id_tipo_perfil")

@@ -1,5 +1,6 @@
 package br.com.sime.api.security.services;
 
+import br.com.sime.api.security.config.auth.EntidadeAutenticavel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,17 +19,30 @@ public class JwtService {
     private String secret;
 
     public String generateToken(UserDetails userDetails) {
+        String entidade = (userDetails instanceof EntidadeAutenticavel ea)
+                ? ea.getEntidade()
+                : "USUARIO";
+
         return Jwts.builder()
-                .setSubject(userDetails.getUsername()) // RM do usuário
+                .setSubject(userDetails.getUsername()) // RM ou CNPJ
                 .claim("authorities", userDetails.getAuthorities())
+                .claim("entidade", entidade) // "ESCOLA" ou "USUARIO"
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 dia
                 .signWith(SignatureAlgorithm.HS256, secret.getBytes())
                 .compact();
     }
 
+    public <T> T extractClaim(String token, java.util.function.Function<Claims, T> claimsResolver) {
+        final Claims claims = getClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
+    }
+    public String extractEntidade(String token) {
+        return extractClaim(token, claims -> claims.get("entidade", String.class));
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
