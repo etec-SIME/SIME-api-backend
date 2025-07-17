@@ -8,5 +8,4 @@ import java.util.List;
 @Data
 public class TipoPerfilDTO {
     private String nomeTipoPerfil;
-    private List<Long> permissaoIds;
 }

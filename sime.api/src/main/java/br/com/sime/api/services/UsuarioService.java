@@ -7,6 +7,7 @@ import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.exceptions.ConflictException;
 import br.com.sime.api.repositories.DepartamentoRepository;
+import br.com.sime.api.repositories.EscolaRepository;
 import br.com.sime.api.DTOs.Projections.UsuarioProjection;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
@@ -18,6 +19,8 @@ import br.com.sime.api.security.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +35,9 @@ public class UsuarioService {
     @Autowired
     private DepartamentoRepository departamentoRepository;
     @Autowired
+    private EscolaRepository escolaRepository;
+
+    @Autowired
     private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,33 +50,34 @@ public class UsuarioService {
         }
     }
 
+
     public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
     {
-
-        if(!usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new ConflictException("Usuário com esse RM já existe!");}
-
-        if(!usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new ConflictException("Usuário com esse CPF já existe!");}
+        if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
+        if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
                 .orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
 
-
         List<Long> ids = dto.getDepartamentoIds();
-        List<Departamento> departamentos = departamentoRepository.findAllById(ids);
+        List<Departamento> departamentos = new ArrayList<>();
 
-        Set<Long> idsEncontrados = departamentos.stream()
-                .map(Departamento::getIdDepartamento)
-                .collect(Collectors.toSet());
+        if(ids!=null){
+            departamentos = departamentoRepository.findAllById(ids);
+            Set<Long> idsEncontrados = departamentos.stream()
+                    .map(Departamento::getIdDepartamento)
+                    .collect(Collectors.toSet());
 
-        List<Long> idsNaoEncontrados = ids.stream()
-                .filter( id -> !idsEncontrados.contains(id))
-                .toList();
+            List<Long> idsNaoEncontrados = ids.stream()
+                    .filter( id -> !idsEncontrados.contains(id))
+                    .toList();
 
-        if (!idsNaoEncontrados.isEmpty()) {
-            throw new NotFoundException(
-                    "Departamentos não encontrados",
-                    "IDs inválidos: " + idsNaoEncontrados
-            );
+            if (!idsNaoEncontrados.isEmpty()) {
+                throw new NotFoundException(
+                        "Departamentos não encontrados",
+                        "IDs inválidos: " + idsNaoEncontrados
+                );
+            }
         }
 
         Usuario usuario = new Usuario();
@@ -82,7 +89,6 @@ public class UsuarioService {
         usuario.setCpfUsuario(dto.getCpfUsuario());
         usuario.setTipoPerfil(tipoPerfil);
         usuario.setDepartamentoList(departamentos);
-
         return usuarioRepository.save(usuario);
     }
 

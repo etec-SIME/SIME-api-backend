@@ -16,7 +16,7 @@ public class DepartamentoService {
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
-    public List<Departamento> getAllDepartamento() {
+    public List<Departamento> getAllDepartamentos() {
         try {
             return departamentoRepository.findAll();
         } catch (Exception e) {
@@ -39,12 +39,12 @@ public class DepartamentoService {
         return departamentoRepository.save(departamento);
     }
 
-    public Departamento editarDepartamento(Departamento departamentoAtualizado){
-        Departamento departamento = departamentoRepository.findById(departamentoAtualizado.getIdDepartamento())
-                .orElseThrow(() -> new NotFoundException("Departamento de ID: " + departamentoAtualizado.getIdDepartamento() + "não encontrado"));
+    public Departamento editarDepartamento(Long idDepartamento, DepartamentoDTO departamentoDTO){
+        Departamento departamento = departamentoRepository.findById(idDepartamento)
+                .orElseThrow(() -> new NotFoundException("Departamento de ID: " + idDepartamento + "não encontrado"));
 
-        departamento.setNomeDepartamento(departamentoAtualizado.getNomeDepartamento());
-        departamento.setDescDepartamento(departamentoAtualizado.getDescDepartamento());
+        departamento.setNomeDepartamento(departamentoDTO.getNomeDepartamento());
+        departamento.setDescDepartamento(departamentoDTO.getDescDepartamento());
         return departamentoRepository.save(departamento);
     }
 

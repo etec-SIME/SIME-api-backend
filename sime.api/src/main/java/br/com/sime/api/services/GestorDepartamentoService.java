@@ -6,6 +6,7 @@ import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.ChamadoRepository;
+import br.com.sime.api.repositories.FeedbackRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,11 @@ public class GestorDepartamentoService {
     private ChamadoService chamadoService;
 
     @Autowired
+    private FeedbackService feedbackService;
+
+    @Autowired
     private GestorGeralService gestorGeralService;
+
 
     public List<Usuario> getUsuariosByTipoPerfilAndDepartamento(Long idTipoPerfil, Long idDepartamento) {
         try {
@@ -45,8 +50,7 @@ public class GestorDepartamentoService {
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
 
-        chamadoService.enviarFeedBack(chamado, rmGestor, descricaoFeedback, gestor);
-
+        feedbackService.criarFeedback(chamado, rmGestor, descricaoFeedback, gestor);
         return descricaoFeedback;
     }
 

@@ -1,10 +1,10 @@
 package br.com.sime.api.services;
-
-import br.com.sime.api.DTOs.LoginEscolaDTO;
-import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.DepartamentoRepository;
 import br.com.sime.api.repositories.EscolaRepository;
+import br.com.sime.api.DTOs.LoginEscolaDTO;
+import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.security.EscolaDetailsImpl;
 import br.com.sime.api.security.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,11 @@ public class EscolaService {
         }
     }
 
+    public Escola getEscolaById(String codEscola){
+        return escolaRepository.findByCodEscola(codEscola)
+                .orElseThrow(() -> new NotFoundException("Escola de código: " + codEscola + "não encontrado"));
+    }
+
     public TokenDTO loginEscola(LoginEscolaDTO login) {
         boolean getEscola = escolaRepository.existsByCodEscola(login.getCodEscola());
 
@@ -48,7 +53,6 @@ public class EscolaService {
 
         return new TokenDTO(token);
     }
-
     /*
     public TokenEscolaDTO loginEscola(LoginEscolaDTO login){
 

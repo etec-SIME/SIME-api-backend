@@ -30,7 +30,7 @@ public class UsuarioRequestDTO {
     @NotBlank(message = "CPF do usuário é obrigatório")
     private String cpfUsuario;
 
-    @NotBlank(message = "Id do tipo perfil do usuário é obrigatório")
+    @NotNull
     private Long idTipoPerfil;
 
     private List<Long> departamentoIds;//Se Tipo Perfil for Gestor de Departamento
