@@ -1,9 +1,7 @@
 package br.com.sime.api.security.config;
 
 import br.com.sime.api.handlers.CustomAuthenticationEntryPoint;
-import br.com.sime.api.security.config.auth.EntidadeAuthorizationManager;
 import br.com.sime.api.security.filter.JwtAuthFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-    @Autowired
-    private EntidadeAuthorizationManager escolaAuthorizationManager; // gerenciador de autorização para escolas
 
     private final UserDetailsService userDetailsService;
     private final UserDetailsService escolaDetailsService;
@@ -67,7 +62,8 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/login", "/escolas/login").permitAll()// libera o login
-                        .anyRequest().authenticated()       // protege todo o resto
+                        .requestMatchers("/**").hasAnyAuthority("ENTIDADE_ESCOLA", "ENTIDADE_USUARIO")
+                        .anyRequest().authenticated() // demais rotas requerem autenticação
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))

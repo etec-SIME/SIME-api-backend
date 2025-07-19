@@ -18,13 +18,13 @@ public class ChamadoController {
     @Autowired
     private ChamadoService chamadoService;
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<Chamado>> getAllChamados() {
         return new ResponseEntity<>(chamadoService.getAllChamados(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('Criar Chamado')")
+    @PreAuthorize("hasPermission('Criar Chamado')")
     @PostMapping("/{rmUsuario}/chamado")
     public ResponseEntity<?> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
         Chamado chamado = chamadoService.criarChamado(rmUsuario, ChamadoDTO);

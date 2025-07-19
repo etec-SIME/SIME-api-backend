@@ -18,7 +18,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<UsuarioProjection>> getAllUsuarios() {
         return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);

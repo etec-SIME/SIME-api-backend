@@ -1,6 +1,6 @@
 package br.com.sime.api.security.services;
 
-import br.com.sime.api.security.config.auth.EntidadeAutenticavel;
+import br.com.sime.api.security.interfaces.EntidadeAutenticavel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

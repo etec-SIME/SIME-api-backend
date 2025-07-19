@@ -6,18 +6,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //Essa classe é um filtro de autenticação JWT que intercepta as requisições HTTP. Resumidamente,
 // ela verifica se o token JWT está presente no cabeçalho da requisição, valida o token e, se for válido,
@@ -71,15 +74,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 throw new BadCredentialsException("Token JWT inválido ou expirado");
             }
 
+            List<GrantedAuthority> authorities = new ArrayList<>(userDetails.getAuthorities());
+            System.out.println(">>> entidade no filtro: " + entidade);
+
+            authorities.add(new SimpleGrantedAuthority("ENTIDADE_" + entidade.toUpperCase())); // Adiciona autoridade personalizada
+
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
-                    userDetails.getAuthorities()
+                    authorities
             );
             System.out.println(">>> authToken principal: " + authToken.getPrincipal().getClass().getName());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
             System.out.println(">>> context principal: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().getName());
+
+            System.out.println(">>> Authorities finais:");
+            for (GrantedAuthority authority : authorities) {
+                System.out.println(" - " + authority.getAuthority());
+            }
         }
 
         filterChain.doFilter(request, response);

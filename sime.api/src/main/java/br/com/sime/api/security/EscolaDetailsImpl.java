@@ -1,16 +1,14 @@
 package br.com.sime.api.security;
 
 import br.com.sime.api.entities.escola.Escola;
-import br.com.sime.api.security.config.auth.EntidadeAutenticavel;
+import br.com.sime.api.security.interfaces.EntidadeAutenticavel;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class EscolaDetailsImpl implements UserDetails, EntidadeAutenticavel {
