@@ -1,6 +1,7 @@
 package br.com.sime.api.DTOs;
 
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
+import br.com.sime.api.enums.StatusChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -25,6 +26,8 @@ public class ChamadoRequestDTO {
 
     @NotBlank(message = "Imagem do chamado é obrigatória")
     private String imgChamado;
+
+    private StatusChamadoEnum statusChamado;
 
     private PrioridadeChamadoEnum prioridadeChamado;
 }

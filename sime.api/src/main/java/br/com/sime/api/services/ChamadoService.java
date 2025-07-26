@@ -57,6 +57,7 @@ public class ChamadoService {
         chamado.setImgChamado(dto.getImgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setDtAberturaChamado(LocalDateTime.now());
+        chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
         return chamadoRepository.save(chamado);

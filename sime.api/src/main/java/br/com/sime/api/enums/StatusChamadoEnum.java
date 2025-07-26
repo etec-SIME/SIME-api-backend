@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum StatusChamadoEnum {
 
-    AGUARDANDO_APROVACAO("Aguardando aprovação"),
+    AGUARDANDO_APROVACAO("Aguardando Aprovação"),
 
     RECUSADO("Recusado"),
 

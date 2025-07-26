@@ -126,7 +126,7 @@ CREATE TABLE Chamado (
 	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
 	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
-	CHECK (status_chamado IN ('Aguardando Avaliação', 'Recusado', 'Concluído', 'Pendente'))
+	CHECK (status_chamado IN ('Aguardando Aprovação', 'Recusado', 'Concluído', 'Pendente'))
 )
 
 CREATE TABLE Feedback (

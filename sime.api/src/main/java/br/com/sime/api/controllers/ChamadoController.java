@@ -26,7 +26,7 @@ public class ChamadoController {
 
     @PreAuthorize("hasPermission('Criar Chamado')")
     @PostMapping("/{rmUsuario}/chamado")
-    public ResponseEntity<?> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
+    public ResponseEntity<Chamado> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
         Chamado chamado = chamadoService.criarChamado(rmUsuario, ChamadoDTO);
         return new ResponseEntity<>(chamado, HttpStatus.CREATED);
     }
