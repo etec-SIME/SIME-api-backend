@@ -7,8 +7,6 @@ public enum StatusChamadoEnum {
 
     AGUARDANDO_APROVACAO("Aguardando Aprovação"),
 
-    RECUSADO("Recusado"),
-
     PENDENTE("Pendente"),
 
     CONCLUIDO("Concluído");

@@ -57,9 +57,7 @@ public class GestorGeralService {
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 
-        chamado.setStatusChamado(StatusChamadoEnum.RECUSADO.getDescricao());
-
-        chamadoRepository.save(chamado);
+        chamadoRepository.delete(chamado);
 
         return msgRecusa;
     }
