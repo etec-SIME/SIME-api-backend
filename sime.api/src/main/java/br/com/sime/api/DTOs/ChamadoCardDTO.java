@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ChamadoCardDTO (
     Long idChamado,
-     LocalDateTime dtAberturaChamado,
+     String dtAberturaChamado,
      String descChamado,
      String localChamado,
      String prioridadeChamado

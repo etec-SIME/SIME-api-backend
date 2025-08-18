@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -76,10 +77,12 @@ public class ChamadoService {
             throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado com a prioridade: " + prioridade.getDescricao());
         }
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         return chamados.stream()
                 .map(chamado -> new ChamadoCardDTO(
                         chamado.getIdChamado(),
-                        chamado.getDtAberturaChamado(),
+                        chamado.getDtAberturaChamado().format(formatter),
                         chamado.getDescChamado(),
                         chamado.getLocalChamado(),
                         chamado.getPrioridadeChamado()
