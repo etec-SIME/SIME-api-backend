@@ -2,11 +2,8 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.AmbienteDTO;
 import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
-import br.com.sime.api.DTOs.TipoEquipamentoDTO;
-import br.com.sime.api.entities.escola.Ambiente;
-import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.entities.escola.ambientes.Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
-import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.AmbienteRepository;
 import br.com.sime.api.repositories.EscolaRepository;

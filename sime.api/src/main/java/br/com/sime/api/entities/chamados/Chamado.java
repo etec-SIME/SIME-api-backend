@@ -1,6 +1,6 @@
 package br.com.sime.api.entities.chamados;
 
-import br.com.sime.api.entities.escola.Ambiente;
+import br.com.sime.api.entities.escola.ambientes.Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

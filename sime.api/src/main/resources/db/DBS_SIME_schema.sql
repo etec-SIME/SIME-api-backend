@@ -71,10 +71,17 @@ CREATE TABLE Conduz (
 	FOREIGN KEY(id_departamento) REFERENCES Departamento (id_departamento)
 )
 
+CREATE TABLE Tipo_ambiente (
+	id_tipo_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY ,
+	nome_tipo_ambiente VARCHAR(50),
+)
+
 CREATE TABLE Ambiente (
 	id_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY,
+	num_ambiente BIGINT,
 	desc_ambiente VARCHAR(450),
-	nome_ambiente VARCHAR(50)
+	id_tipo_ambiente BIGINT,
+	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_ambiente(id_tipo_ambiente)
 )
 
 CREATE TABLE Tipo_equipamento (

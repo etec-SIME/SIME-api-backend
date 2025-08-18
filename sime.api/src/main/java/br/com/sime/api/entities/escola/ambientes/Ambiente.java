@@ -1,7 +1,8 @@
-package br.com.sime.api.entities.escola;
+package br.com.sime.api.entities.escola.ambientes;
 
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,15 +19,21 @@ public class Ambiente {
     @Column(name = "id_ambiente", nullable = false)
     private Long idAmbiente;
 
+    @Column(name = "num_ambiente",  nullable = false)
+    private Long numAmbiente;
+
     @Column(name = "desc_ambiente", length = 450, nullable = false)
     private String descricaoAmbiente;
 
-    @Column(name = "nome_ambiente", length = 50, nullable = false)
-    private String nomeAmbiente;
-
+    //tirar? (não possui mais conexão com chamados)
     @OneToMany(mappedBy = "ambiente")
     @JsonManagedReference
     private List<Chamado> chamadosList;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "id_tipo_ambiente")
+    private TipoAmbiente tipoAmbiente;
 
     @ManyToMany
     @JsonManagedReference
