@@ -1,7 +1,9 @@
 package br.com.sime.api.controllers;
 
+import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.services.ChamadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,5 +42,11 @@ public class ChamadoController {
     public ResponseEntity<Chamado> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
         Chamado chamado = chamadoService.criarChamado(rmUsuario, ChamadoDTO);
         return new ResponseEntity<>(chamado, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/prioridade")
+    public ResponseEntity<List<ChamadoCardDTO>> getChamadosByPrioridade(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade) {
+        List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeChamado(prioridade);
+        return ResponseEntity.ok(chamados);
     }
 }

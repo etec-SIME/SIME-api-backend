@@ -1,5 +1,6 @@
 package br.com.sime.api.services;
 
+import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.chamados.Feedback;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -66,6 +68,26 @@ public class ChamadoService {
     public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
         chamado.setPrioridadeChamado(prioridade.getDescricao());
         chamadoRepository.save(chamado);
+    }
+
+    public List<ChamadoCardDTO> getByPrioridadeChamado(PrioridadeChamadoEnum prioridade) {
+        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamado(prioridade.getDescricao());
+
+        if(chamados.isEmpty()) {
+            throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado com a prioridade: " + prioridade.getDescricao());
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return chamados.stream()
+                .map(chamado -> new ChamadoCardDTO(
+                        chamado.getIdChamado(),
+                        chamado.getDtAberturaChamado().format(formatter),
+                        chamado.getDescChamado(),
+                        chamado.getLocalChamado(),
+                        chamado.getPrioridadeChamado()
+                ))
+                .toList();
     }
 
 //    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
