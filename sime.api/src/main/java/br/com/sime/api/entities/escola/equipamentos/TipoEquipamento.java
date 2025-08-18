@@ -3,6 +3,7 @@ package br.com.sime.api.entities.escola.equipamentos;
 import br.com.sime.api.entities.escola.Ambiente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,12 +17,15 @@ public class TipoEquipamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_equipamento", nullable = false)
+    @Schema(example = "1")
     private Long idTipoEquipamento;
 
     @Column(name = "nome_tipo_equipamento", length = 50, nullable = false)
+    @Schema(example = "Ventilador")
     private String nomeTipoEquipamento;
 
     @Column(name = "img_tipo_equipamento")
+    @Schema(example = "*imagem*")
     private String imgTipoEquipamento;
 
     @OneToMany(mappedBy = "tipoEquipamento")

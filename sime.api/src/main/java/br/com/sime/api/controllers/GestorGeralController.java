@@ -44,7 +44,7 @@ public class GestorGeralController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "Permite que o gestor geral", description = "Chama todos so funcionários cadastrados")
+    @Operation(summary = "Permite que o gestor geral aceite chamados", description = "Permite a aceitação dos chamados pelo gestor geral")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Requisição realizada com sucesso!"),
             @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
@@ -55,6 +55,11 @@ public class GestorGeralController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "Permite que o gestor geral recuse chamados", description = "Permite a recusa dos chamados pelo gestor geral")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Requisição realizada com sucesso!"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
+    })
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/recusar")
     public ResponseEntity<String> recusarChamado(@PathVariable String rmGestor, @PathVariable Long idChamado, @RequestBody String msgRecusa){
         gestorGeralService.recusarChamado(idChamado, msgRecusa);
