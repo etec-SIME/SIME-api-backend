@@ -44,6 +44,11 @@ public class ChamadoController {
         return new ResponseEntity<>(chamado, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Define prioridade ao chamado", description = "Define uma prioridade ao chamado criado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Prioridade atribuida com sucesso!"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
+    })
     @GetMapping("/prioridade")
     public ResponseEntity<List<ChamadoCardDTO>> getChamadosByPrioridade(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeChamado(prioridade);
