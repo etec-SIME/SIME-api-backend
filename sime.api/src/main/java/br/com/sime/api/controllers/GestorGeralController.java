@@ -30,13 +30,13 @@ public class GestorGeralController {
     }
 
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/aceitar")
-    public ResponseEntity<Void> aceitarChamado(@PathVariable Long idChamado){
+    public ResponseEntity<Void> aceitarChamado(@PathVariable String rmGestor,@PathVariable Long idChamado){
         gestorGeralService.aceitarChamado(idChamado);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/recusar")
-    public ResponseEntity<String> recusarChamado(@PathVariable Long idChamado, @RequestBody String msgRecusa){
+    public ResponseEntity<String> recusarChamado(@PathVariable String rmGestor, @PathVariable Long idChamado, @RequestBody String msgRecusa){
         gestorGeralService.recusarChamado(idChamado, msgRecusa);
         return new ResponseEntity<>(msgRecusa, HttpStatus.OK);
     }

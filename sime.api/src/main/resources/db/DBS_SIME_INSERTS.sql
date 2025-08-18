@@ -37,7 +37,7 @@ INSERT INTO Cadastra VALUES
 INSERT INTO Usuario VALUES
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
 ('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
-('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3);
+('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3),
 ('456789', '1', '0', 'func@etec.com', 'Funcion�rio User', 'func123', '11666666666', '11677228910', 3);
 
 -- DEPARTAMENTO
@@ -80,9 +80,9 @@ INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
 	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_ambiente, id_tipo_chamado
 ) VALUES
-('Alta Prioridade', 'PENDENTE', GETDATE(), 'PC n�o liga', NULL, 'img1.png', 'Lab de Inform�tica',
+('Alta Prioridade', 'Pendente', GETDATE(), 'PC n�o liga', NULL, 'img1.png', 'Lab de Inform�tica',
 	'Computador quebrado', '345678', '234567', 1, 1),
-('Alta Prioridade', 'CONCLUIDO', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Inform�tica',
+('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Inform�tica',
 	'Monitor foi rachado', '345678', '234567', 1, 2);
 
 -- FEEDBACK
