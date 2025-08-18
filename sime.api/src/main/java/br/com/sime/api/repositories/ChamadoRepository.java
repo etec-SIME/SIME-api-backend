@@ -18,4 +18,5 @@ public interface ChamadoRepository extends JpaRepository<Chamado, Long> {
     List<Chamado> findByDepartamentoIds(@Param("idsDepartamentos") List<Long> idsDepartamentos);
 
     List<Chamado> findAllByPrioridadeChamado(String prioridade);
+    List<Chamado> findAllByPrioridadeChamadoAndStatusChamado(String prioridade, String status);
 }
