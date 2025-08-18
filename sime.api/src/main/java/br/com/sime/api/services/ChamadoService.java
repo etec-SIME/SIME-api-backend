@@ -70,6 +70,27 @@ public class ChamadoService {
         chamadoRepository.save(chamado);
     }
 
+    public List<ChamadoCardDTO> getByPrioridadeStatusChamado(PrioridadeChamadoEnum prioridade, StatusChamadoEnum status) {
+        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamadoAndStatusChamado(prioridade.getDescricao(), status.getDescricao());
+
+        if(chamados.isEmpty()) {
+            throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado com a prioridade e status: " + prioridade.getDescricao() + status.getDescricao());
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return chamados.stream()
+                .map(chamado -> new ChamadoCardDTO(
+                        chamado.getIdChamado(),
+                        chamado.getDtAberturaChamado().format(formatter),
+                        chamado.getDescChamado(),
+                        chamado.getLocalChamado(),
+                        chamado.getPrioridadeChamado(),
+                        chamado.getStatusChamado()
+                ))
+                .toList();
+    }
+
     public List<ChamadoCardDTO> getByPrioridadeChamado(PrioridadeChamadoEnum prioridade) {
         List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamado(prioridade.getDescricao());
 
@@ -85,7 +106,8 @@ public class ChamadoService {
                         chamado.getDtAberturaChamado().format(formatter),
                         chamado.getDescChamado(),
                         chamado.getLocalChamado(),
-                        chamado.getPrioridadeChamado()
+                        chamado.getPrioridadeChamado(),
+                        chamado.getStatusChamado()
                 ))
                 .toList();
     }
