@@ -21,12 +21,12 @@ public class TipoAmbiente {
     @Column(name = "nome_tipo_ambiente", length = 50, nullable = false)
     private String nomeTipoAmbiente;
 
-    @OneToMany(mappedBy = "ambientes")
+    @OneToMany(mappedBy = "tipoAmbiente")
     @JsonManagedReference
     private List<Ambiente> ambienteList;
 
-    //@OneToMany(mappedBy = "ambiente")
-    //@JsonManagedReference
-    //private List<Chamado> chamadosList;
+    @OneToMany(mappedBy = "tipoAmbiente")
+    @JsonManagedReference
+    private List<Chamado> chamadosList;
 
 }

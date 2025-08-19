@@ -25,10 +25,9 @@ public class Ambiente {
     @Column(name = "desc_ambiente", length = 450, nullable = false)
     private String descricaoAmbiente;
 
-    //tirar? (não possui mais conexão com chamados)
-    @OneToMany(mappedBy = "ambiente")
-    @JsonManagedReference
-    private List<Chamado> chamadosList;
+    // @OneToMany(mappedBy = "ambiente")
+    // @JsonManagedReference
+    //private List<Chamado> chamadosList;
 
     @ManyToOne
     @JsonBackReference

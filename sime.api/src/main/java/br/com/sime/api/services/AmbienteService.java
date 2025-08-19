@@ -43,7 +43,7 @@ public class AmbienteService {
     public Ambiente cadastrarAmbiente( AmbienteDTO dto){
 
         Ambiente ambiente = new Ambiente();
-        ambiente.setNomeAmbiente(dto.getNomeAmbiente());
+        ambiente.setNumAmbiente(dto.getNumAmbiente());
         ambiente.setDescricaoAmbiente(dto.getDescricaoAmbiente());
 
         return ambienteRepository.save(ambiente);
@@ -85,7 +85,6 @@ public class AmbienteService {
         Ambiente ambiente = ambienteRepository.findById(idAmbiente)
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
 
-        ambiente.setNomeAmbiente(ambienteDTO.getNomeAmbiente());
         ambiente.setDescricaoAmbiente(ambienteDTO.getDescricaoAmbiente());
 
         return ambienteRepository.save(ambiente);

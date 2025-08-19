@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AmbienteDTO {
-    private String nomeAmbiente;
+    private Long numAmbiente;
     private String descricaoAmbiente;
 }

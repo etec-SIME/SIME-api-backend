@@ -84,7 +84,7 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_ambiente, id_tipo_chamado
+	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_ambiente, id_tipo_chamado
 ) VALUES
 ('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
 	'Computador quebrado', '345678', '234567', 2, 1),
