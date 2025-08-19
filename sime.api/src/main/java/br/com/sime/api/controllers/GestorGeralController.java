@@ -1,6 +1,7 @@
 package br.com.sime.api.controllers;
 
 import br.com.sime.api.entities.chamados.Chamado;
+import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.services.GestorGeralService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/gestor-geral")
-public class GestorGeralController {
+public class GestorGeralController{
     @Autowired
     private GestorGeralService gestorGeralService;
 
@@ -30,14 +31,14 @@ public class GestorGeralController {
     }
 
     @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/aceitar")
-    public ResponseEntity<Void> aceitarChamado(@PathVariable String rmGestor,@PathVariable Long idChamado){
-        gestorGeralService.aceitarChamado(idChamado);
+    public ResponseEntity<Void> aceitarChamado(@PathVariable String rmGestor, @PathVariable Long idChamado){
+        gestorGeralService.aceitarChamado(rmGestor, idChamado);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/gestores/{rmGestor}/chamados/{idChamado}/recusar")
+    @DeleteMapping("/gestores/{rmGestor}/chamados/{idChamado}/recusar")
     public ResponseEntity<String> recusarChamado(@PathVariable String rmGestor, @PathVariable Long idChamado, @RequestBody String msgRecusa){
-        gestorGeralService.recusarChamado(idChamado, msgRecusa);
+        gestorGeralService.recusarChamado(rmGestor, idChamado, msgRecusa);
         return new ResponseEntity<>(msgRecusa, HttpStatus.OK);
     }
 }
