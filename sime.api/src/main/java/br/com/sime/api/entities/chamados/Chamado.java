@@ -4,6 +4,7 @@ import br.com.sime.api.entities.escola.Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,30 +19,38 @@ public class Chamado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_chamado", nullable = false)
+    @Schema(example = "1")
     private Long idChamado;
 
     @Column(name = "dt_abertura_chamado")
+    @Schema(example = "18/08/2025")
     private LocalDateTime dtAberturaChamado;
 
     @Column(name = "desc_chamado", length = 450)
+    @Schema(example = "Computador quebrado no laboratório 2")
     private String descChamado;
 
     @Column(name = "dt_conclusao_chamado")
+    @Schema(example = "26/08/2025")
     private LocalDateTime dtConclusaoChamado;
 
     @Column(name = "img_chamado")
     private String imgChamado;
 
     @Column(name = "local_chamado")
+    @Schema(example = "Laboratório 2")
     private String localChamado;
 
     @Column(name = "titulo_chamado")
+    @Schema(example = "Computador quebrado")
     private String tituloChamado;
 
     @Column(name = "status_chamado", nullable = false)
+    @Schema(example = "Pendente")
     private String statusChamado;
 
     @Column(name = "prioridade_chamado", nullable = false)
+    @Schema(example = "Média")
     private String prioridadeChamado;
 
     @ManyToOne

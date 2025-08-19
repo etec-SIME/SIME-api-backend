@@ -27,6 +27,11 @@ public class ChamadoController {
     @Autowired
     private ChamadoService chamadoService;
 
+    @Operation(summary = "Chama todos os chamados", description = "Exibe a lista de todos os chamdos cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "requisição realizada com sucesso!"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
+    })
     @PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<Chamado>> getAllChamados() {
@@ -45,12 +50,22 @@ public class ChamadoController {
         return new ResponseEntity<>(chamado, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Define prioridade ao chamado", description = "Define uma prioridade ao chamado criado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Prioridade atribuida com sucesso!"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
+    })
     @GetMapping("/prioridade")
     public ResponseEntity<List<ChamadoCardDTO>> getChamadosByPrioridade(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeChamado(prioridade);
         return ResponseEntity.ok(chamados);
     }
 
+    @Operation(summary = "Chama o chamado por prioridade e status", description = "Exibe a lsita de chamados separando-os por prioridade e status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Requisição exibida com sucesso!"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
+    })
     @GetMapping("/prioridade/concluidos")
     public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status")StatusChamadoEnum status) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeStatusChamado(prioridade, status);
