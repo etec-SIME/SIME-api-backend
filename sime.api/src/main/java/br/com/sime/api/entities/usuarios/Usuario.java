@@ -6,6 +6,7 @@ import br.com.sime.api.entities.chamados.Feedback;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -13,22 +14,28 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Usuario")
+@Schema(description = "Dados dos usuários")
 public class Usuario {
 
     @Id
     @Column(name = "rm_usuario", length = 6, columnDefinition = "CHAR(6)", nullable = false)
+    @Schema(example = "231715")
     private String rmUsuario;
 
     @Column(name = "chamados_abertos", length = 3, columnDefinition = "CHAR(3)")
+    @Schema(example = "4")
     private String chamadosAbertos;
 
     @Column(name = "chamados_concluidos", length = 3, columnDefinition = "CHAR(3)")
+    @Schema(example = "2")
     private String chamadosConcluidos;
 
     @Column(name = "email_usuario", length = 50)
+    @Schema(example = "exemplo@gmail.com")
     private String emailUsuario;
 
     @Column(name = "nome_usuario", length = 30)
+    @Schema(example = "Pedro")
     private String nomeUsuario;
 
     @JsonIgnore

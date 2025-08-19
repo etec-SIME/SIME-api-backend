@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "Equipamento")
+@Schema(description = "Dados dos equipamentos")
 public class Equipamento {
 
     @Id
@@ -17,6 +18,6 @@ public class Equipamento {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "Tecnológico")
+    @JoinColumn(name = "id_tipo_equipamento")
     private TipoEquipamento tipoEquipamento;
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Ambiente")
+@Schema(description = "Dados dos Ambientes")
 public class Ambiente {
 
     @Id

@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Tipo_equipamento")
+@Schema(description = "Dados de tipo de equipamento")
+
 public class TipoEquipamento {
 
     @Id
