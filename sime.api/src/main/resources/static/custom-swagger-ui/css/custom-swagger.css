@@ -22,3 +22,8 @@
   color: #334155;
   font-weight: bold;
 }
+
+.criteria {
+    width: 250px;
+    height: 250px;
+}
