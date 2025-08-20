@@ -1,6 +1,7 @@
 package br.com.sime.api.entities.chamados;
 
-import br.com.sime.api.entities.escola.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -56,15 +57,15 @@ public class Chamado {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "id_ambiente")
-    private Ambiente ambiente;
-
-    @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "id_tipo_chamado")
     private TipoChamado tipoChamado;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_ambiente")
+    private Tipo_Ambiente tipoAmbiente;
 
     @OneToMany(mappedBy = "chamado")
     @JsonManagedReference
     private List<Feedback> feedbackList;
+
 }

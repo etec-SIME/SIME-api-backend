@@ -1,6 +1,6 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
-import br.com.sime.api.entities.escola.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;

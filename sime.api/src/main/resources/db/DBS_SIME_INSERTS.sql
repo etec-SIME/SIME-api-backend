@@ -56,9 +56,9 @@ INSERT INTO Ambiente (desc_ambiente, nome_ambiente) VALUES
 ('Sala com projetor', 'Sala 101');
 
 -- TIPO EQUIPAMENTO
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, img_tipo_equipamento, id_ambiente) VALUES 
-('Computador', 'pc.png', 1),
-('Projetor', 'projetor.png', 2);
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente) VALUES
+('Computador', 1),
+('Projetor', 2);
 
 -- CONTEM
 INSERT INTO Contem VALUES 
@@ -78,13 +78,24 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_ambiente, id_tipo_chamado
+	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
 ) VALUES
 ('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
 	'Computador quebrado', '345678', '234567', 1, 1),
 ('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informática',
-	'Monitor foi rachado', '345678', '234567', 1, 2);
+	'Monitor foi rachado', '345678', '234567', 2, 1);
 
 -- FEEDBACK
 INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
 (GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Funcionário', 1, '345678');
+
+-- TIPO AMBIENTE
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
+('Laboratório'),
+('Sala de Aula'),
+('Auditório'),
+('Biblioteca');
+
+INSERT INTO Tem VALUES
+(1, 1),
+(2, 2);
