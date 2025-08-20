@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GestorGeralService {
+public class GestorGeralService{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -44,7 +44,10 @@ public class GestorGeralService {
         chamadoRepository.save(chamado);
     }
 
-    public void aceitarChamado(Long idChamado){
+    public void aceitarChamado(String rmGestor, Long idChamado){
+        Usuario gestor = usuarioRepository.findById(rmGestor)
+                .orElseThrow(() -> new NotFoundException("Gestor não encontrado com ID: " + rmGestor));
+
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 
@@ -53,7 +56,10 @@ public class GestorGeralService {
         chamadoRepository.save(chamado);
     }
 
-    public String recusarChamado(Long idChamado, String msgRecusa){
+    public String recusarChamado(String rmGestor, Long idChamado, String msgRecusa){
+        Usuario gestor = usuarioRepository.findById(rmGestor)
+                .orElseThrow(() -> new NotFoundException("Gestor não encontrado com ID: " + rmGestor));
+
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 

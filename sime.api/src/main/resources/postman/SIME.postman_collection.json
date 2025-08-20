@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "15126b80-41c0-48c4-8c5e-e1471ee68b57",
+		"name": "SIME",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42614561"
+	},
+	"item": [
+		{
+			"name": "ChamadoController",
+			"item": [
+				{
+					"name": "criarChamado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVmlzdWFsaXphciBDaGFtYWRvIn0seyJhdXRob3JpdHkiOiJFZGl0YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQ3JpYXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQWRtaW4ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1MzU3MDk1OCwiZXhwIjoxNzUzNjU3MzU4fQ.1PNbMN26dOt_UqthZ9nmL5kykmMuFtnx7JI4vxwWdNo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tituloChamado\": \"Problema no projetor\",\r\n  \"descChamado\": \"O projetor da sala 101 não está ligando\",\r\n  \"localChamado\": \"Sala 101\",\r\n  \"emailUsuario\": \"usuario@email.com\",\r\n  \"tipoChamado\": \"Problema Técnico\",\r\n  \"imgChamado\": \"base64ouURLdaImagem\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/chamados/123456/chamado",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"123456",
+								"chamado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllChamados",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllChamadosByPrioridade",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/prioridade?prioridade=BAIXA_PRIORIDADE",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"prioridade"
+							],
+							"query": [
+								{
+									"key": "prioridade",
+									"value": "BAIXA_PRIORIDADE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FuncionarioController",
+			"item": [
+				{
+					"name": "getAllChamadosPendentes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/funcionarios/pendentes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"funcionarios",
+								"pendentes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllFuncionarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/funcionarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"funcionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllChamadosConcluidos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/funcionarios/concluidos",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"funcionarios",
+								"concluidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UsuarioController",
+			"item": [
+				{
+					"name": "getAllUsuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVmlzdWFsaXphciBDaGFtYWRvIn0seyJhdXRob3JpdHkiOiJFZGl0YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQ3JpYXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQWRtaW4ifV0sImlhdCI6MTc1MjYxMDQ3MSwiZXhwIjoxNzUyNjk2ODcxfQ.yCLeJV_zk5lAG3v3HERVAa5OuvTwb2tPWGvgj1yl-bs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/usuarios",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login - admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rmUsuario\": \"123456\",\r\n  \"idTipoPerfil\": 1,\r\n  \"senhaUsuario\": \"admin123\",\r\n  \"codEscola\": \"E01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login - departamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rmUsuario\": \"234567\",\r\n  \"idTipoPerfil\": 2,\r\n  \"senhaUsuario\": \"tec123\",\r\n  \"codEscola\": \"E01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/usuarios/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EscolaController",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codEscola\": \"E01\",\r\n  \"cnpjEscola\": \"12345678000100\",\r\n  \"senhaEscola\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escolas/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escolas",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GestorDepartamentoController",
+			"item": [
+				{
+					"name": "getUsuariosByTipoPerfilAndDepartamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/gestor-departamento?departamentoId=2&idTipoPerfil=2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"gestor-departamento"
+							],
+							"query": [
+								{
+									"key": "departamentoId",
+									"value": "2"
+								},
+								{
+									"key": "idTipoPerfil",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "visualizarChamadoDepartamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/gestor-departamento/gestores/123456/chamados",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"gestor-departamento",
+								"gestores",
+								"123456",
+								"chamados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "definirPrioridadeChamado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/gestor-departamento/gestores/234567/chamados/1/prioridade?novaPrioridade=BAIXA_PRIORIDADE\n",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"gestor-departamento",
+								"gestores",
+								"234567",
+								"chamados",
+								"1",
+								"prioridade"
+							],
+							"query": [
+								{
+									"key": "novaPrioridade",
+									"value": "BAIXA_PRIORIDADE\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enviarFeedback",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "Quiteria dammage",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/gestor-departamento/gestores/234567/chamados/1/feedback",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"gestor-departamento",
+								"gestores",
+								"234567",
+								"chamados",
+								"1",
+								"feedback"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8080",
+			"type": "default"
+		}
+	]
+}

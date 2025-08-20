@@ -1,7 +1,8 @@
-package br.com.sime.api.entities.escola;
+package br.com.sime.api.entities.escola.ambiente;
 
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -29,9 +30,10 @@ public class Ambiente {
     @Schema(example = "Laboratório 2")
     private String nomeAmbiente;
 
-    @OneToMany(mappedBy = "ambiente")
-    @JsonManagedReference
-    private List<Chamado> chamadosList;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "id_tipo_ambiente")
+    private Tipo_Ambiente tipoAmbiente;
 
     @ManyToMany
     @JsonManagedReference
