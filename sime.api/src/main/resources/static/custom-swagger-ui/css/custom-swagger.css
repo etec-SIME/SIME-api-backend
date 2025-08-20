@@ -1,0 +1,24 @@
+/* muda a fonte do swagger */
+.swagger-ui {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+/* cor de fundo do header */
+.swagger-ui .topbar {
+  background-color: #1e293b; /* azul escuro */
+}
+
+/* cor dos botões */
+.swagger-ui .btn {
+  background-color: #2563eb; /* azul */
+  border-radius: 8px;
+  color: white;
+}
+
+/* títulos maiores */
+.swagger-ui h2,
+.swagger-ui h3 {
+  color: #334155;
+  font-weight: bold;
+}

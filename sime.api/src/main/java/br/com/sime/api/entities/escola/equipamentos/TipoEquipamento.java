@@ -26,13 +26,6 @@ public class TipoEquipamento {
     @Schema(example = "Ventilador")
     private String nomeTipoEquipamento;
 
-<<<<<<< HEAD
-    @Column(name = "img_tipo_equipamento")
-    @Schema(example = "*imagem*")
-    private String imgTipoEquipamento;
-
-=======
->>>>>>> 17680922dadb664d43e7b9233c9bc3544f0b4d0e
     @OneToMany(mappedBy = "tipoEquipamento")
     @JsonManagedReference
     private List<Equipamento> equipamentoList;
