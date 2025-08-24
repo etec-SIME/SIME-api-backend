@@ -71,9 +71,9 @@ CREATE TABLE Conduz (
 	FOREIGN KEY(id_departamento) REFERENCES Departamento (id_departamento)
 )
 
-CREATE TABLE Tipo_ambiente (
-	id_tipo_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY ,
-	nome_tipo_ambiente VARCHAR(50),
+CREATE TABLE Tipo_Ambiente (
+    id_tipo_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY,
+    nome_tipo_ambiente VARCHAR(50)
 )
 
 CREATE TABLE Ambiente (
@@ -81,13 +81,12 @@ CREATE TABLE Ambiente (
 	num_ambiente BIGINT,
 	desc_ambiente VARCHAR(450),
 	id_tipo_ambiente BIGINT,
-	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_ambiente(id_tipo_ambiente)
+	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente)
 )
 
 CREATE TABLE Tipo_equipamento (
 	id_tipo_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_equipamento VARCHAR(50),
-	img_tipo_equipamento VARCHAR(255),
 	id_ambiente BIGINT,
 	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente)
 )
@@ -101,7 +100,7 @@ CREATE TABLE Contem (
 )
 
 CREATE TABLE Equipamento (
-	cod_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
+	cod_equipamento BIGINT PRIMARY KEY,
 	id_tipo_equipamento BIGINT,
 	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento)
 )
@@ -125,13 +124,13 @@ CREATE TABLE Chamado (
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
 	rm_usuario_responsavel CHAR(6),
-	id_tipo_ambiente BIGINT,
 	id_tipo_chamado BIGINT,
+	id_tipo_ambiente BIGINT,
 
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
-	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_ambiente (id_tipo_ambiente),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
+	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente),
 	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
 	CHECK (status_chamado IN ('Aguardando Aprovação', 'Concluído', 'Pendente'))
 )
@@ -148,7 +147,11 @@ CREATE TABLE Feedback (
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario)
 )
 
-ALTER TABLE Usuario ADD DTYPE VARCHAR(31);
-ALTER TABLE Usuario ADD cpf_usuario CHAR(11);
-DROP DATABASE DBS_SIME
+CREATE TABLE Tem (
+    id_ambiente BIGINT,
+    id_tipo_equipamento BIGINT,
+    FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente)
+)
 
+ALTER TABLE Usuario ADD DTYPE VARCHAR(31)
+DROP DATABASE DBS_SIME

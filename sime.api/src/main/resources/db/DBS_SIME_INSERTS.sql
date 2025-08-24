@@ -56,15 +56,14 @@ INSERT INTO Tipo_ambiente (nome_tipo_ambiente) VALUES
 ('Laboratório');
 
 -- AMBIENTE
-INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES 
-(1, 'Sala com projetor', 1),
-(1, 'Laboratório com 20 computadores', 2);
-
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES
+(1, 'Laboratário com 20 computadores', 1),
+(2, 'Sala com projetor', 2);
 
 -- TIPO EQUIPAMENTO
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, img_tipo_equipamento, id_ambiente) VALUES 
-('Projetor', 'projetor.png', 1),
-('Computador', 'pc.png', 2);
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente) VALUES
+('Computador', 1),
+('Projetor', 2);
 
 -- CONTEM
 INSERT INTO Contem VALUES 
@@ -72,9 +71,9 @@ INSERT INTO Contem VALUES
 (2, 2);
 
 -- EQUIPAMENTO
-INSERT INTO Equipamento (id_tipo_equipamento) VALUES 
-(1), 
-(2);
+INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
+(123, 1),
+(456, 2);
 
 -- TIPO CHAMADO
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES 
@@ -84,13 +83,24 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_ambiente, id_tipo_chamado
+	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
 ) VALUES
 ('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
-	'Computador quebrado', '345678', '234567', 2, 1),
+	'Computador quebrado', '345678', '234567', 1, 1),
 ('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informática',
-	'Monitor foi rachado', '345678', '234567', 2, 2);
+	'Monitor foi rachado', '345678', '234567', 2, 1);
 
 -- FEEDBACK
 INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
 (GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Funcionário', 1, '345678');
+
+-- TIPO AMBIENTE
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
+('Laboratório'),
+('Sala de Aula'),
+('Auditório'),
+('Biblioteca');
+
+INSERT INTO Tem VALUES
+(1, 1),
+(2, 2);

@@ -35,7 +35,6 @@ public class TipoEquipamentoService {
 
         TipoEquipamento tipoEquipamento = new TipoEquipamento();
         tipoEquipamento.setNomeTipoEquipamento(dto.getNomeTipoEquipamento());
-        tipoEquipamento.setImgTipoEquipamento(dto.getImgTipoEquipamento());
 
         return tipoEquipamentoRepository.save(tipoEquipamento);
     }
@@ -45,7 +44,6 @@ public class TipoEquipamentoService {
                 .orElseThrow(()-> new NotFoundException("Tipo equipamento de ID: " + idTipoEquipamento + "não encontrado"));
 
         tipoEquipamento.setNomeTipoEquipamento(tipoEquipamentoDTO.getNomeTipoEquipamento());
-        tipoEquipamento.setImgTipoEquipamento(tipoEquipamentoDTO.getImgTipoEquipamento());
         return tipoEquipamentoRepository.save(tipoEquipamento);
     }
 

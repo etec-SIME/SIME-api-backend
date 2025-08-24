@@ -71,31 +71,38 @@ public class ChamadoService {
     }
 
     public List<ChamadoCardDTO> getByPrioridadeStatusChamado(PrioridadeChamadoEnum prioridade, StatusChamadoEnum status) {
-        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamadoAndStatusChamado(prioridade.getDescricao(), status.getDescricao());
+        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamadoAndStatusChamado(
+                prioridade.getDescricao(), status.getDescricao());
 
-        if(chamados.isEmpty()) {
-            throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado com a prioridade e status: " + prioridade.getDescricao() + status.getDescricao());
+        if (chamados.isEmpty()) {
+            throw new NotFoundException(
+                    "Chamado não encontrado",
+                    String.format("Nenhum chamado encontrado com a prioridade [%s] e status [%s]",
+                            prioridade.getDescricao(),
+                            status.getDescricao())
+            );
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        return chamados.stream()
-                .map(chamado -> new ChamadoCardDTO(
-                        chamado.getIdChamado(),
-                        chamado.getDtAberturaChamado().format(formatter),
-                        chamado.getDescChamado(),
-                        chamado.getLocalChamado(),
-                        chamado.getPrioridadeChamado(),
-                        chamado.getStatusChamado()
-                ))
-                .toList();
+        return mapToChamadoCardDTOList(chamados);
     }
 
     public List<ChamadoCardDTO> getByPrioridadeChamado(PrioridadeChamadoEnum prioridade) {
         List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamado(prioridade.getDescricao());
 
-        if(chamados.isEmpty()) {
-            throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado com a prioridade: " + prioridade.getDescricao());
+        if (chamados.isEmpty()) {
+            throw new NotFoundException(
+                    "Chamado não encontrado",
+                    String.format("Nenhum chamado encontrado com a prioridade [%s]", prioridade.getDescricao())
+            );
+        }
+
+        return mapToChamadoCardDTOList(chamados);
+    }
+
+    //Método auxiliar
+    public List<ChamadoCardDTO> mapToChamadoCardDTOList(List<Chamado> chamados) {
+        if (chamados.isEmpty()) {
+            throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado");
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

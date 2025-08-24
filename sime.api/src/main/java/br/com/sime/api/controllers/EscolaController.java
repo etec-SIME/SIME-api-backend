@@ -1,7 +1,8 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
-import br.com.sime.api.entities.escola.ambientes.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -53,6 +54,9 @@ public class EscolaController {
     @Autowired
     private TipoChamadoService tipoChamadoService;
 
+    @Autowired
+    private TipoAmbienteService tipoAmbienteService;
+
     @PostMapping("login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginEscolaDTO login) {
         TokenDTO token = escolaService.loginEscola(login);
@@ -102,6 +106,12 @@ public class EscolaController {
     public ResponseEntity<List<TipoChamadoResponseDTO>> getAllTipoChamado() {
         List<TipoChamadoResponseDTO> tipoChamadoResponseDTOList = tipoChamadoService.getAllTipoChamado();
         return new ResponseEntity<>(tipoChamadoResponseDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("/tipo-ambiente")
+    public ResponseEntity<List<Tipo_Ambiente>> getAllTipoAmbiente(){
+        List<Tipo_Ambiente> tipoAmbienteList = tipoAmbienteService.getAllTipoAmbiente();
+        return new ResponseEntity<>(tipoAmbienteList, HttpStatus.OK);
     }
 
     // --- GETs - consultar listas ---
@@ -164,6 +174,12 @@ public class EscolaController {
         return new ResponseEntity<>(tipoChamadoResponseDTO, HttpStatus.CREATED);
     }
 
+    @PostMapping("/tipo-ambiente")
+    public ResponseEntity<?> criarTipoAmbiente(@Valid @RequestBody TipoAmbienteDTO tipoAmbienteDTO){
+        Tipo_Ambiente tipoAmbiente = tipoAmbienteService.criarTipoAmbiente(tipoAmbienteDTO);
+        return new ResponseEntity<>(tipoAmbiente, HttpStatus.CREATED);
+    }
+
     // --- PUTs - atribuição ---
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}/permissao")
@@ -214,5 +230,11 @@ public class EscolaController {
     public  ResponseEntity<?> editarAmbiente(@PathVariable Long idAmbiente, @Valid @RequestBody AmbienteDTO ambienteDTO ){
         Ambiente ambienteAtualizado = ambienteService.editarAmbiente(idAmbiente, ambienteDTO);
         return new ResponseEntity<>(ambienteAtualizado, HttpStatus.OK);
+    }
+
+    @PutMapping("/tipo-ambiente/{idTipoAmbiente}")
+    public ResponseEntity<?> editarTipoAmbiente(@PathVariable Long idTipoAmbiente, @Valid @RequestBody TipoAmbienteDTO tipoAmbienteDTO){
+        Tipo_Ambiente tipoAmbienteAtualizado = tipoAmbienteService.editarTipoAmbiente(idTipoAmbiente, tipoAmbienteDTO);
+        return new ResponseEntity<>(tipoAmbienteAtualizado, HttpStatus.OK);
     }
 }

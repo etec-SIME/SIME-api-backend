@@ -1,5 +1,4 @@
-package br.com.sime.api.entities.escola.ambientes;
-
+package br.com.sime.api.entities.escola.ambiente;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,14 +24,10 @@ public class Ambiente {
     @Column(name = "desc_ambiente", length = 450, nullable = false)
     private String descricaoAmbiente;
 
-    // @OneToMany(mappedBy = "ambiente")
-    // @JsonManagedReference
-    //private List<Chamado> chamadosList;
-
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "id_tipo_ambiente")
-    private TipoAmbiente tipoAmbiente;
+    private Tipo_Ambiente tipoAmbiente;
 
     @ManyToMany
     @JsonManagedReference

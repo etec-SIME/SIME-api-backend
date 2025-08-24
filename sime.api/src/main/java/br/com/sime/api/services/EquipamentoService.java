@@ -29,7 +29,7 @@ public class EquipamentoService {
                     .map( equipamento ->{
                         EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
                         equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-                        equipamentoResponseDTO.setTipoEquipamento(equipamento.getTipoEquipamento());
+                        equipamentoResponseDTO.setIdtipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
                         return equipamentoResponseDTO;}).collect(Collectors.toList());
 
         }catch (Exception e){
@@ -56,7 +56,7 @@ public class EquipamentoService {
 
         EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
         equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-        equipamentoResponseDTO.setTipoEquipamento(equipamento.getTipoEquipamento());
+        equipamentoResponseDTO.setIdtipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
 
         return equipamentoResponseDTO;
     }
@@ -75,7 +75,7 @@ public class EquipamentoService {
 
         EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
         equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-        equipamentoResponseDTO.setTipoEquipamento(equipamento.getTipoEquipamento());
+        equipamentoResponseDTO.setIdtipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
         return equipamentoResponseDTO;
     }
 }
