@@ -67,7 +67,7 @@ public class ChamadoController {
             @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
     })
     @GetMapping("/prioridade/concluidos")
-    public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status")StatusChamadoEnum status) {
+    public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status") StatusChamadoEnum status) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeStatusChamado(prioridade, status);
         return ResponseEntity.ok(chamados);
     }
