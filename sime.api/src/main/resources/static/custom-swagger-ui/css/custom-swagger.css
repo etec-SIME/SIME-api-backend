@@ -1,29 +1,63 @@
 /* muda a fonte do swagger */
 .swagger-ui {
-  font-family: 'Roboto', sans-serif;
+  background-color: #FDFFFD;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
 }
 
 /* cor de fundo do header */
 .swagger-ui .topbar {
-  background-color: #1e293b; /* azul escuro */
+  background-color: #44A1A0; /* cor do sime */
+  padding: 10px 20px;
+}
+
+/*sime docs*/
+.swagger-ui .topbar .topbar-wrapper span {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+/* tamanho da logo */
+.swagger-ui .topbar a img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.swagger-ui .info a {
+    color: #44A1A0;
+    font-weight: bold;
 }
 
 /* cor dos botões */
 .swagger-ui .btn {
-  background-color: #2563eb; /* azul */
-  border-radius: 8px;
-  color: white;
+  background-color: #44A1A0; /* cor do sime */
+  color: #fff;
+  /*border-radius: 8px;*/
+  text-transform: uppercase;
+  font-weight 300;
+  transition: all 0.3s ease;
+}
+
+.swagger-ui .btn: hover {
+    background: #ff000
 }
 
 /* títulos maiores */
 .swagger-ui h2,
 .swagger-ui h3 {
-  color: #334155;
+  color: #000;
   font-weight: bold;
 }
 
-.criteria {
-    width: 250px;
-    height: 250px;
+.swagger-ui .opblock-tag {
+    font-size: 18px;
+    font-weight: 600;
+    background: #ff000;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
