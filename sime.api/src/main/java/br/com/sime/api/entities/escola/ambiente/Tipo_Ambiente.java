@@ -21,10 +21,8 @@ public class Tipo_Ambiente {
     private String nomeTipoAmbiente;
 
     @OneToMany(mappedBy = "tipoAmbiente")
-    @JsonManagedReference
     private List<Chamado> chamadosList;
 
     @OneToMany(mappedBy = "tipoAmbiente")
-    @JsonManagedReference
     private List<Ambiente> ambienteList;
 }
