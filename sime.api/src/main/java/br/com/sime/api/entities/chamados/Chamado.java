@@ -1,5 +1,4 @@
 package br.com.sime.api.entities.chamados;
-
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
 import br.com.sime.api.entities.usuarios.Usuario;
@@ -62,6 +61,7 @@ public class Chamado {
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_ambiente")
+    @JsonBackReference
     private Tipo_Ambiente tipoAmbiente;
 
     @OneToMany(mappedBy = "chamado")
