@@ -38,11 +38,11 @@ INSERT INTO Usuario VALUES
 ('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
 ('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
 ('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3),
-('456789', '1', '0', 'func@etec.com', 'Funcion�rio User', 'func123', '11666666666', '11677228910', 3);
+('456789', '1', '0', 'func@etec.com', 'Funcionário User', 'func123', '11666666666', '11677228910', 3);
 
 -- DEPARTAMENTO
 INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 
-('TI', 'Departamento de Tecnologia da Informa��o'),
+('TI', 'Departamento de Tecnologia da Informação'),
 ('Manutenção', 'Responsável por reparos físicos');
 
 -- CONDUZ
@@ -50,10 +50,15 @@ INSERT INTO Conduz VALUES
 ('123456', 1), 
 ('234567', 2);
 
+-- TIPO AMBIENTE
+INSERT INTO Tipo_ambiente (nome_tipo_ambiente) VALUES 
+('Sala'),
+('Laboratório');
+
 -- AMBIENTE
-INSERT INTO Ambiente (desc_ambiente, nome_ambiente) VALUES 
-('Laborat�rio com 20 computadores', 'Lab de Informática'),
-('Sala com projetor', 'Sala 101');
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES
+(1, 'Laboratário com 20 computadores', 1),
+(2, 'Sala com projetor', 2);
 
 -- TIPO EQUIPAMENTO
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente) VALUES
@@ -66,14 +71,14 @@ INSERT INTO Contem VALUES
 (2, 2);
 
 -- EQUIPAMENTO
-INSERT INTO Equipamento (id_tipo_equipamento) VALUES 
-(1), 
-(2);
+INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
+(123, 1),
+(456, 2);
 
 -- TIPO CHAMADO
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES 
-('Problema Tácnico', 1),
-('Reparo Elátrico', 2);
+('Problema Técnico', 1),
+('Reparo Elétrico', 2);
 
 -- CHAMADO
 INSERT INTO Chamado (

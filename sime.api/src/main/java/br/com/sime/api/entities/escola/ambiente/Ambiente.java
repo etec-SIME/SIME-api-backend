@@ -1,5 +1,4 @@
 package br.com.sime.api.entities.escola.ambiente;
-
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -19,11 +18,11 @@ public class Ambiente {
     @Column(name = "id_ambiente", nullable = false)
     private Long idAmbiente;
 
+    @Column(name = "num_ambiente",  nullable = false)
+    private Long numAmbiente;
+
     @Column(name = "desc_ambiente", length = 450, nullable = false)
     private String descricaoAmbiente;
-
-    @Column(name = "nome_ambiente", length = 50, nullable = false)
-    private String nomeAmbiente;
 
     @ManyToOne
     @JsonBackReference
