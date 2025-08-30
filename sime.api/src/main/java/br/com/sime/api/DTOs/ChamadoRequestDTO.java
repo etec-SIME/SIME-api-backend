@@ -4,30 +4,32 @@ import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Data
-public class ChamadoRequestDTO {
+public record ChamadoRequestDTO (
     @NotBlank(message = "Título do chamado é obrigatório")
-    private String tituloChamado;
+    String tituloChamado,
 
     @NotBlank(message = "Descrição do chamado é obrigatória")
-    private String descChamado;
-
-    @NotBlank(message = "Local do chamado é obrigatório")
-    private String localChamado;
+    String descChamado,
 
     @NotBlank(message = "Email do usuário é obrigatório")
     @Email(message = "Email inválido")
-    private String emailUsuario;
-
-    @NotBlank(message = "Tipo de chamado é obrigatório")
-    private String tipoChamado;
+    String emailUsuario,
 
     @NotBlank(message = "Imagem do chamado é obrigatória")
-    private String imgChamado;
+    String imgChamado,
 
-    private StatusChamadoEnum statusChamado;
+    @NotNull
+    Long idTipoChamado,
 
-    private PrioridadeChamadoEnum prioridadeChamado;
-}
+    @NotNull
+    String codEquipamento,
+
+    @NotNull
+    Long tipoAmbienteId,
+
+    @NotNull
+    Long idAmbiente
+) {}

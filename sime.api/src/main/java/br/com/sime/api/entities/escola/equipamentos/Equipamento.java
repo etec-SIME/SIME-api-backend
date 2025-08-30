@@ -11,7 +11,7 @@ public class Equipamento {
 
     @Id
     @Column(name = "cod_equipamento", nullable = false)
-    private Long codEquipamento;
+    private String codEquipamento;
 
     @ManyToOne
     @JsonBackReference

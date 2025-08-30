@@ -5,15 +5,15 @@ import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.chamados.Feedback;
 import br.com.sime.api.entities.chamados.TipoChamado;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
 import br.com.sime.api.exceptions.NotFoundException;
-import br.com.sime.api.repositories.ChamadoRepository;
-import br.com.sime.api.repositories.FeedbackRepository;
-import br.com.sime.api.repositories.TipoChamadoRepository;
-import br.com.sime.api.repositories.UsuarioRepository;
+import br.com.sime.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,16 @@ public class ChamadoService {
     private ChamadoRepository chamadoRepository;
 
     @Autowired
+    private EquipamentoRepository equipamentoRepository;
+
+    @Autowired
     private TipoChamadoRepository tipoChamadoRepository;
+
+    @Autowired
+    private TipoAmbienteRepository tipoAmbienteRepository;
+
+    @Autowired
+    private AmbienteRepository ambienteRepository;
 
     @Autowired
     private FeedbackRepository feedbackRepository;
@@ -43,26 +52,53 @@ public class ChamadoService {
         }
     }
 
-    public Chamado criarChamado(String rmUsuario, ChamadoRequestDTO dto) {
+    public void criarChamado(String rmUsuario, ChamadoRequestDTO dto) {
         Usuario usuario = usuarioRepository.findByRmUsuario(rmUsuario)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
 
-        TipoChamado tipoChamado = tipoChamadoRepository.findByNomeTipoChamadoIgnoreCase(dto.getTipoChamado())
-                .orElseThrow(() -> new NotFoundException("Tipo de chamado não encontrado", "Tipo: " + dto.getTipoChamado()));
+        TipoChamado tipoChamado = tipoChamadoRepository.findById(dto.idTipoChamado())
+                .orElseThrow(() -> new NotFoundException("Tipo de chamado não encontrado", "Id: " + dto.idTipoChamado()));
+
+        TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.tipoAmbienteId())
+                .orElseThrow(() -> new NotFoundException("Tipo de ambiente não encontrado", "Id: " + dto.tipoAmbienteId()));
+
+        Ambiente ambiente = ambienteRepository.findById(dto.idAmbiente())
+                .orElseThrow(() -> new RuntimeException("Ambiente não encontrado"));
+
+        Equipamento equipamento = equipamentoRepository.findByCodEquipamento(dto.codEquipamento())
+                .orElseThrow(() -> new NotFoundException("Equipamento não encontrado", "Código do equipamento: " + dto.codEquipamento()));
+
+        if (!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
+            throw new NotFoundException("O ambiente não corresponde ao tipo de ambiente selecionado");
+        }
+
+        if (!equipamento.getTipoEquipamento().getAmbienteList().contains(ambiente)) {
+            throw new NotFoundException("Equipamento não pertence ao ambiente selecionado");
+        }
+
+        boolean tipoChamadoValido = equipamento.getTipoEquipamento()
+                .getAmbienteList()
+                .stream()
+                .flatMap(a -> a.getTipoAmbiente().getChamadosList().stream())
+                .map(Chamado::getTipoChamado)
+                .anyMatch(tc -> tc.getIdTipoChamado().equals(tipoChamado.getIdTipoChamado()));
+
+        if (!tipoChamadoValido) {
+            throw new NotFoundException("Equipamento não é compatível com o tipo de chamado selecionado");
+        }
 
         Chamado chamado = new Chamado();
-        chamado.setTituloChamado(dto.getTituloChamado());
-        chamado.setDescChamado(dto.getDescChamado());
-        chamado.setLocalChamado(dto.getLocalChamado());
+        chamado.setTituloChamado(dto.tituloChamado());
+        chamado.setDescChamado(dto.descChamado());
         chamado.setUsuario(usuario);
-        chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
-        chamado.setImgChamado(dto.getImgChamado());
+        chamado.setImgChamado(dto.imgChamado());
         chamado.setTipoChamado(tipoChamado);
+        chamado.setTipoAmbiente(tipoAmbiente);
         chamado.setDtAberturaChamado(LocalDateTime.now());
         chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
-        return chamadoRepository.save(chamado);
+        chamadoRepository.save(chamado);
     }
 
     public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
@@ -112,7 +148,6 @@ public class ChamadoService {
                         chamado.getIdChamado(),
                         chamado.getDtAberturaChamado().format(formatter),
                         chamado.getDescChamado(),
-                        chamado.getLocalChamado(),
                         chamado.getPrioridadeChamado(),
                         chamado.getStatusChamado()
                 ))

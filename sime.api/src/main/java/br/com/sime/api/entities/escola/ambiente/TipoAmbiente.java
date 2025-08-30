@@ -1,7 +1,6 @@
 package br.com.sime.api.entities.escola.ambiente;
 
 import br.com.sime.api.entities.chamados.Chamado;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Tipo_Ambiente")
-public class Tipo_Ambiente {
+public class TipoAmbiente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
