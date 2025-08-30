@@ -61,9 +61,9 @@ INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES
 (2, 'Sala com projetor', 2);
 
 -- TIPO EQUIPAMENTO
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente) VALUES
-('Computador', 1),
-('Projetor', 2);
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES
+('Computador', 1, 1),
+('Projetor', 2, 2);
 
 -- CONTEM
 INSERT INTO Contem VALUES 

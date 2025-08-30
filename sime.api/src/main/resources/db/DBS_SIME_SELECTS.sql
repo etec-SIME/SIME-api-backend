@@ -23,3 +23,11 @@ INNER JOIN Chamado c
 	ON c.id_tipo_ambiente = ta.id_tipo_ambiente
 INNER JOIN Tipo_Chamado tc
 	ON tc.id_tipo_chamado = c.id_tipo_chamado
+
+
+SELECT u.rm_usuario, u.id_tipo_perfil, u.senha_usuario, es.cod_escola
+FROM Usuario u
+JOIN Tipo_perfil tp ON u.id_tipo_perfil = tp.id_tipo_perfil
+JOIN Cadastra cd ON tp.id_tipo_perfil = cd.id_tipo_perfil
+JOIN Escola es ON cd.cod_escola = es.cod_escola
+

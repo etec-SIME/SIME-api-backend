@@ -1,5 +1,6 @@
 package br.com.sime.api.entities.escola.equipamentos;
 
+import br.com.sime.api.entities.chamados.TipoChamado;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;

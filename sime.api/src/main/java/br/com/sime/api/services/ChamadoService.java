@@ -76,15 +76,8 @@ public class ChamadoService {
             throw new NotFoundException("Equipamento não pertence ao ambiente selecionado");
         }
 
-        boolean tipoChamadoValido = equipamento.getTipoEquipamento()
-                .getAmbienteList()
-                .stream()
-                .flatMap(a -> a.getTipoAmbiente().getChamadosList().stream())
-                .map(Chamado::getTipoChamado)
-                .anyMatch(tc -> tc.getIdTipoChamado().equals(tipoChamado.getIdTipoChamado()));
-
-        if (!tipoChamadoValido) {
-            throw new NotFoundException("Equipamento não é compatível com o tipo de chamado selecionado");
+        if (!tipoChamado.getTipoEquipamentoList().contains(equipamento.getTipoEquipamento())) {
+            throw new RuntimeException("Equipamento não é compatível com o tipo de chamado selecionado");
         }
 
         Chamado chamado = new Chamado();

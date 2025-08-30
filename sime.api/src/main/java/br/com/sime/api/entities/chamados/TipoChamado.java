@@ -1,5 +1,7 @@
 package br.com.sime.api.entities.chamados;
 
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
+import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -24,6 +26,10 @@ public class TipoChamado {
     @OneToMany(mappedBy = "tipoChamado")
     @JsonManagedReference
     private List<Chamado> chamadoList;
+
+    @OneToMany(mappedBy = "tipoChamado")
+    @JsonManagedReference
+    private List<TipoEquipamento> tipoEquipamentoList;
 
     @ManyToOne
     @JoinColumn(name = "id_departamento")
