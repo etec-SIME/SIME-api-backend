@@ -28,7 +28,7 @@ public record ChamadoRequestDTO (
     String codEquipamento,
 
     @NotNull
-    Long tipoAmbienteId,
+    Long idTipoAmbiente,
 
     @NotNull
     Long idAmbiente

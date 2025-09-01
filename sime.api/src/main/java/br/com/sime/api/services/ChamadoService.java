@@ -59,14 +59,16 @@ public class ChamadoService {
         TipoChamado tipoChamado = tipoChamadoRepository.findById(dto.idTipoChamado())
                 .orElseThrow(() -> new NotFoundException("Tipo de chamado não encontrado", "Id: " + dto.idTipoChamado()));
 
-        TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.tipoAmbienteId())
-                .orElseThrow(() -> new NotFoundException("Tipo de ambiente não encontrado", "Id: " + dto.tipoAmbienteId()));
+        TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.idTipoAmbiente())
+                .orElseThrow(() -> new NotFoundException("Tipo de ambiente não encontrado", "Id: " + dto.idTipoAmbiente()));
 
         Ambiente ambiente = ambienteRepository.findById(dto.idAmbiente())
                 .orElseThrow(() -> new RuntimeException("Ambiente não encontrado"));
 
         Equipamento equipamento = equipamentoRepository.findByCodEquipamento(dto.codEquipamento())
                 .orElseThrow(() -> new NotFoundException("Equipamento não encontrado", "Código do equipamento: " + dto.codEquipamento()));
+
+        System.out.println("TipoEquipamento = " + equipamento.getTipoEquipamento());
 
         if (!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
             throw new NotFoundException("O ambiente não corresponde ao tipo de ambiente selecionado");
