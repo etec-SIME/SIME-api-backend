@@ -5,8 +5,10 @@ import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.security.services.JwtService;
 import br.com.sime.api.services.ChamadoService;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class ChamadoController {
     @Autowired
     private ChamadoService chamadoService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<Chamado>> getAllChamados() {
@@ -28,8 +33,10 @@ public class ChamadoController {
     }
 
     @PreAuthorize("hasPermission('Criar Chamado')")
-    @PostMapping("/{rmUsuario}/chamado")
-    public ResponseEntity<Void> criarChamado(@PathVariable String rmUsuario, @Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
+    @PostMapping("/criar-chamado")
+    public ResponseEntity<Void> criarChamado(@Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
+        String rmUsuario = jwtService.getRmFromToken();
+
         chamadoService.criarChamado(rmUsuario, ChamadoDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
