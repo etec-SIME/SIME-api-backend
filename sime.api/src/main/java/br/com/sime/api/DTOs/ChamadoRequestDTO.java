@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 public record ChamadoRequestDTO (
     @NotBlank(message = "Título do chamado é obrigatório")
     String tituloChamado,
@@ -20,6 +22,9 @@ public record ChamadoRequestDTO (
 
     @NotBlank(message = "Imagem do chamado é obrigatória")
     String imgChamado,
+
+    @NotBlank(message = "Data do chamado é obrigatório ")
+    LocalDateTime dataAbertura,
 
     @NotNull
     Long idTipoChamado,
