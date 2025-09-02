@@ -25,15 +25,16 @@ public class Ambiente {
     private String descricaoAmbiente;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "id_tipo_ambiente")
     private Tipo_Ambiente tipoAmbiente;
 
     @ManyToMany
     @JsonManagedReference
     @JoinTable(
-        name = "Contem",
-        joinColumns = @JoinColumn(name = "id_ambiente"),
-        inverseJoinColumns = @JoinColumn(name = "id_tipo_equipamento")
+            name = "Contem",
+            joinColumns = @JoinColumn(name = "id_ambiente"),
+            inverseJoinColumns = @JoinColumn(name = "id_tipo_equipamento")
     )
     private List<TipoEquipamento> tipoEquipamentoList;
 
