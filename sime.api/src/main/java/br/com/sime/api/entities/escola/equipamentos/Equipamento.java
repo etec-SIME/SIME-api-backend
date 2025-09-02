@@ -14,7 +14,7 @@ public class Equipamento {
     @Column(name = "cod_equipamento", nullable = false)
     private String codEquipamento;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "id_tipo_equipamento")
     private TipoEquipamento tipoEquipamento;

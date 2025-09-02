@@ -51,7 +51,7 @@ INSERT INTO Conduz VALUES
 ('234567', 2);
 
 -- TIPO AMBIENTE
-INSERT INTO Tipo_ambiente (nome_tipo_ambiente) VALUES 
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
 ('Sala'),
 ('Laboratório');
 
