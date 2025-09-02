@@ -61,6 +61,7 @@ public class Chamado {
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_ambiente")
+    @JsonBackReference
     private Tipo_Ambiente tipoAmbiente;
 
     @OneToMany(mappedBy = "chamado")
