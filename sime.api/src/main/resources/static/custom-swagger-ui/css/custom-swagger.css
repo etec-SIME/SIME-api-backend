@@ -13,7 +13,7 @@
 
 /*sime docs*/
 .swagger-ui .topbar .topbar-wrapper span {
-    color: #fff;
+    color: #ff0000;
     font-size: 22px;
     font-weight: 600;
     margin-left: 10px;
@@ -54,10 +54,12 @@
 .swagger-ui .opblock-tag {
     font-size: 18px;
     font-weight: 600;
-    background: #ff000;
-    color: #fff;
+    background: #fff;
+    color: #44A1A0;
     padding: 10px;
     border-radius: 6px;
     margin: 10px 0;
     box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    font-family: var(--font-montserrat);
+    font-weight: var(--fw-semibold);
 }
