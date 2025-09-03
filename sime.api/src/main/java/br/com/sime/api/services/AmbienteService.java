@@ -1,5 +1,6 @@
 package br.com.sime.api.services;
 import br.com.sime.api.DTOs.AmbienteDTO;
+import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AmbienteService {
@@ -42,6 +44,18 @@ public class AmbienteService {
     public Ambiente getAmbienteById(Long idAmbiente){
         return ambienteRepository.findById(idAmbiente)
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
+    }
+
+    public List<AmbienteSelectDTO> getAllAmbienteChamadoSelect() {
+        return ambienteRepository.findAll()
+                .stream()
+                .map(a -> new AmbienteSelectDTO(
+                        a.getIdAmbiente(),
+                        a.getNumAmbiente(),
+                        a.getTipoAmbiente().getIdTipoAmbiente(),
+                        a.getTipoAmbiente().getNomeTipoAmbiente()
+                ))
+                .collect(Collectors.toList());
     }
 
     public Ambiente cadastrarAmbiente( AmbienteDTO dto){

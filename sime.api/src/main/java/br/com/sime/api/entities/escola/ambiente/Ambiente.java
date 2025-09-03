@@ -24,7 +24,7 @@ public class Ambiente {
     private String descricaoAmbiente;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn(name = "id_tipo_ambiente")
     private TipoAmbiente tipoAmbiente;
 

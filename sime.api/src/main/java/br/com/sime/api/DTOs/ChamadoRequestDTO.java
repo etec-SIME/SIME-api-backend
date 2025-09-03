@@ -1,11 +1,8 @@
 package br.com.sime.api.DTOs;
 
-import br.com.sime.api.enums.PrioridadeChamadoEnum;
-import br.com.sime.api.enums.StatusChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 

@@ -26,6 +26,6 @@ public class TipoAmbiente {
     private List<Chamado> chamadosList;
 
     @OneToMany(mappedBy = "tipoAmbiente")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Ambiente> ambienteList;
 }
