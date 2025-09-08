@@ -19,8 +19,7 @@ public record ChamadoRequestDTO (
 
     @NotBlank(message = "Imagem do chamado é obrigatória")
     String imgChamado,
-
-    @NotBlank(message = "Data do chamado é obrigatório ")
+    @NotNull(message = "Data de abertura do chamado é obrigatória")
     LocalDateTime dataAbertura,
 
     @NotNull

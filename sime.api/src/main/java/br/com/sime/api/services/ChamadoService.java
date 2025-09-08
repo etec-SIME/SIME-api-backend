@@ -36,6 +36,9 @@ public class ChamadoService {
     private TipoChamadoRepository tipoChamadoRepository;
 
     @Autowired
+    private TipoEquipamentoRepository tipoEquipamentoRepository;
+
+    @Autowired
     private TipoAmbienteRepository tipoAmbienteRepository;
 
     @Autowired
@@ -63,22 +66,34 @@ public class ChamadoService {
                 .orElseThrow(() -> new NotFoundException("Tipo de ambiente não encontrado", "Id: " + dto.idTipoAmbiente()));
 
         Ambiente ambiente = ambienteRepository.findById(dto.idAmbiente())
-                .orElseThrow(() -> new RuntimeException("Ambiente não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Ambiente não encontrado", "Id: " + dto.idAmbiente()));
 
-        Equipamento equipamento = equipamentoRepository.findByCodEquipamento(dto.codEquipamento())
+        Equipamento equipamento = equipamentoRepository.findByCodEquipamentoWithTipoEquipamento(dto.codEquipamento())
                 .orElseThrow(() -> new NotFoundException("Equipamento não encontrado", "Código do equipamento: " + dto.codEquipamento()));
 
-        System.out.println("TipoEquipamento = " + equipamento.getTipoEquipamento());
+        if (equipamento.getTipoEquipamento() == null) {
+            throw new RuntimeException("Equipamento não possui TipoEquipamento associado");
+        }
 
         if (!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
             throw new NotFoundException("O ambiente não corresponde ao tipo de ambiente selecionado");
         }
 
-        if (!equipamento.getTipoEquipamento().getAmbienteList().contains(ambiente)) {
+        boolean equipamentoNoAmbiente = tipoEquipamentoRepository.existsByTipoEquipamentoAndAmbiente(
+                equipamento.getTipoEquipamento().getIdTipoEquipamento(),
+                dto.idAmbiente()
+        );
+
+        if (!equipamentoNoAmbiente) {
             throw new NotFoundException("Equipamento não pertence ao ambiente selecionado");
         }
 
-        if (!tipoChamado.getTipoEquipamentoList().contains(equipamento.getTipoEquipamento())) {
+        boolean equipamentoCompatível = tipoEquipamentoRepository.existsByIdTipoEquipamentoAndTipoChamadoIdTipoChamado(
+                equipamento.getTipoEquipamento().getIdTipoEquipamento(),
+                dto.idTipoChamado()
+        );
+
+        if (!equipamentoCompatível) {
             throw new RuntimeException("Equipamento não é compatível com o tipo de chamado selecionado");
         }
 
@@ -89,7 +104,7 @@ public class ChamadoService {
         chamado.setImgChamado(dto.imgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setTipoAmbiente(tipoAmbiente);
-        chamado.setDtAberturaChamado(LocalDateTime.now());
+        chamado.setDtAberturaChamado(dto.dataAbertura());
         chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
