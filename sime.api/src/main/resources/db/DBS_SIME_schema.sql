@@ -78,8 +78,8 @@ CREATE TABLE Tipo_Ambiente (
 
 CREATE TABLE Ambiente (
 	id_ambiente BIGINT IDENTITY(1,1) PRIMARY KEY,
+	num_ambiente BIGINT,
 	desc_ambiente VARCHAR(450),
-	nome_ambiente VARCHAR(50).
 	id_tipo_ambiente BIGINT,
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente)
 )
@@ -100,7 +100,7 @@ CREATE TABLE Contem (
 )
 
 CREATE TABLE Equipamento (
-	cod_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
+	cod_equipamento BIGINT PRIMARY KEY,
 	id_tipo_equipamento BIGINT,
 	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento)
 )

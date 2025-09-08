@@ -1,7 +1,6 @@
 package br.com.sime.api.entities.escola.ambiente;
 
 import br.com.sime.api.entities.chamados.Chamado;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,6 +21,7 @@ public class Tipo_Ambiente {
     private String nomeTipoAmbiente;
 
     @OneToMany(mappedBy = "tipoAmbiente")
+    @JsonManagedReference
     private List<Chamado> chamadosList;
 
     @OneToMany(mappedBy = "tipoAmbiente")

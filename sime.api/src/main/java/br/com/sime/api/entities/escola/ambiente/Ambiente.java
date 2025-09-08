@@ -1,5 +1,4 @@
 package br.com.sime.api.entities.escola.ambiente;
-
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -21,6 +20,9 @@ public class Ambiente {
     @Column(name = "id_ambiente", nullable = false)
     @Schema(example = "1")
     private Long idAmbiente;
+
+    @Column(name = "num_ambiente",  nullable = false)
+    private Long numAmbiente;
 
     @Column(name = "desc_ambiente", length = 450, nullable = false)
     @Schema(example = "Laboratório 2, perto do pátio")

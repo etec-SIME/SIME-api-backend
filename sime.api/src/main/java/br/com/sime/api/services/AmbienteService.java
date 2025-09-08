@@ -1,12 +1,13 @@
 package br.com.sime.api.services;
-
 import br.com.sime.api.DTOs.AmbienteDTO;
 import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
+import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.AmbienteRepository;
 import br.com.sime.api.repositories.EscolaRepository;
+import br.com.sime.api.repositories.TipoAmbienteRepository;
 import br.com.sime.api.repositories.TipoEquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class AmbienteService {
 
     @Autowired
     private TipoEquipamentoRepository tipoEquipamentoRepository;
+
+    @Autowired
+    private TipoAmbienteRepository tipoAmbienteRepository;
 
     @Autowired
     private EscolaRepository escolaRepository;
@@ -42,9 +46,13 @@ public class AmbienteService {
 
     public Ambiente cadastrarAmbiente( AmbienteDTO dto){
 
+        Tipo_Ambiente tipoAmbiente = tipoAmbienteRepository.findById(dto.getIdTipoAmbiente())
+                .orElseThrow(() -> new NotFoundException("Tipo ambiente de ID: " + dto.getIdTipoAmbiente() + "não encontrado"));
+
         Ambiente ambiente = new Ambiente();
-        ambiente.setNomeAmbiente(dto.getNomeAmbiente());
+        ambiente.setNumAmbiente(dto.getNumAmbiente());
         ambiente.setDescricaoAmbiente(dto.getDescricaoAmbiente());
+        ambiente.setTipoAmbiente(tipoAmbiente);
 
         return ambienteRepository.save(ambiente);
     }
@@ -85,8 +93,12 @@ public class AmbienteService {
         Ambiente ambiente = ambienteRepository.findById(idAmbiente)
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
 
-        ambiente.setNomeAmbiente(ambienteDTO.getNomeAmbiente());
+        Tipo_Ambiente tipoAmbiente = tipoAmbienteRepository.findById(ambienteDTO.getIdTipoAmbiente())
+                .orElseThrow(() -> new NotFoundException("Tipo ambiente de ID: " + ambienteDTO.getIdTipoAmbiente() + "não encontrado"));
+
         ambiente.setDescricaoAmbiente(ambienteDTO.getDescricaoAmbiente());
+        ambiente.setNumAmbiente(ambienteDTO.getNumAmbiente());
+        ambiente.setTipoAmbiente(tipoAmbiente);
 
         return ambienteRepository.save(ambiente);
     }
