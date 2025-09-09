@@ -1,5 +1,6 @@
 package br.com.sime.api.entities.escola.equipamentos;
 
+import br.com.sime.api.entities.chamados.TipoChamado;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,9 +12,9 @@ public class Equipamento {
 
     @Id
     @Column(name = "cod_equipamento", nullable = false)
-    private Long codEquipamento;
+    private String codEquipamento;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "id_tipo_equipamento")
     private TipoEquipamento tipoEquipamento;
