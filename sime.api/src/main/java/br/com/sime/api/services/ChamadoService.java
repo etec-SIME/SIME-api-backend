@@ -8,6 +8,7 @@ import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
+import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChamadoService {
@@ -71,30 +73,12 @@ public class ChamadoService {
         Equipamento equipamento = equipamentoRepository.findByCodEquipamentoWithTipoEquipamento(dto.codEquipamento())
                 .orElseThrow(() -> new NotFoundException("Equipamento não encontrado", "Código do equipamento: " + dto.codEquipamento()));
 
-        if (equipamento.getTipoEquipamento() == null) {
-            throw new RuntimeException("Equipamento não possui TipoEquipamento associado");
+        if(!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
+            throw new NotFoundException("O ambiente não corresponde ao tipo ambiente selecionado");
         }
 
-        if (!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
-            throw new NotFoundException("O ambiente não corresponde ao tipo de ambiente selecionado");
-        }
-
-        boolean equipamentoNoAmbiente = tipoEquipamentoRepository.existsByTipoEquipamentoAndAmbiente(
-                equipamento.getTipoEquipamento().getIdTipoEquipamento(),
-                dto.idAmbiente()
-        );
-
-        if (!equipamentoNoAmbiente) {
-            throw new NotFoundException("Equipamento não pertence ao ambiente selecionado");
-        }
-
-        boolean equipamentoCompatível = tipoEquipamentoRepository.existsByIdTipoEquipamentoAndTipoChamadoIdTipoChamado(
-                equipamento.getTipoEquipamento().getIdTipoEquipamento(),
-                dto.idTipoChamado()
-        );
-
-        if (!equipamentoCompatível) {
-            throw new RuntimeException("Equipamento não é compatível com o tipo de chamado selecionado");
+        if(!ambiente.getTipoEquipamentoList().contains(equipamento.getTipoEquipamento())) {
+            throw new NotFoundException("O tipo equipamento não faz parte daquele ambiente");
         }
 
         Chamado chamado = new Chamado();
