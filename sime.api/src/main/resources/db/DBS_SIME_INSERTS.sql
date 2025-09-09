@@ -104,3 +104,4 @@ INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
 INSERT INTO Tem VALUES
 (1, 1),
 (2, 2);
+
