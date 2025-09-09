@@ -56,7 +56,7 @@ public class Chamado {
     private TipoChamado tipoChamado;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn(name = "id_tipo_ambiente")
     private TipoAmbiente tipoAmbiente;
 

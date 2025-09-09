@@ -76,7 +76,6 @@ public class EscolaController {
         return new ResponseEntity<>(tipoPerfilList, HttpStatus.OK);
         }
 
-
     @GetMapping("/ambiente")
     public ResponseEntity<List<Ambiente>> getAllAmbientes(){
         List<Ambiente> ambientesList = ambienteService.getAllAmbientes();
