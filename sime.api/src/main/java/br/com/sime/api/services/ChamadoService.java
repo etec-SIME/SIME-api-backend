@@ -4,6 +4,7 @@ import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.chamados.Feedback;
+import br.com.sime.api.entities.chamados.ImagemChamado;
 import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
@@ -17,7 +18,9 @@ import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -49,6 +52,9 @@ public class ChamadoService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    @Autowired
+    private ImagemChamadoService imagemChamadoService;
+
     public List<Chamado> getAllChamados() {
         try {
             return chamadoRepository.findAll();
@@ -57,7 +63,7 @@ public class ChamadoService {
         }
     }
 
-    public void criarChamado(String rmUsuario, ChamadoRequestDTO dto) {
+    public void criarChamado(String rmUsuario, ChamadoRequestDTO dto, MultipartFile[] files) {
         Usuario usuario = usuarioRepository.findByRmUsuario(rmUsuario)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário não encontrado: " + rmUsuario));
 
@@ -85,7 +91,6 @@ public class ChamadoService {
         chamado.setTituloChamado(dto.tituloChamado());
         chamado.setDescChamado(dto.descChamado());
         chamado.setUsuario(usuario);
-        chamado.setImgChamado(dto.imgChamado());
         chamado.setTipoChamado(tipoChamado);
         chamado.setTipoAmbiente(tipoAmbiente);
         chamado.setDtAberturaChamado(dto.dataAbertura());
@@ -93,6 +98,16 @@ public class ChamadoService {
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
         chamadoRepository.save(chamado);
+
+        if (files != null && files.length > 0) {
+            try {
+                List<ImagemChamado> imagens = imagemChamadoService.salvarImagens(chamado.getIdChamado(), files);
+                chamado.setImagemChamadoList(imagens);
+                chamadoRepository.save(chamado);
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao salvar imagens: " + e.getMessage(), e);
+            }
+        }
     }
 
     public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {

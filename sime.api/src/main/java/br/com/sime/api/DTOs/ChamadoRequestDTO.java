@@ -17,8 +17,6 @@ public record ChamadoRequestDTO (
     @Email(message = "Email inválido")
     String emailUsuario,
 
-    @NotBlank(message = "Imagem do chamado é obrigatória")
-    String imgChamado,
     @NotNull(message = "Data de abertura do chamado é obrigatória")
     LocalDateTime dataAbertura,
 

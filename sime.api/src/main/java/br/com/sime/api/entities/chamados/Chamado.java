@@ -1,4 +1,5 @@
 package br.com.sime.api.entities.chamados;
+
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,9 +28,6 @@ public class Chamado {
 
     @Column(name = "dt_conclusao_chamado")
     private LocalDateTime dtConclusaoChamado;
-
-    @Column(name = "img_chamado")
-    private String imgChamado;
 
     @Column(name = "titulo_chamado")
     private String tituloChamado;
@@ -64,4 +62,7 @@ public class Chamado {
     @JsonManagedReference
     private List<Feedback> feedbackList;
 
+    @OneToMany(mappedBy = "chamado")
+    @JsonManagedReference
+    private List<ImagemChamado> imagemChamadoList;
 }

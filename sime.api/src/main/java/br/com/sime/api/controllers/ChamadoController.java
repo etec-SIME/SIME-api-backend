@@ -15,9 +15,11 @@ import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,11 +45,14 @@ public class ChamadoController {
     }
 
     @PreAuthorize("hasPermission('Criar Chamado')")
-    @PostMapping("/criar-chamado")
-    public ResponseEntity<Void> criarChamado(@Valid @RequestBody ChamadoRequestDTO ChamadoDTO) {
+    @PostMapping(value = "/criar-chamado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> criarChamado(
+            @RequestPart("chamado") @Valid ChamadoRequestDTO ChamadoDTO,
+            @RequestPart(value = "files", required = false) MultipartFile[] files) {
+
         String rmUsuario = jwtService.getRmFromToken();
 
-        chamadoService.criarChamado(rmUsuario, ChamadoDTO);
+        chamadoService.criarChamado(rmUsuario, ChamadoDTO, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
