@@ -115,7 +115,6 @@ CREATE TABLE Chamado (
 	dt_abertura_chamado DATETIME,
 	desc_chamado VARCHAR(450),
 	dt_conclusao_chamado DATETIME,
-	img_chamado VARCHAR(255),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
@@ -147,6 +146,14 @@ CREATE TABLE Tem (
     id_ambiente BIGINT,
     id_tipo_equipamento BIGINT,
     FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente)
+)
+
+CREATE TABLE Imagem_Chamado (
+    id_imagem_chamado BIG IDENTITY(1,1) PRIMARY KEY,
+    nome_arquivo_imagem_chamado VARCHAR(255),
+    caminho_imagem_chamado VARCHAR(255),
+    id_chamado BIGINT,
+    FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
 )
 
 ALTER TABLE Usuario ADD DTYPE VARCHAR(31)

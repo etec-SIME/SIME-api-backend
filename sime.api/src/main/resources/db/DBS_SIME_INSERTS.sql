@@ -83,11 +83,11 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
+	local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
 ) VALUES
-('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
+('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'Lab de Informática',
 	'Computador quebrado', '345678', '234567', 1, 1),
-('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informática',
+('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'Lab de Informática',
 	'Monitor foi rachado', '345678', '234567', 2, 1);
 
 -- FEEDBACK
