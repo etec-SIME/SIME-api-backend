@@ -30,6 +30,29 @@
     font-weight: bold;
 }
 
+.topbar .link svg {
+    display: none;
+}
+
+.topbar .link {
+  display: inline-block;
+  height: 50px;
+  background-image: url('../img/logo_sime.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.swagger-ui .topbar .download-url-wrapper input[type=text] {
+    border: 2px solid #fff;
+    background: none;
+    color: #fff;
+}
+
+.swagger-ui .topbar .download-url-wrapper .download-url-button {
+    background-color: #fff;
+    color: #44A1A0;
+}
+
 /* cor dos botões */
 .swagger-ui .btn {
   background-color: #44A1A0; /* cor do sime */
@@ -43,6 +66,30 @@
 .swagger-ui .btn: hover {
     background: #ff000
 }
+
+.info__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    padding-left: 60px;
+    min-height: 50px;
+}
+
+.info__contact::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-image: url('../img/logo_newo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+}
+
 
 /* títulos maiores */
 .swagger-ui h2,

@@ -28,9 +28,9 @@ public class Ambiente {
     @Schema(example = "Laboratório 2, perto do pátio")
     private String descricaoAmbiente;
 
-    @Column(name = "nome_ambiente", length = 50, nullable = false)
-    @Schema(example = "Laboratório 2")
-    private String nomeAmbiente;
+//    @Column(name = "nome_ambiente", length = 50, nullable = false)
+//    @Schema(example = "Laboratório 2")
+//    private String nomeAmbiente;
 
     @ManyToOne
     @JsonBackReference
