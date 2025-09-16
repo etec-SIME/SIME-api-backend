@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +44,18 @@ public class UsuarioController {
             @ApiResponse(responseCode = "400", description = "Erro de validação dos dados")
     })
     @PostMapping("login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login) {
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login, HttpServletResponse response) {
         TokenDTO token = usuarioService.login(login);
+
+        Cookie cookie = new Cookie("jwt", token.getToken());
+
+        cookie.setHttpOnly(true); // 🔒 Não acessível por JS
+        cookie.setSecure(false);   // 🔒 Só HTTPS (dev = false, prod = true)
+        cookie.setPath("/");      // válido para toda a aplicação
+        cookie.setMaxAge(60 * 60); // 1h
+
+        response.addCookie(cookie);
+
         return new ResponseEntity<>(new TokenDTO(token.getToken()), HttpStatus.OK);
     }
 }

@@ -1,6 +1,5 @@
 package br.com.sime.api.DTOs;
 
-import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
 import lombok.Data;
 
 @Data

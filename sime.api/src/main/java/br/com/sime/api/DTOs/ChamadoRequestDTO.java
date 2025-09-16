@@ -1,33 +1,34 @@
 package br.com.sime.api.DTOs;
 
-import br.com.sime.api.enums.PrioridadeChamadoEnum;
-import br.com.sime.api.enums.StatusChamadoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import jakarta.validation.constraints.NotNull;
 
-@Data
-public class ChamadoRequestDTO {
+import java.time.LocalDateTime;
+
+public record ChamadoRequestDTO (
     @NotBlank(message = "Título do chamado é obrigatório")
-    private String tituloChamado;
+    String tituloChamado,
 
     @NotBlank(message = "Descrição do chamado é obrigatória")
-    private String descChamado;
-
-    @NotBlank(message = "Local do chamado é obrigatório")
-    private String localChamado;
+    String descChamado,
 
     @NotBlank(message = "Email do usuário é obrigatório")
     @Email(message = "Email inválido")
-    private String emailUsuario;
+    String emailUsuario,
 
-    @NotBlank(message = "Tipo de chamado é obrigatório")
-    private String tipoChamado;
+    @NotNull(message = "Data de abertura do chamado é obrigatória")
+    LocalDateTime dataAbertura,
 
-    @NotBlank(message = "Imagem do chamado é obrigatória")
-    private String imgChamado;
+    @NotNull
+    Long idTipoChamado,
 
-    private StatusChamadoEnum statusChamado;
+    @NotNull
+    String codEquipamento,
 
-    private PrioridadeChamadoEnum prioridadeChamado;
-}
+    @NotNull
+    Long idTipoAmbiente,
+
+    @NotNull
+    Long idAmbiente
+) {}
