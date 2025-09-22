@@ -46,7 +46,7 @@ public class TipoPerfilService {
        return tipoPerfil.getPermissaoList();
     }
 
-    public TipoPerfil criarTipoPerfil(TipoPerfilDTO dto){
+    public TipoPerfil cadastrarTipoPerfil(TipoPerfilDTO dto){
         TipoPerfil tipoPerfil = new TipoPerfil();
         tipoPerfil.setNomeTipoPerfil(dto.getNomeTipoPerfil());
         return tipoPerfilRepository.save(tipoPerfil);
@@ -78,12 +78,18 @@ public class TipoPerfilService {
 
     }
 
-    public TipoPerfil editarTipoPerfil(Long idTipoPerfil, TipoPerfilDTO tipoPerfilDTO){
+    public TipoPerfilDTO editarTipoPerfil(Long idTipoPerfil, TipoPerfilDTO tipoPerfilDTO){
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
                 .orElseThrow(() -> new NotFoundException("Tipo perfil de ID: " + idTipoPerfil +"não encontrado"));
 
         tipoPerfil.setNomeTipoPerfil(tipoPerfilDTO.getNomeTipoPerfil());
-        return tipoPerfilRepository.save(tipoPerfil);
+
+        TipoPerfil tipoPerfilAtualizado = tipoPerfilRepository.save(tipoPerfil);
+
+        TipoPerfilDTO tipoPerfilDTOResponse = new TipoPerfilDTO();
+        tipoPerfilDTOResponse.setNomeTipoPerfil(tipoPerfilAtualizado.getNomeTipoPerfil());
+
+        return tipoPerfilDTOResponse;
     }
 
 }

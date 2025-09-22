@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class EquipamentoResponseDTO {
     private Long codEquipamento;
-    private Long idtipoEquipamento;
+    private Long idTipoEquipamento;
 }

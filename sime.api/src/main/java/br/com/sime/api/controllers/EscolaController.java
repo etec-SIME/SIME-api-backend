@@ -79,8 +79,8 @@ public class EscolaController {
 
 
     @GetMapping("/ambiente")
-    public ResponseEntity<List<Ambiente>> getAllAmbientes(){
-        List<Ambiente> ambientesList = ambienteService.getAllAmbientes();
+    public ResponseEntity<List<AmbienteDTO>> getAllAmbientes(){
+        List<AmbienteDTO> ambientesList = ambienteService.getAllAmbientes();
         return new ResponseEntity<>(ambientesList, HttpStatus.OK);
     }
 
@@ -140,13 +140,13 @@ public class EscolaController {
 
     @PostMapping("/tipo-perfil")
     public ResponseEntity<?> cadastrarTipoPerfil(@Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
-        TipoPerfil tipoPerfil = tipoPerfilService.criarTipoPerfil(tipoPerfilDTO);
+        TipoPerfil tipoPerfil = tipoPerfilService.cadastrarTipoPerfil(tipoPerfilDTO);
         return new ResponseEntity<>(tipoPerfil, HttpStatus.CREATED);
     }
 
     @PostMapping("/ambiente")
     public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
-        Ambiente ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
+        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
         return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
     }
 
@@ -197,8 +197,8 @@ public class EscolaController {
     // --- PUTs - edição---
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}")
-    public ResponseEntity<?> editarTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
-        TipoPerfil tipoPerfilAtualizado = tipoPerfilService.editarTipoPerfil(idTipoPerfil, tipoPerfilDTO);
+    public ResponseEntity<TipoPerfilDTO> editarTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
+        TipoPerfilDTO tipoPerfilAtualizado = tipoPerfilService.editarTipoPerfil(idTipoPerfil, tipoPerfilDTO);
         return new ResponseEntity<>(tipoPerfilAtualizado, HttpStatus.OK);
     }
 

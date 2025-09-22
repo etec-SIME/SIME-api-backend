@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class TipoChamadoResponseDTO {
-    private Long idTipoChamado;
+    private Long idDepartamento;
     private String nomeTipoChamado;
-    private Departamento departamento;
 }
