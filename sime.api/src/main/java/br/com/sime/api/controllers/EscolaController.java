@@ -133,8 +133,7 @@ public class EscolaController {
 
     @PostMapping("/usuario")
     public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO){
-        //Escola escolaLogada = escolaDetails.getEscola();
-        Usuario usuario = usuarioService.cadastrarUsuario(usuarioDTO);
+        UsuarioRequestDTO usuario = usuarioService.cadastrarUsuario(usuarioDTO);
         return new ResponseEntity<>(usuario, HttpStatus.CREATED);
     }
 
@@ -184,8 +183,8 @@ public class EscolaController {
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}/permissao")
     public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilDTO permissoesTipoPerfilDTO){
-        TipoPerfil tipoPerfil = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
-        return new ResponseEntity<>(tipoPerfil, HttpStatus.ACCEPTED);
+        List<Permissao> permissaoList = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
+        return new ResponseEntity<>(permissaoList, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/ambiente/{idAmbiente}/tipo-equipamento")

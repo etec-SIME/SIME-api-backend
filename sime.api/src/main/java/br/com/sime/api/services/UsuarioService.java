@@ -51,7 +51,33 @@ public class UsuarioService {
     }
 
 
-    public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
+    public TokenDTO login(LoginDTO login) {
+
+        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
+                .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
+
+        boolean getEscola = tipoPerfil.getEscolaList()
+                .stream()
+                .anyMatch(escola -> escola.getCodEscola().equals(login.getCodEscola()));
+
+        if (!getEscola)
+            throw new NotFoundException("Escola não encontrada", "Escola com código: " + login.getCodEscola() + " não encontrada para o tipo de perfil: " + login.getIdTipoPerfil());
+
+        Usuario usuario = usuarioRepository.findUsuarioTipoPerfilAndEscola(
+                login.getRmUsuario(),
+                login.getIdTipoPerfil(),
+                login.getCodEscola()
+        ).orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + login.getRmUsuario() + " não encontrado"));
+
+        if (!usuario.getSenhaUsuario().equals(login.getSenhaUsuario()))
+            throw new SenhaIncorretaException("Senha incorreta para o usuário: " + login.getRmUsuario());
+
+        String token = jwtService.generateToken(new UserDetailsImpl(usuario, "USUARIO"));
+
+        return new TokenDTO(token);
+    }
+
+    public UsuarioRequestDTO cadastrarUsuario(UsuarioRequestDTO dto)
     {
         if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
         if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
@@ -89,32 +115,21 @@ public class UsuarioService {
         usuario.setCpfUsuario(dto.getCpfUsuario());
         usuario.setTipoPerfil(tipoPerfil);
         usuario.setDepartamentoList(departamentos);
-        return usuarioRepository.save(usuario);
+
+        usuarioRepository.save(usuario);
+
+        UsuarioRequestDTO usuarioRequestDTO = new UsuarioRequestDTO();
+        usuarioRequestDTO.setRmUsuario(usuario.getRmUsuario());
+        usuarioRequestDTO.setNomeUsuario(usuario.getNomeUsuario());
+        usuarioRequestDTO.setTelefoneUsuario(usuario.getTelefoneUsuario());
+        usuarioRequestDTO.setEmailUsuario(usuario.getEmailUsuario());
+        usuarioRequestDTO.setSenhaUsuario(usuario.getSenhaUsuario());
+        usuarioRequestDTO.setCpfUsuario(usuario.getCpfUsuario());
+        usuarioRequestDTO.setIdTipoPerfil(usuario.getTipoPerfil().getIdTipoPerfil());
+        usuarioRequestDTO.setDepartamentoIds(usuario.getDepartamentoList().stream().map(Departamento::getIdDepartamento).collect(Collectors.toList()));
+
+        return usuarioRequestDTO;
     }
 
-    public TokenDTO login(LoginDTO login) {
 
-        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
-                .orElseThrow(() -> new NotFoundException("Tipo de perfil não encontrado: " + login.getIdTipoPerfil()));
-
-        boolean getEscola = tipoPerfil.getEscolaList()
-                .stream()
-                .anyMatch(escola -> escola.getCodEscola().equals(login.getCodEscola()));
-
-        if (!getEscola)
-            throw new NotFoundException("Escola não encontrada", "Escola com código: " + login.getCodEscola() + " não encontrada para o tipo de perfil: " + login.getIdTipoPerfil());
-
-        Usuario usuario = usuarioRepository.findUsuarioTipoPerfilAndEscola(
-                login.getRmUsuario(),
-                login.getIdTipoPerfil(),
-                login.getCodEscola()
-        ).orElseThrow(() -> new NotFoundException("Usuário não encontrado", "Usuário com RM: " + login.getRmUsuario() + " não encontrado"));
-
-        if (!usuario.getSenhaUsuario().equals(login.getSenhaUsuario()))
-            throw new SenhaIncorretaException("Senha incorreta para o usuário: " + login.getRmUsuario());
-
-        String token = jwtService.generateToken(new UserDetailsImpl(usuario, "USUARIO"));
-
-        return new TokenDTO(token);
-    }
 }
