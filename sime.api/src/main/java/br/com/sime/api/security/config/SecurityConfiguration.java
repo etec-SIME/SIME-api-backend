@@ -77,7 +77,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults()) // habilita CORS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/login", "/escolas/login").permitAll()// libera o login
+                        .requestMatchers("/usuarios/login", "/escola/login").permitAll()// libera o login
                         .requestMatchers("/**").hasAnyAuthority("ENTIDADE_ESCOLA", "ENTIDADE_USUARIO")
                         .anyRequest().authenticated() // demais rotas requerem autenticação
                 )
