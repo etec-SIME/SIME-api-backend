@@ -1,6 +1,7 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.PermissaoTipoPerfilDTO;
+import br.com.sime.api.DTOs.Responses.TipoPerfilResponseDTO;
 import br.com.sime.api.DTOs.TipoPerfilDTO;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -32,12 +33,26 @@ public class TipoPerfilService {
     public List<TipoPerfil> getAllTipoPerfis(){
         try {
             return tipoPerfilRepository.findAll();
-        }catch (Exception e)
+        } catch (Exception e)
         {
             throw new RuntimeException("Erro ao buscar os departamentos: " + e.getMessage(), e);
         }
     }
 
+    public List<TipoPerfilResponseDTO> getTipoPerfilNomes() {
+        try {
+            List<TipoPerfil> tipoPerfils = tipoPerfilRepository.findAll();
+
+            return tipoPerfils.stream()
+                    .map(tipoPerfil -> new TipoPerfilResponseDTO(
+                            tipoPerfil.getIdTipoPerfil(),
+                            tipoPerfil.getNomeTipoPerfil()
+                    )).toList();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar os tipos de perfil: " + e.getMessage(), e);
+        }
+    }
 
     public List<Permissao> getAllPermissaoTipoPerfil(Long idTipoPerfil){
        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
@@ -85,5 +100,4 @@ public class TipoPerfilService {
         tipoPerfil.setNomeTipoPerfil(tipoPerfilDTO.getNomeTipoPerfil());
         return tipoPerfilRepository.save(tipoPerfil);
     }
-
 }

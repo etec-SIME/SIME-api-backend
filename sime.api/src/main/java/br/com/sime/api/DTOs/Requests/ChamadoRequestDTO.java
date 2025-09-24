@@ -1,4 +1,4 @@
-package br.com.sime.api.DTOs;
+package br.com.sime.api.DTOs.Requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,9 +1,8 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.TipoChamadoDTO;
-import br.com.sime.api.DTOs.TipoChamadoResponseDTO;
+import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
-import br.com.sime.api.DTOs.TipoEquipamentoDTO;
 import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.exceptions.NotFoundException;
