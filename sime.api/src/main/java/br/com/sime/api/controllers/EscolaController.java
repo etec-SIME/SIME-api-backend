@@ -11,6 +11,8 @@ import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.services.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,8 +61,18 @@ public class EscolaController {
     private TipoAmbienteService tipoAmbienteService;
 
     @PostMapping("login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginEscolaDTO login) {
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginEscolaDTO login, HttpServletResponse response) {
         TokenDTO token = escolaService.loginEscola(login);
+
+        Cookie cookie = new Cookie("jwt", token.getToken());
+
+        cookie.setHttpOnly(true); // 🔒 Não acessível por JS
+        cookie.setSecure(false);   // 🔒 Só HTTPS (dev = false, prod = true)
+        cookie.setPath("/");      // válido para toda a aplicação
+        cookie.setMaxAge(60 * 60); // 1h
+
+        response.addCookie(cookie);
+
         return new ResponseEntity<>(new TokenDTO(token.getToken()), HttpStatus.OK);
     }
 
