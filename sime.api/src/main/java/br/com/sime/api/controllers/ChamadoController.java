@@ -2,7 +2,7 @@ package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.ChamadoCardDTO;
-import br.com.sime.api.DTOs.ChamadoRequestDTO;
+import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
@@ -12,7 +12,6 @@ import br.com.sime.api.services.AmbienteService;
 import br.com.sime.api.services.ChamadoService;
 import br.com.sime.api.services.TipoChamadoService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

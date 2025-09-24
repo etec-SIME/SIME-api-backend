@@ -1,16 +1,13 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.ChamadoCardDTO;
-import br.com.sime.api.DTOs.ChamadoRequestDTO;
+import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
-import br.com.sime.api.entities.chamados.Feedback;
 import br.com.sime.api.entities.chamados.ImagemChamado;
 import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
-import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
-import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusChamadoEnum;
@@ -21,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ChamadoService {

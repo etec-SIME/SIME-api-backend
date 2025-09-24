@@ -1,7 +1,7 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.EquipamentoDTO;
-import br.com.sime.api.DTOs.EquipamentoResponseDTO;
+import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.exceptions.NotFoundException;

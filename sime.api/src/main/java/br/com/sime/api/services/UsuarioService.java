@@ -50,7 +50,6 @@ public class UsuarioService {
         }
     }
 
-
     public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
     {
         if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}

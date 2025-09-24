@@ -1,5 +1,7 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
+import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
+import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
@@ -75,7 +77,6 @@ public class EscolaController {
     }
 
     // --- GET ALL---
-
     @GetMapping()
     public ResponseEntity<List<Escola>> getAllEscolas(){
         List<Escola> escolas = escolaService.getAllEscolas();
@@ -86,7 +87,7 @@ public class EscolaController {
     public ResponseEntity<List<TipoPerfil>> getAllTipoPerfis(){
         List<TipoPerfil> tipoPerfilList = tipoPerfilService.getAllTipoPerfis();
         return new ResponseEntity<>(tipoPerfilList, HttpStatus.OK);
-        }
+    }
 
     @GetMapping("/ambiente")
     public ResponseEntity<List<Ambiente>> getAllAmbientes(){
