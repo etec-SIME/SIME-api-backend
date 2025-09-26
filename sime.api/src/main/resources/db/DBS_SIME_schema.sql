@@ -149,12 +149,11 @@ CREATE TABLE Tem (
 )
 
 CREATE TABLE Imagem_Chamado (
-    id_imagem_chamado BIG IDENTITY(1,1) PRIMARY KEY,
+    id_imagem_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
     nome_arquivo_imagem_chamado VARCHAR(255),
     caminho_imagem_chamado VARCHAR(255),
     id_chamado BIGINT,
     FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
 )
 
-ALTER TABLE Usuario ADD DTYPE VARCHAR(31)
 DROP DATABASE DBS_SIME
