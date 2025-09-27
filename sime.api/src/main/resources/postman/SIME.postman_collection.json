@@ -17,7 +17,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVmlzdWFsaXphciBDaGFtYWRvIn0seyJhdXRob3JpdHkiOiJFZGl0YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQ3JpYXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQWRtaW4ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1MzU3MDk1OCwiZXhwIjoxNzUzNjU3MzU4fQ.1PNbMN26dOt_UqthZ9nmL5kykmMuFtnx7JI4vxwWdNo",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"tituloChamado\": \"Problema no projetor\",\r\n  \"descChamado\": \"O projetor da sala 101 não está ligando\",\r\n  \"localChamado\": \"Sala 101\",\r\n  \"emailUsuario\": \"usuario@email.com\",\r\n  \"tipoChamado\": \"Problema Técnico\",\r\n  \"imgChamado\": \"base64ouURLdaImagem\"\r\n}\r\n",
+							"raw": "{\r\n  \"tituloChamado\": \"Projetor queimado\",\r\n  \"descChamado\": \"O projetor da sala 101 não liga\",\r\n  \"emailUsuario\": \"aluno@etec.com\",\r\n  \"imgChamado\": \"pj101.png\",\r\n  \"idTipoChamado\": 1,\r\n  \"codEquipamento\": \"PJ101\",\r\n  \"tipoAmbienteId\": 1,\r\n  \"idAmbiente\": 101\r\n}\r\n\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -103,6 +103,91 @@
 									"key": "prioridade",
 									"value": "BAIXA_PRIORIDADE"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllChamadosByPrioridadeAndStatus",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/prioridade/concluidos?prioridade=ALTA_PRIORIDADE&status=CONCLUIDO",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"prioridade",
+								"concluidos"
+							],
+							"query": [
+								{
+									"key": "prioridade",
+									"value": "ALTA_PRIORIDADE"
+								},
+								{
+									"key": "status",
+									"value": "CONCLUIDO"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAmbienteChamadoSelect",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/ambientes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"ambientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTipoChamadoSelect",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/tipo-chamados",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"tipo-chamados"
 							]
 						}
 					},
@@ -209,7 +294,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVmlzdWFsaXphciBDaGFtYWRvIn0seyJhdXRob3JpdHkiOiJFZGl0YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQ3JpYXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiQWRtaW4ifV0sImlhdCI6MTc1MjYxMDQ3MSwiZXhwIjoxNzUyNjk2ODcxfQ.yCLeJV_zk5lAG3v3HERVAa5OuvTwb2tPWGvgj1yl-bs",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -229,40 +314,13 @@
 					"response": []
 				},
 				{
-					"name": "login - admin",
+					"name": "login - Gestor Geral",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"rmUsuario\": \"123456\",\r\n  \"idTipoPerfil\": 1,\r\n  \"senhaUsuario\": \"admin123\",\r\n  \"codEscola\": \"E01\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/usuarios/login",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"usuarios",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login - departamento",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"rmUsuario\": \"234567\",\r\n  \"idTipoPerfil\": 2,\r\n  \"senhaUsuario\": \"tec123\",\r\n  \"codEscola\": \"E01\"\r\n}",
+							"raw": "{\r\n  \"rmUsuario\": \"200002\",\r\n  \"idTipoPerfil\": 1,\r\n  \"senhaUsuario\": \"senhaGestor\",\r\n  \"codEscola\": \"E01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,13 +346,13 @@
 			"name": "EscolaController",
 			"item": [
 				{
-					"name": "login",
+					"name": "login - Escola",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"codEscola\": \"E01\",\r\n  \"cnpjEscola\": \"12345678000100\",\r\n  \"senhaEscola\": \"123\"\r\n}",
+							"raw": "{\r\n  \"codEscola\": \"E01\",\r\n  \"cnpjEscola\": \"12345678000195\",\r\n  \"senhaEscola\": \"senha123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -302,13 +360,59 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/escolas/login",
+							"raw": "{{baseURL}}/escola/login",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"escolas",
+								"escola",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAmbientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/ambiente",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"ambiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTipoPerfil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/tipo-perfil",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"tipo-perfil"
 							]
 						}
 					},
@@ -335,7 +439,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/gestor-departamento?departamentoId=2&idTipoPerfil=2",
+							"raw": "{{baseURL}}/gestor-departamento?departamentoId=1&idTipoPerfil=1",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -345,11 +449,11 @@
 							"query": [
 								{
 									"key": "departamentoId",
-									"value": "2"
+									"value": "1"
 								},
 								{
 									"key": "idTipoPerfil",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
