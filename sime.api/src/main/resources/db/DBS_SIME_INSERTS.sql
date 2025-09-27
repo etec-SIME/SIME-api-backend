@@ -1,107 +1,209 @@
--- INSERTS: --
+-- =====================================
+-- ESCOLAS
+-- =====================================
+INSERT INTO Escola (cod_escola, cnpj_escola, senha_escola, cep_escola, num_endereco_escola, nome_escola)
+VALUES
+('E01', '12345678000195', 'senha123', '01001000', '100', 'ETEC Horácio Augusto da Silveira'),
+('E02', '98765432000155', 'segura456', '02020030', '200', 'ETEC de Informática');
 
--- ESCOLA
-INSERT INTO Escola VALUES 
-('E01', '12345678000100', '123', '01234567', '100', 'ETEC Central');
-
+-- =====================================
 -- TIPO PERFIL
-INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES 
-('Escola'),
-('Administrador'),
-('Técnico'),
-('Funcionário');
+-- =====================================
+DECLARE @idGestorGeral BIGINT, @idGestorDep BIGINT, @idFuncionario BIGINT, @idUsuario BIGINT;
 
+INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES ('Gestor Geral');
+SET @idGestorGeral = SCOPE_IDENTITY();
+
+INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES ('Gestor Departamento');
+SET @idGestorDep = SCOPE_IDENTITY();
+
+INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES ('Funcionário');
+SET @idFuncionario = SCOPE_IDENTITY();
+
+INSERT INTO Tipo_perfil (nome_tipo_perfil) VALUES ('Usuário Comum');
+SET @idUsuario = SCOPE_IDENTITY();
+
+-- =====================================
 -- PERMISSAO
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES
-('Admin', 'Permite tudo'),
-('Visualizar Chamado', 'Permite visualizar chamados abertos'),
-('Editar Chamado', 'Permite editar qualquer chamado'),
-('Criar Chamado', 'Permite criar um novo chamado');
+-- =====================================
+DECLARE @idGerenciarSistema BIGINT, @idGerenciarPerfis BIGINT, @idGerenciarDept BIGINT,
+        @idGerenciarChamados BIGINT, @idCriarChamado BIGINT, @idVisualizarChamados BIGINT,
+        @idVisualizarRelatorios BIGINT;
 
--- POSSUI
-INSERT INTO Possui VALUES 
-(1, 1), 
-(2, 1), 
-(3, 1), 
-(2, 2),
-(3, 3),
-(4, 1);
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Sistema', 'Pode gerenciar todas as escolas, usuários e permissões');
+SET @idGerenciarSistema = SCOPE_IDENTITY();
 
--- CADASTRA
-INSERT INTO Cadastra VALUES 
-('E01', 1), 
-('E01', 2), 
-('E01', 3);
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Perfis', 'Pode criar e editar perfis de acesso');
+SET @idGerenciarPerfis = SCOPE_IDENTITY();
 
--- USUARIO
-INSERT INTO Usuario VALUES
-('123456', '5', '10', 'admin@etec.com', 'Admin User', 'admin123', '11999999999', '12345678901', 1),
-('234567', '3', '4', 'tecnico@etec.com', 'Tec User', 'tec123', '11888888888', '11222333445', 2),
-('345678', '1', '0', 'aluno@etec.com', 'Aluno User', 'aluno123', '11777777777','55677888910', 3),
-('456789', '1', '0', 'func@etec.com', 'Funcionário User', 'func123', '11666666666', '11677228910', 3);
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Departamentos', 'Pode criar, editar e remover departamentos');
+SET @idGerenciarDept = SCOPE_IDENTITY();
 
--- DEPARTAMENTO
-INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES 
-('TI', 'Departamento de Tecnologia da Informação'),
-('Manutenção', 'Responsável por reparos físicos');
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Chamados', 'Pode abrir, atribuir, atualizar e concluir chamados');
+SET @idGerenciarChamados = SCOPE_IDENTITY();
 
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Criar Chamado', 'Pode abrir chamados no sistema');
+SET @idCriarChamado = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Visualizar Chamados', 'Pode visualizar os chamados criados');
+SET @idVisualizarChamados = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Visualizar Relatórios', 'Pode gerar e visualizar relatórios de chamados e departamentos');
+SET @idVisualizarRelatorios = SCOPE_IDENTITY();
+
+-- =====================================
+-- POSSUI (Permissão x Tipo Perfil)
+-- =====================================
+-- Gestor Geral
+INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
+(@idGerenciarPerfis, @idGestorGeral),
+(@idGerenciarDept, @idGestorGeral),
+(@idGerenciarChamados, @idGestorGeral),
+(@idCriarChamado, @idGestorGeral),
+(@idVisualizarRelatorios, @idGestorGeral);
+
+-- Gestor Departamento
+INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
+(@idGerenciarDept, @idGestorDep),
+(@idGerenciarChamados, @idGestorDep),
+(@idCriarChamado, @idGestorDep),
+(@idVisualizarRelatorios, @idGestorDep);
+
+-- Funcionário
+INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
+(@idGerenciarChamados, @idFuncionario),
+(@idCriarChamado, @idFuncionario),
+(@idVisualizarChamados, @idFuncionario);
+
+-- Usuário Comum
+INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
+(@idCriarChamado, @idUsuario),
+(@idVisualizarChamados, @idUsuario);
+
+-- =====================================
+-- CADASTRA (Escola x Tipo Perfil)
+-- =====================================
+INSERT INTO Cadastra (cod_escola, id_tipo_perfil) VALUES
+('E01', @idGestorGeral),
+('E02', @idGestorGeral);
+
+-- =====================================
+-- USUARIOS
+-- =====================================
+INSERT INTO Usuario (rm_usuario, chamados_abertos, chamados_concluidos, email_usuario, nome_usuario, senha_usuario, telefone_usuario, cpf_usuario, id_tipo_perfil)
+VALUES
+('200002', '01', '03', 'gestor@escola.com', 'Carlos Gestor', 'senhaGestor', '11970002222', '22222222222', @idGestorGeral),
+('200003', '02', '01', 'gestor.dep@escola.com', 'Fernanda Dep', 'senhaDep', '11970003333', '33333333333', @idGestorDep),
+('200004', '03', '00', 'funcionario@escola.com', 'Rafael Func', 'senhaFunc', '11970004444', '44444444444', @idFuncionario),
+('200005', '00', '00', 'usuario@escola.com', 'João Usuário', 'senhaUser', '11970005555', '55555555555', @idUsuario);
+
+-- =====================================
+-- DEPARTAMENTOS
+-- =====================================
+DECLARE @idDeptEletrica BIGINT, @idDeptTI BIGINT, @idDeptEstrutural BIGINT;
+
+INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES ('Manutenção Elétrica', 'Responsável por reparos em sistemas elétricos');
+SET @idDeptEletrica = SCOPE_IDENTITY();
+
+INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES ('TI', 'Responsável por computadores e redes');
+SET @idDeptTI = SCOPE_IDENTITY();
+
+INSERT INTO Departamento (nome_departamento, desc_departamento) VALUES ('Estrutual', 'Responsável pela estrutura dos ambientes');
+SET @idDeptEstrutural = SCOPE_IDENTITY();
+
+-- =====================================
 -- CONDUZ
-INSERT INTO Conduz VALUES 
-('123456', 1), 
-('234567', 2);
+-- =====================================
+INSERT INTO Conduz (rm_usuario, id_departamento) VALUES
+('200002', @idDeptTI),
+('200003', @idDeptEletrica),
+('200004', @idDeptEstrutural);
 
+-- =====================================
 -- TIPO AMBIENTE
-INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
-('Sala'),
-('Laboratório');
+-- =====================================
+DECLARE @idTipoSala BIGINT, @idTipoLab BIGINT, @idTipoBiblioteca BIGINT, @idTipoQuadra BIGINT;
 
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Sala de Aula'); SET @idTipoSala = SCOPE_IDENTITY();
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Laboratório de Informática'); SET @idTipoLab = SCOPE_IDENTITY();
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Biblioteca'); SET @idTipoBiblioteca = SCOPE_IDENTITY();
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Quadra Esportiva'); SET @idTipoQuadra = SCOPE_IDENTITY();
+
+-- =====================================
 -- AMBIENTE
-INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES
-(1, 'Laboratário com 20 computadores', 1),
-(2, 'Sala com projetor', 2);
+-- =====================================
+DECLARE @idAmb101 BIGINT, @idAmb202 BIGINT, @idAmb303 BIGINT, @idAmb404 BIGINT;
 
--- TIPO EQUIPAMENTO
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES
-('Computador', 1, 1),
-('Projetor', 2, 2);
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (101, 'Sala de aula do 3º ano', @idTipoSala); SET @idAmb101 = SCOPE_IDENTITY();
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (202, 'Laboratório de Redes e Computadores', @idTipoLab); SET @idAmb202 = SCOPE_IDENTITY();
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (303, 'Biblioteca Central', @idTipoBiblioteca); SET @idAmb303 = SCOPE_IDENTITY();
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (404, 'Quadra poliesportiva coberta', @idTipoQuadra); SET @idAmb404 = SCOPE_IDENTITY();
 
--- CONTEM
-INSERT INTO Contem VALUES 
-(1, 1), 
-(2, 2);
-
--- EQUIPAMENTO
-INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
-(123, 1),
-(456, 2);
-
+-- =====================================
 -- TIPO CHAMADO
-INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES 
-('Problema Técnico', 1),
-('Reparo Elétrico', 2);
+-- =====================================
+DECLARE @idChamEletrico BIGINT, @idChamComputador BIGINT, @idChamEstrutura BIGINT;
 
+INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Problema Elétrico', @idDeptEletrica); SET @idChamEletrico = SCOPE_IDENTITY();
+INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Problema de Computador', @idDeptTI); SET @idChamComputador = SCOPE_IDENTITY();
+INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Limpeza ou Estrutura', @idDeptEstrutural); SET @idChamEstrutura = SCOPE_IDENTITY();
+
+-- =====================================
+-- TIPO EQUIPAMENTO
+-- =====================================
+DECLARE @idEqPC BIGINT, @idEqProjetor BIGINT, @idEqAr BIGINT, @idEqWifi BIGINT, @idEqEstante BIGINT, @idEqBasquete BIGINT;
+
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Computador', @idAmb202, @idChamComputador); SET @idEqPC = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Projetor', @idAmb101, @idChamEletrico); SET @idEqProjetor = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Ar-condicionado', @idAmb101, @idChamEletrico); SET @idEqAr = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Rede Wi-Fi', @idAmb202, @idChamComputador); SET @idEqWifi = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Estante de Livros', @idAmb303, @idChamEstrutura); SET @idEqEstante = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Tabela de Basquete', @idAmb404, @idChamEstrutura); SET @idEqBasquete = SCOPE_IDENTITY();
+
+-- =====================================
+-- CONTEM e TEM
+-- =====================================
+INSERT INTO Contem (id_ambiente, id_tipo_equipamento) VALUES
+(@idAmb202, @idEqPC),
+(@idAmb101, @idEqProjetor),
+(@idAmb101, @idEqAr),
+(@idAmb202, @idEqWifi),
+(@idAmb303, @idEqEstante),
+(@idAmb404, @idEqBasquete);
+
+INSERT INTO Tem (id_ambiente, id_tipo_equipamento) VALUES
+(@idAmb202, @idEqPC),
+(@idAmb101, @idEqProjetor),
+(@idAmb101, @idEqAr),
+(@idAmb202, @idEqWifi),
+(@idAmb303, @idEqEstante),
+(@idAmb404, @idEqBasquete);
+
+-- =====================================
+-- EQUIPAMENTO
+-- =====================================
+INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
+('PC-LAB-01', @idEqPC),
+('PC-LAB-02', @idEqPC),
+('PROJ-101', @idEqProjetor),
+('AC-101', @idEqAr),
+('WIFI-202', @idEqWifi),
+('EST-303', @idEqEstante),
+('BASK-404', @idEqBasquete);
+
+-- =====================================
 -- CHAMADO
-INSERT INTO Chamado (
-	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
-) VALUES
-('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'Lab de Informática',
-	'Computador quebrado', '345678', '234567', 1, 1),
-('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'Lab de Informática',
-	'Monitor foi rachado', '345678', '234567', 2, 1);
+-- =====================================
+INSERT INTO Chamado (prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente)
+VALUES
+('Alta Prioridade', 'Aguardando Aprovação', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idAmb202),
+('Média Prioridade', 'Pendente', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idAmb101),
+('Baixa Prioridade', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idAmb303);
 
+-- =====================================
 -- FEEDBACK
-INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES 
-(GETDATE(), 'Resolvido rapidamente, obrigado!', 'Técnico', 'Funcionário', 1, '345678');
-
--- TIPO AMBIENTE
-INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
-('Laboratório'),
-('Sala de Aula'),
-('Auditório'),
-('Biblioteca');
-
-INSERT INTO Tem VALUES
-(1, 1),
-(2, 2);
-
+-- =====================================
+INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remetente_feedback, id_chamado, rm_usuario) VALUES
+(GETDATE(), 'Problema resolvido rapidamente, ótimo suporte!', 'Carlos Gestor', 'João Usuário', 1, '200005'),
+(GETDATE(), 'Ainda aguardando manutenção do projetor', 'Fernanda Dep', 'Rafael Func', 2, '200004'),
+(GETDATE(), 'Estante consertada, ambiente normalizado', 'Rafael Func', 'João Usuário', 3, '200005');
