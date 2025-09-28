@@ -25,7 +25,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-	working-directory: ./sime.api
+	working-directory: './sime.api'
         run: mvn clean install -DskipTests
 
       - name: Upload artifact for deployment job
