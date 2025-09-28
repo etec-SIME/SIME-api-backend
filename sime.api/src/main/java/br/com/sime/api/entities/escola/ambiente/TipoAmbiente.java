@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Tipo_Ambiente")
-public class Tipo_Ambiente {
+public class TipoAmbiente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,10 @@ public class Tipo_Ambiente {
     private String nomeTipoAmbiente;
 
     @OneToMany(mappedBy = "tipoAmbiente")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Chamado> chamadosList;
 
     @OneToMany(mappedBy = "tipoAmbiente")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Ambiente> ambienteList;
 }

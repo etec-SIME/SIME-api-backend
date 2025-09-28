@@ -1,10 +1,7 @@
 package br.com.sime.api.controllers;
 
-import br.com.sime.api.DTOs.ChamadoRequestDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.services.FuncionarioService;
-import br.com.sime.api.services.UsuarioService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

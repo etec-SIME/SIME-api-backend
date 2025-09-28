@@ -51,12 +51,6 @@ CREATE TABLE Usuario (
 	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
 )
 
-SELECT u.rm_usuario, u.id_tipo_perfil, u.senha_usuario, es.cod_escola
-FROM Usuario u
-JOIN Tipo_perfil tp ON u.id_tipo_perfil = tp.id_tipo_perfil
-JOIN Cadastra cd ON tp.id_tipo_perfil = cd.id_tipo_perfil
-JOIN Escola es ON cd.cod_escola = es.cod_escola
-
 CREATE TABLE Departamento (
 	id_departamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_departamento VARCHAR(50),
@@ -84,11 +78,20 @@ CREATE TABLE Ambiente (
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente)
 )
 
+CREATE TABLE Tipo_Chamado(
+	id_tipo_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
+	nome_tipo_chamado VARCHAR(50),
+	id_departamento BIGINT,
+	FOREIGN KEY(id_departamento) REFERENCES Departamento(id_departamento)
+)
+
 CREATE TABLE Tipo_equipamento (
 	id_tipo_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_equipamento VARCHAR(50),
 	id_ambiente BIGINT,
-	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente)
+	id_tipo_chamado BIGINT,
+	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente),
+	FOREIGN KEY (id_tipo_chamado) REFERENCES Tipo_Chamado (id_tipo_chamado)
 )
 
 CREATE TABLE Contem (
@@ -100,16 +103,9 @@ CREATE TABLE Contem (
 )
 
 CREATE TABLE Equipamento (
-	cod_equipamento BIGINT PRIMARY KEY,
+	cod_equipamento VARCHAR(255) PRIMARY KEY,
 	id_tipo_equipamento BIGINT,
 	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento)
-)
-
-CREATE TABLE Tipo_Chamado(
-	id_tipo_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
-	nome_tipo_chamado VARCHAR(50),
-	id_departamento BIGINT,
-	FOREIGN KEY(id_departamento) REFERENCES Departamento(id_departamento)
 )
 
 CREATE TABLE Chamado (
@@ -119,7 +115,6 @@ CREATE TABLE Chamado (
 	dt_abertura_chamado DATETIME,
 	desc_chamado VARCHAR(450),
 	dt_conclusao_chamado DATETIME,
-	img_chamado VARCHAR(255),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
@@ -153,5 +148,12 @@ CREATE TABLE Tem (
     FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente)
 )
 
-ALTER TABLE Usuario ADD DTYPE VARCHAR(31)
+CREATE TABLE Imagem_Chamado (
+    id_imagem_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
+    nome_arquivo_imagem_chamado VARCHAR(255),
+    caminho_imagem_chamado VARCHAR(255),
+    id_chamado BIGINT,
+    FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
+)
+
 DROP DATABASE DBS_SIME

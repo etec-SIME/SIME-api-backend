@@ -1,4 +1,5 @@
 package br.com.sime.api.entities.escola.equipamentos;
+import br.com.sime.api.entities.chamados.TipoChamado;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,4 +28,9 @@ public class TipoEquipamento {
     @ManyToMany(mappedBy = "tipoEquipamentoList")
     @JsonBackReference
     private List<Ambiente> ambienteList;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "id_tipo_chamado")
+    private TipoChamado tipoChamado;
 }

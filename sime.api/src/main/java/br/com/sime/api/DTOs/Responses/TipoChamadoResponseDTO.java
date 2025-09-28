@@ -1,4 +1,4 @@
-package br.com.sime.api.DTOs;
+package br.com.sime.api.DTOs.Responses;
 
 import br.com.sime.api.entities.outros.Departamento;
 import lombok.Data;

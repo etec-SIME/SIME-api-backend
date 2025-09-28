@@ -50,7 +50,6 @@ public class UsuarioService {
         }
     }
 
-
     public TokenDTO login(LoginDTO login) {
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(login.getIdTipoPerfil())
@@ -78,14 +77,15 @@ public class UsuarioService {
     }
 
     public UsuarioRequestDTO cadastrarUsuario(UsuarioRequestDTO dto)
+
     {
         if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
         if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
 
-        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
-                .orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
+        //TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
+                //.orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
 
-        List<Long> ids = dto.getDepartamentoIds();
+        /*List<Long> ids = dto.getDepartamentoIds();
         List<Departamento> departamentos = new ArrayList<>();
 
         if(ids!=null){
@@ -104,7 +104,7 @@ public class UsuarioService {
                         "IDs inválidos: " + idsNaoEncontrados
                 );
             }
-        }
+        }*/
 
         Usuario usuario = new Usuario();
         usuario.setRmUsuario(dto.getRmUsuario());
@@ -113,8 +113,6 @@ public class UsuarioService {
         usuario.setEmailUsuario(dto.getEmailUsuario());
         usuario.setSenhaUsuario(passwordEncoder.encode(dto.getSenhaUsuario()));
         usuario.setCpfUsuario(dto.getCpfUsuario());
-        usuario.setTipoPerfil(tipoPerfil);
-        usuario.setDepartamentoList(departamentos);
 
         usuarioRepository.save(usuario);
 
@@ -125,8 +123,6 @@ public class UsuarioService {
         usuarioRequestDTO.setEmailUsuario(usuario.getEmailUsuario());
         usuarioRequestDTO.setSenhaUsuario(usuario.getSenhaUsuario());
         usuarioRequestDTO.setCpfUsuario(usuario.getCpfUsuario());
-        usuarioRequestDTO.setIdTipoPerfil(usuario.getTipoPerfil().getIdTipoPerfil());
-        usuarioRequestDTO.setDepartamentoIds(usuario.getDepartamentoList().stream().map(Departamento::getIdDepartamento).collect(Collectors.toList()));
 
         return usuarioRequestDTO;
     }

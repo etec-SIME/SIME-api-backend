@@ -3,6 +3,6 @@ import lombok.Data;
 
 @Data
 public class EquipamentoDTO {
-    private Long codEquipamento;
+    private String codEquipamento;
     private Long idTipoEquipamento;
 }

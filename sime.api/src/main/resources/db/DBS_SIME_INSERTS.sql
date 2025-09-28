@@ -51,7 +51,7 @@ INSERT INTO Conduz VALUES
 ('234567', 2);
 
 -- TIPO AMBIENTE
-INSERT INTO Tipo_ambiente (nome_tipo_ambiente) VALUES 
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
 ('Sala'),
 ('Laboratório');
 
@@ -61,9 +61,9 @@ INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES
 (2, 'Sala com projetor', 2);
 
 -- TIPO EQUIPAMENTO
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente) VALUES
-('Computador', 1),
-('Projetor', 2);
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES
+('Computador', 1, 1),
+('Projetor', 2, 2);
 
 -- CONTEM
 INSERT INTO Contem VALUES 
@@ -83,11 +83,11 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES
 -- CHAMADO
 INSERT INTO Chamado (
 	prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado,
-	img_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
+	local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente
 ) VALUES
-('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'img1.png', 'Lab de Informática',
+('Alta Prioridade', 'Pendente', GETDATE(), 'PC não liga', NULL, 'Lab de Informática',
 	'Computador quebrado', '345678', '234567', 1, 1),
-('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'img2.png', 'Lab de Informática',
+('Alta Prioridade', 'Concluído', GETDATE(), 'Monitor quebrado', NULL, 'Lab de Informática',
 	'Monitor foi rachado', '345678', '234567', 2, 1);
 
 -- FEEDBACK
@@ -104,3 +104,4 @@ INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES
 INSERT INTO Tem VALUES
 (1, 1),
 (2, 2);
+

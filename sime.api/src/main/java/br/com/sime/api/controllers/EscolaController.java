@@ -1,14 +1,18 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
+import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
+import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
-import br.com.sime.api.entities.escola.ambiente.Tipo_Ambiente;
+import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.services.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-@RequestMapping("/escolas")
+@RequestMapping("/escola")
 public class EscolaController {
     @Autowired
     private EscolaService escolaService;
@@ -58,13 +61,22 @@ public class EscolaController {
     private TipoAmbienteService tipoAmbienteService;
 
     @PostMapping("login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginEscolaDTO login) {
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginEscolaDTO login, HttpServletResponse response) {
         TokenDTO token = escolaService.loginEscola(login);
+
+        Cookie cookie = new Cookie("jwt", token.getToken());
+
+        cookie.setHttpOnly(true); // 🔒 Não acessível por JS
+        cookie.setSecure(false);   // 🔒 Só HTTPS (dev = false, prod = true)
+        cookie.setPath("/");      // válido para toda a aplicação
+        cookie.setMaxAge(60 * 60); // 1h
+
+        response.addCookie(cookie);
+
         return new ResponseEntity<>(new TokenDTO(token.getToken()), HttpStatus.OK);
     }
 
     // --- GET ALL---
-
     @GetMapping()
     public ResponseEntity<List<Escola>> getAllEscolas(){
         List<Escola> escolas = escolaService.getAllEscolas();
@@ -75,8 +87,7 @@ public class EscolaController {
     public ResponseEntity<List<TipoPerfil>> getAllTipoPerfis(){
         List<TipoPerfil> tipoPerfilList = tipoPerfilService.getAllTipoPerfis();
         return new ResponseEntity<>(tipoPerfilList, HttpStatus.OK);
-        }
-
+    }
 
     @GetMapping("/ambiente")
     public ResponseEntity<List<AmbienteDTO>> getAllAmbientes(){
@@ -109,8 +120,8 @@ public class EscolaController {
     }
 
     @GetMapping("/tipo-ambiente")
-    public ResponseEntity<List<Tipo_Ambiente>> getAllTipoAmbiente(){
-        List<Tipo_Ambiente> tipoAmbienteList = tipoAmbienteService.getAllTipoAmbiente();
+    public ResponseEntity<List<TipoAmbiente>> getAllTipoAmbiente(){
+        List<TipoAmbiente> tipoAmbienteList = tipoAmbienteService.getAllTipoAmbiente();
         return new ResponseEntity<>(tipoAmbienteList, HttpStatus.OK);
     }
 
@@ -175,7 +186,7 @@ public class EscolaController {
 
     @PostMapping("/tipo-ambiente")
     public ResponseEntity<?> criarTipoAmbiente(@Valid @RequestBody TipoAmbienteDTO tipoAmbienteDTO){
-        Tipo_Ambiente tipoAmbiente = tipoAmbienteService.criarTipoAmbiente(tipoAmbienteDTO);
+        TipoAmbiente tipoAmbiente = tipoAmbienteService.criarTipoAmbiente(tipoAmbienteDTO);
         return new ResponseEntity<>(tipoAmbiente, HttpStatus.CREATED);
     }
 
@@ -233,7 +244,7 @@ public class EscolaController {
 
     @PutMapping("/tipo-ambiente/{idTipoAmbiente}")
     public ResponseEntity<?> editarTipoAmbiente(@PathVariable Long idTipoAmbiente, @Valid @RequestBody TipoAmbienteDTO tipoAmbienteDTO){
-        Tipo_Ambiente tipoAmbienteAtualizado = tipoAmbienteService.editarTipoAmbiente(idTipoAmbiente, tipoAmbienteDTO);
+        TipoAmbiente tipoAmbienteAtualizado = tipoAmbienteService.editarTipoAmbiente(idTipoAmbiente, tipoAmbienteDTO);
         return new ResponseEntity<>(tipoAmbienteAtualizado, HttpStatus.OK);
     }
 }
