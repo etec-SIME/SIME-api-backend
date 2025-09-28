@@ -5,16 +5,18 @@ name: Build and deploy JAR app to Azure Web App - api-sime
 
 on:
   push:
-@@ -13,42 +13,48 @@ jobs:
+    branches:
+      - dev
+  workflow_dispatch:
+
+jobs:
   build:
     runs-on: windows-latest
     permissions:
       contents: read # Required for actions/checkout
 
     steps:
-
       - uses: actions/checkout@v4
-
 
       - name: Set up Java version
         uses: actions/setup-java@v4
@@ -22,11 +24,9 @@ on:
           java-version: '21'
           distribution: 'microsoft'
 
-
       - name: Build with Maven
         working-directory: ./sime.api
         run: mvn clean install -DskipTests
-
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -39,7 +39,6 @@ on:
     needs: build
     
     steps:
-
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
