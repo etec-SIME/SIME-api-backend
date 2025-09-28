@@ -1,0 +1,60 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy JAR app to Azure Web App - api-sime
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read  # Required for actions/checkout
+
+    steps:
+      # Passo 1: pegar o código
+      - uses: actions/checkout@v4
+
+      # Passo 2: configurar Java
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+
+      # Passo 3: build do Maven
+      - name: Build with Maven
+        working-directory: ./sime.api
+        run: mvn clean install -DskipTests
+
+      # Passo 4: enviar artifact para o job de deploy
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: './sime.api/target/*.jar'
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      # Passo 1: baixar o artifact do job anterior
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+          path: ./java-app  # pasta local onde vai ficar o artifact
+
+      # Passo 2: deploy no Azure Web App
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'api-sime'
+          slot-name: 'Production'
+          package: './java-app/**/*.jar'  # apontando para o artifact baixado
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}
