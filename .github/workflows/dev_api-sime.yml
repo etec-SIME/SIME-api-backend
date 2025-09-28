@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: './sime.api/target/*.jar'
 
   deploy:
     runs-on: windows-latest
@@ -50,5 +50,5 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: '*.jar'
+          package: './sime.api/target/*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E6863B2B15E847D588B24E6EFA4F4117 }}
