@@ -25,14 +25,14 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-        working-directory: ./sime.api   # <-- subdiretório do Maven
+        working-directory: ./sime.api
         run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: './sime.api/target/*.jar'   # <-- JAR dentro do subdiretório
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: windows-latest
@@ -43,7 +43,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: java-app
-          path: 'target'   # pasta local onde o JAR será baixado
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -51,5 +50,5 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: 'target/*.jar'   # caminho do JAR baixado
+          package: '*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E6863B2B15E847D588B24E6EFA4F4117 }}
