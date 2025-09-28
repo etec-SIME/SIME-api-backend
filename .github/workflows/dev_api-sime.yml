@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: './java-app/sime.api/target/*.jar'  # apontando para o artifact baixado
+          package: './java-app/**/*.jar'  # apontando para o artifact baixado
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}
