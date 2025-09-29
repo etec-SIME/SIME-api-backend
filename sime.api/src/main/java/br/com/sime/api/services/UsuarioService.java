@@ -37,9 +37,9 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Usuario> getAllUsuarios() {
+    public List<UsuarioProjection> getAllUsuarios() {
         try {
-            return usuarioRepository.findAll();
+            return usuarioRepository.findAllBy();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
         }
