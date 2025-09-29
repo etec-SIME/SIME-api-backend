@@ -44,7 +44,7 @@ CREATE TABLE Usuario (
 	chamados_concluidos CHAR(3),
 	email_usuario VARCHAR(50),
 	nome_usuario VARCHAR(30),
-	senha_usuario VARCHAR(30),
+	senha_usuario VARCHAR(255),
 	telefone_usuario CHAR(11),
 	cpf_usuario CHAR(11),
 	id_tipo_perfil BIGINT,
