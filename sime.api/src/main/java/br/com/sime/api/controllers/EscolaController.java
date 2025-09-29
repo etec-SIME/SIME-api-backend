@@ -144,8 +144,8 @@ public class EscolaController {
 
     @PostMapping("/usuario")
     public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO){
-        UsuarioRequestDTO usuario = usuarioService.cadastrarUsuario(usuarioDTO);
-        return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+        usuarioService.cadastrarUsuario(usuarioDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/tipo-perfil")
