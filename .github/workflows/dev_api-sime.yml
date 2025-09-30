@@ -48,9 +48,6 @@ jobs:
         with:
           name: java-app
 
-      - name: List files after artifact download
-        run: dir
-
       - name: Move JAR to java-app
   	run: mkdir java-app && move *.jar java-app
 
