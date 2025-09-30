@@ -42,14 +42,18 @@ jobs:
     runs-on: windows-latest
     needs: build
 
-    steps:
+        steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
 
-      - name: Move JAR to java-app
-  	run: mkdir java-app && move *.jar java-app
+      - name: List files after artifact download
+        run: dir
+
+      # Uncomment if the JAR is not directly inside java-app
+      # - name: Move JAR to java-app
+      #   run: mkdir java-app && move java-app\*.jar java-app
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
