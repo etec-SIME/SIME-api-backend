@@ -48,7 +48,12 @@ jobs:
         with:
           name: java-app
 
-      # Passo 2: deploy no Azure Web App
+      - name: List files after artifact download
+        run: dir
+
+      - name: Move JAR to java-app
+  	run: mkdir java-app && move *.jar java-app
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
