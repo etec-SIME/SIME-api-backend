@@ -54,5 +54,5 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: ./java-app/**/*.jar
+          package: ./java-app/*.jar
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}
