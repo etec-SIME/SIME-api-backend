@@ -43,12 +43,10 @@ jobs:
     needs: build
 
     steps:
-      # Passo 1: baixar o artifact do job anterior
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-          path: ./java-app  # pasta local onde vai ficar o artifact
 
       # Passo 2: deploy no Azure Web App
       - name: Deploy to Azure Web App
@@ -56,5 +54,5 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: './java-app/**/*.jar'  # apontando para o artifact baixado
+          package: ./java-app/**/*.jar
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}
