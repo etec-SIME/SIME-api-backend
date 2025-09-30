@@ -3,9 +3,7 @@ package br.com.sime.api.services;
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.DTOs.UsuarioRequestDTO;
-import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
-import br.com.sime.api.exceptions.ConflictException;
 import br.com.sime.api.repositories.DepartamentoRepository;
 import br.com.sime.api.repositories.EscolaRepository;
 import br.com.sime.api.DTOs.Projections.UsuarioProjection;
@@ -20,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -48,47 +43,6 @@ public class UsuarioService {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar usuários: " + e.getMessage(), e);
         }
-    }
-
-    public Usuario cadastrarUsuario(UsuarioRequestDTO dto)
-    {
-        if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
-        if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
-
-        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(dto.getIdTipoPerfil())
-                .orElseThrow(() -> new NotFoundException("Id tipo perfil não encontrado", "Tipo perfil não encontrado: " + dto.getIdTipoPerfil()));
-
-        List<Long> ids = dto.getDepartamentoIds();
-        List<Departamento> departamentos = new ArrayList<>();
-
-        if(ids!=null){
-            departamentos = departamentoRepository.findAllById(ids);
-            Set<Long> idsEncontrados = departamentos.stream()
-                    .map(Departamento::getIdDepartamento)
-                    .collect(Collectors.toSet());
-
-            List<Long> idsNaoEncontrados = ids.stream()
-                    .filter( id -> !idsEncontrados.contains(id))
-                    .toList();
-
-            if (!idsNaoEncontrados.isEmpty()) {
-                throw new NotFoundException(
-                        "Departamentos não encontrados",
-                        "IDs inválidos: " + idsNaoEncontrados
-                );
-            }
-        }
-
-        Usuario usuario = new Usuario();
-        usuario.setRmUsuario(dto.getRmUsuario());
-        usuario.setNomeUsuario(dto.getNomeUsuario());
-        usuario.setTelefoneUsuario(dto.getTelefoneUsuario());
-        usuario.setEmailUsuario(dto.getEmailUsuario());
-        usuario.setSenhaUsuario(passwordEncoder.encode(dto.getSenhaUsuario()));
-        usuario.setCpfUsuario(dto.getCpfUsuario());
-        usuario.setTipoPerfil(tipoPerfil);
-        usuario.setDepartamentoList(departamentos);
-        return usuarioRepository.save(usuario);
     }
 
     public TokenDTO login(LoginDTO login) {
@@ -116,4 +70,38 @@ public class UsuarioService {
 
         return new TokenDTO(token);
     }
+
+    public void cadastrarUsuario(UsuarioRequestDTO dto)
+
+    {
+        if(usuarioRepository.existsByRmUsuario(dto.getRmUsuario())) {throw new RuntimeException("Usuário com esse RM já existe!");}
+        if(usuarioRepository.existsByCpfUsuario(dto.getCpfUsuario())){throw new RuntimeException("Usuário com esse CPF já existe!");}
+
+
+        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(4L).orElseThrow(() -> new NotFoundException(""));
+
+
+        Usuario usuario = new Usuario();
+        usuario.setRmUsuario(dto.getRmUsuario());
+        usuario.setNomeUsuario(dto.getNomeUsuario());
+        usuario.setTelefoneUsuario(dto.getTelefoneUsuario());
+        usuario.setEmailUsuario(dto.getEmailUsuario());
+        usuario.setSenhaUsuario(passwordEncoder.encode(dto.getSenhaUsuario()));
+        usuario.setCpfUsuario(dto.getCpfUsuario());
+        usuario.setTipoPerfil(tipoPerfil);
+
+        usuarioRepository.save(usuario);
+
+        UsuarioRequestDTO usuarioRequestDTO = new UsuarioRequestDTO();
+        usuarioRequestDTO.setRmUsuario(usuario.getRmUsuario());
+        usuarioRequestDTO.setNomeUsuario(usuario.getNomeUsuario());
+        usuarioRequestDTO.setTelefoneUsuario(usuario.getTelefoneUsuario());
+        usuarioRequestDTO.setEmailUsuario(usuario.getEmailUsuario());
+        usuarioRequestDTO.setSenhaUsuario(usuario.getSenhaUsuario());
+        usuarioRequestDTO.setCpfUsuario(usuario.getCpfUsuario());
+
+        return;
+    }
+
+
 }

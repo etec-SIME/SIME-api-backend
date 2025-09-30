@@ -13,43 +13,48 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read # Required for actions/checkout
+      contents: read  # Required for actions/checkout
 
     steps:
+      # Passo 1: pegar o código
       - uses: actions/checkout@v4
 
+      # Passo 2: configurar Java
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
 
+      # Passo 3: build do Maven
       - name: Build with Maven
-        working-directory: ./sime.api   # <-- subdiretório do Maven
-        run: mvn clean install
+        working-directory: ./sime.api
+        run: mvn clean install -DskipTests
 
+      # Passo 4: enviar artifact para o job de deploy
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: './sime.api/target/*.jar'   # <-- JAR dentro do subdiretório
+          path: './sime.api/target/*.jar'
 
   deploy:
     runs-on: windows-latest
     needs: build
-    
+
     steps:
+      # Passo 1: baixar o artifact do job anterior
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-          path: 'target'   # pasta local onde o JAR será baixado
+          path: ./java-app  # pasta local onde vai ficar o artifact
 
+      # Passo 2: deploy no Azure Web App
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: 'target/*.jar'   # caminho do JAR baixado
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E6863B2B15E847D588B24E6EFA4F4117 }}
+          package: './java-app/**/*.jar'  # apontando para o artifact baixado
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}

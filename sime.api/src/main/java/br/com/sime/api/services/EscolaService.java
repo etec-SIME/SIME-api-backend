@@ -53,25 +53,5 @@ public class EscolaService {
 
         return new TokenDTO(token);
     }
-    /*
-    public TokenEscolaDTO loginEscola(LoginEscolaDTO login){
 
-        Escola escola = escolaRepository.findByCodEscola(login.getCodEscola())
-                .orElseThrow(() -> new NotFoundException("Escola com código: " + login.getCodEscola() + "não encontrado"));
-
-        if(!escola.getCnpjEscola().equals(login.getCnpjEscola()))
-        {
-            throw new NotFoundException("CNPJ: " + login.getCnpjEscola() + "não encontrado");
-        }
-
-        if (!escola.getNomeEscola().equals(login.getNomeEscola()))
-        {
-            throw new NotFoundException("Nome da escola: " + login.getNomeEscola() + "não encontrado");
-        }
-
-        //String tokenEscola = jwtServiceEscola.generateToken(new SchoolDetailsImpl(escola));
-
-        //return new TokenDTO(tokenEscola);
-    }
-    */
 }

@@ -13,6 +13,7 @@ import br.com.sime.api.repositories.TipoEquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,11 +33,22 @@ public class AmbienteService {
     @Autowired
     private EscolaRepository escolaRepository;
 
-    public List<Ambiente> getAllAmbientes(){
-        try{
-            return ambienteRepository.findAll();
-        }
-        catch (Exception e){
+    public List<AmbienteDTO> getAllAmbientes(){
+        try {
+            List<Ambiente> ambienteList = ambienteRepository.findAll();
+
+            return ambienteList.stream()
+                    .map( ambiente -> {
+                        AmbienteDTO ambienteDTO = new AmbienteDTO();
+                        ambienteDTO.setNumAmbiente(ambiente.getNumAmbiente());
+                        ambienteDTO.setDescricaoAmbiente(ambiente.getDescricaoAmbiente());
+                        ambienteDTO.setIdTipoAmbiente(ambiente.getTipoAmbiente().getIdTipoAmbiente());
+                        return ambienteDTO;
+                            }
+                    ).collect(Collectors.toList());
+
+
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao buscar os ambientes: " + e.getMessage(), e);
         }
     }
@@ -45,6 +57,7 @@ public class AmbienteService {
         return ambienteRepository.findById(idAmbiente)
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
     }
+
 
     public List<AmbienteSelectDTO> getAllAmbienteChamadoSelect() {
         return ambienteRepository.findAll()
@@ -58,7 +71,7 @@ public class AmbienteService {
                 .collect(Collectors.toList());
     }
 
-    public Ambiente cadastrarAmbiente( AmbienteDTO dto){
+        public AmbienteDTO cadastrarAmbiente( AmbienteDTO dto){
 
         TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.getIdTipoAmbiente())
                 .orElseThrow(() -> new NotFoundException("Tipo ambiente de ID: " + dto.getIdTipoAmbiente() + "não encontrado"));
@@ -68,7 +81,14 @@ public class AmbienteService {
         ambiente.setDescricaoAmbiente(dto.getDescricaoAmbiente());
         ambiente.setTipoAmbiente(tipoAmbiente);
 
-        return ambienteRepository.save(ambiente);
+        ambienteRepository.save(ambiente);
+
+        AmbienteDTO ambienteDTO = new AmbienteDTO();
+        ambienteDTO.setNumAmbiente(ambiente.getNumAmbiente());
+        ambienteDTO.setDescricaoAmbiente(ambiente.getDescricaoAmbiente());
+        ambienteDTO.setIdTipoAmbiente(ambiente.getTipoAmbiente().getIdTipoAmbiente());
+
+        return ambienteDTO;
     }
 
     public List<TipoEquipamento> getAllTipoEquipamentoAmbiente(Long idAmbiente){

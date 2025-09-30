@@ -90,8 +90,8 @@ public class EscolaController {
     }
 
     @GetMapping("/ambiente")
-    public ResponseEntity<List<Ambiente>> getAllAmbientes(){
-        List<Ambiente> ambientesList = ambienteService.getAllAmbientes();
+    public ResponseEntity<List<AmbienteDTO>> getAllAmbientes(){
+        List<AmbienteDTO> ambientesList = ambienteService.getAllAmbientes();
         return new ResponseEntity<>(ambientesList, HttpStatus.OK);
     }
 
@@ -144,20 +144,19 @@ public class EscolaController {
 
     @PostMapping("/usuario")
     public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioDTO){
-        //Escola escolaLogada = escolaDetails.getEscola();
-        Usuario usuario = usuarioService.cadastrarUsuario(usuarioDTO);
-        return new ResponseEntity<>(usuario, HttpStatus.CREATED);
+        usuarioService.cadastrarUsuario(usuarioDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/tipo-perfil")
     public ResponseEntity<?> cadastrarTipoPerfil(@Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
-        TipoPerfil tipoPerfil = tipoPerfilService.criarTipoPerfil(tipoPerfilDTO);
+        TipoPerfil tipoPerfil = tipoPerfilService.cadastrarTipoPerfil(tipoPerfilDTO);
         return new ResponseEntity<>(tipoPerfil, HttpStatus.CREATED);
     }
 
     @PostMapping("/ambiente")
     public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
-        Ambiente ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
+        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
         return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
     }
 
@@ -195,8 +194,8 @@ public class EscolaController {
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}/permissao")
     public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilDTO permissoesTipoPerfilDTO){
-        TipoPerfil tipoPerfil = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
-        return new ResponseEntity<>(tipoPerfil, HttpStatus.ACCEPTED);
+        List<Permissao> permissaoList = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
+        return new ResponseEntity<>(permissaoList, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/ambiente/{idAmbiente}/tipo-equipamento")
@@ -208,8 +207,8 @@ public class EscolaController {
     // --- PUTs - edição---
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}")
-    public ResponseEntity<?> editarTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
-        TipoPerfil tipoPerfilAtualizado = tipoPerfilService.editarTipoPerfil(idTipoPerfil, tipoPerfilDTO);
+    public ResponseEntity<TipoPerfilDTO> editarTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody TipoPerfilDTO tipoPerfilDTO){
+        TipoPerfilDTO tipoPerfilAtualizado = tipoPerfilService.editarTipoPerfil(idTipoPerfil, tipoPerfilDTO);
         return new ResponseEntity<>(tipoPerfilAtualizado, HttpStatus.OK);
     }
 

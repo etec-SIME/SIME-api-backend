@@ -61,19 +61,19 @@ public class TipoPerfilService {
        return tipoPerfil.getPermissaoList();
     }
 
-    public TipoPerfil criarTipoPerfil(TipoPerfilDTO dto){
+    public TipoPerfil cadastrarTipoPerfil(TipoPerfilDTO dto){
         TipoPerfil tipoPerfil = new TipoPerfil();
         tipoPerfil.setNomeTipoPerfil(dto.getNomeTipoPerfil());
         return tipoPerfilRepository.save(tipoPerfil);
     }
 
-    public TipoPerfil atribuirPermissoes(Long idTipoPerfil, PermissaoTipoPerfilDTO dto){
+    public List<Permissao> atribuirPermissoes(Long idTipoPerfil, PermissaoTipoPerfilDTO dto){
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
                 .orElseThrow(() -> new NotFoundException("Tipo perfil de ID: " + idTipoPerfil +"não encontrado"));
 
-        List<Permissao> permissaos = permissaoRepository.findAllById(dto.getIdPermissoes());
+        List<Permissao> permissoes = permissaoRepository.findAllById(dto.getIdPermissoes());
 
-        Set<Long> idsEncontrados = permissaos.stream()
+        Set<Long> idsEncontrados = permissoes.stream()
                 .map(Permissao::getIdPermissao)
                 .collect(Collectors.toSet());
 
@@ -88,16 +88,24 @@ public class TipoPerfilService {
             );
         }
 
-        tipoPerfil.setPermissaoList(permissaos);
-        return tipoPerfilRepository.save(tipoPerfil);
+        tipoPerfil.setPermissaoList(permissoes);
+        tipoPerfilRepository.save(tipoPerfil);
+
+        return permissoes;
 
     }
 
-    public TipoPerfil editarTipoPerfil(Long idTipoPerfil, TipoPerfilDTO tipoPerfilDTO){
+    public TipoPerfilDTO editarTipoPerfil(Long idTipoPerfil, TipoPerfilDTO tipoPerfilDTO){
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
                 .orElseThrow(() -> new NotFoundException("Tipo perfil de ID: " + idTipoPerfil +"não encontrado"));
 
         tipoPerfil.setNomeTipoPerfil(tipoPerfilDTO.getNomeTipoPerfil());
-        return tipoPerfilRepository.save(tipoPerfil);
+
+        TipoPerfil tipoPerfilAtualizado = tipoPerfilRepository.save(tipoPerfil);
+
+        TipoPerfilDTO tipoPerfilDTOResponse = new TipoPerfilDTO();
+        tipoPerfilDTOResponse.setNomeTipoPerfil(tipoPerfilAtualizado.getNomeTipoPerfil());
+
+        return tipoPerfilDTOResponse;
     }
 }

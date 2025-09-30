@@ -28,9 +28,8 @@ public class TipoChamadoService {
 
             return tipoChamadoList.stream().map(tipoChamado -> {
                 TipoChamadoResponseDTO tipoChamadoResponseDTO = new TipoChamadoResponseDTO();
-                tipoChamadoResponseDTO.setIdTipoChamado(tipoChamado.getIdTipoChamado());
+                tipoChamadoResponseDTO.setIdDepartamento(tipoChamado.getDepartamento().getIdDepartamento());
                 tipoChamadoResponseDTO.setNomeTipoChamado(tipoChamado.getNomeTipoChamado());
-                tipoChamadoResponseDTO.setDepartamento(tipoChamado.getDepartamento());
                 return tipoChamadoResponseDTO;}).collect(Collectors.toList());
         }catch (Exception e){
             throw new RuntimeException("Erro ao buscar os tipo de chamado: " + e.getMessage(), e);
@@ -57,9 +56,8 @@ public class TipoChamadoService {
         tipoChamadoRepository.save(tipoChamado);
 
         TipoChamadoResponseDTO tipoChamadoResponseDTO = new TipoChamadoResponseDTO();
-        tipoChamadoResponseDTO.setIdTipoChamado(tipoChamado.getIdTipoChamado());
+        tipoChamadoResponseDTO.setIdDepartamento(tipoChamado.getDepartamento().getIdDepartamento());
         tipoChamadoResponseDTO.setNomeTipoChamado(tipoChamado.getNomeTipoChamado());
-        tipoChamadoResponseDTO.setDepartamento(tipoChamado.getDepartamento());
 
         return tipoChamadoResponseDTO;
     }
@@ -76,9 +74,8 @@ public class TipoChamadoService {
         tipoChamadoRepository.save(tipoChamado);
 
         TipoChamadoResponseDTO tipoChamadoResponseDTO = new TipoChamadoResponseDTO();
-        tipoChamadoResponseDTO.setIdTipoChamado(tipoChamado.getIdTipoChamado());
+        tipoChamadoResponseDTO.setIdDepartamento(tipoChamado.getDepartamento().getIdDepartamento());
         tipoChamadoResponseDTO.setNomeTipoChamado(tipoChamadoDTO.getNomeTipoChamado());
-        tipoChamadoResponseDTO.setDepartamento(tipoChamado.getDepartamento());
 
         return tipoChamadoResponseDTO;
     }
