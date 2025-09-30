@@ -48,8 +48,6 @@ jobs:
         with:
           name: java-app
 
-      - name: List files after artifact download
-        run: dir
 
       # Uncomment if the JAR is not directly inside java-app
       # - name: Move JAR to java-app
