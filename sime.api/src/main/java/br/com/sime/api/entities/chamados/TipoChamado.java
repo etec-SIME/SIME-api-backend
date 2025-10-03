@@ -33,6 +33,6 @@ public class TipoChamado {
 
     @ManyToOne
     @JoinColumn(name = "id_departamento")
-    @JsonBackReference
+    @JsonManagedReference
     private Departamento departamento;
 }
