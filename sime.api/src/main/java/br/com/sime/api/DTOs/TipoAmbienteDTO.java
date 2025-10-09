@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class TipoAmbienteDTO {
     private String nomeTipoAmbiente;
+    private Long idTipoAmbiente;
 }
