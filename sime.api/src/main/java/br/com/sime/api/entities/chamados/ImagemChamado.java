@@ -1,5 +1,6 @@
 package br.com.sime.api.entities.chamados;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class ImagemChamado {
     String caminho;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "id_chamado")
     Chamado chamado;
 }
