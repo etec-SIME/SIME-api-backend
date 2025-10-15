@@ -2,6 +2,7 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.chamados.ImagemChamado;
 import br.com.sime.api.entities.chamados.TipoChamado;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChamadoService {
@@ -108,6 +110,28 @@ public class ChamadoService {
     public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
         chamado.setPrioridadeChamado(prioridade.getDescricao());
         chamadoRepository.save(chamado);
+    }
+
+    public Optional<ChamadoResponseDTO> getDetalhesChamado(Long idChamado) {
+        Optional<Chamado> chamado = chamadoRepository.findById(idChamado);
+
+        if (chamado.isEmpty()) {
+            throw new NotFoundException("Chamado não encontrado", "Nenhum chamado encontrado com o ID: " + idChamado);
+        }
+
+        return chamado.map(c -> new ChamadoResponseDTO(
+                c.getIdChamado(),
+                c.getTituloChamado(),
+                c.getStatusChamado(),
+                c.getDescChamado(),
+                c.getTipoChamado().getNomeTipoChamado(),
+                c.getPrioridadeChamado(),
+                c.getDtAberturaChamado(),
+                c.getImagemChamadoList()
+                        .stream()
+                        .map(caminhoImagem -> caminhoImagem.getCaminho())
+                        .toList()
+        ));
     }
 
     public List<ChamadoCardDTO> getByPrioridadeStatusChamado(PrioridadeChamadoEnum prioridade, StatusChamadoEnum status) {

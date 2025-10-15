@@ -3,6 +3,7 @@ package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/chamados")
@@ -43,6 +45,11 @@ public class ChamadoController {
         return new ResponseEntity<>(chamadoService.getAllChamados(), HttpStatus.OK);
     }
 
+    @GetMapping("/{idChamado}")
+    public ResponseEntity<Optional<ChamadoResponseDTO>> getDetalhesChamado(@PathVariable("idChamado") Long idChamado) {
+        return new ResponseEntity<>(chamadoService.getDetalhesChamado(idChamado), HttpStatus.OK);
+    }
+
     @PreAuthorize("hasPermission('Criar Chamado')")
     @PostMapping(value = "/criar-chamado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> criarChamado(
@@ -50,7 +57,7 @@ public class ChamadoController {
             @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
         String rmUsuario = jwtService.getRmFromToken();
-
+        System.out.println("Arquivos recebidos: " + (files != null ? files.length : 0));
         chamadoService.criarChamado(rmUsuario, ChamadoDTO, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
