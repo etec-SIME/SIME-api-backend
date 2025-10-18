@@ -24,7 +24,8 @@ public class TipoChamado {
     private String nomeTipoChamado;
 
     @OneToMany(mappedBy = "tipoChamado")
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnoreProperties("tipoChamado")
     private List<Chamado> chamadoList;
 
     @OneToMany(mappedBy = "tipoChamado")
