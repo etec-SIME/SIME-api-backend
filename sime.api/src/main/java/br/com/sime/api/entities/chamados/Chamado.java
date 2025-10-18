@@ -53,7 +53,7 @@ public class Chamado {
     private Usuario usuarioResponsavel;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnoreProperties("chamadoList")
     @JoinColumn(name = "id_tipo_chamado")
     private TipoChamado tipoChamado;
 
