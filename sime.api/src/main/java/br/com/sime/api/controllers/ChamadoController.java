@@ -2,7 +2,7 @@ package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.ChamadoCardDTO;
-import br.com.sime.api.DTOs.Responses.ChamadoProgressoResponseDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
@@ -52,9 +52,9 @@ public class ChamadoController {
         return new ResponseEntity<>(chamadoService.getDetalhesChamado(idChamado), HttpStatus.OK);
     }
 
-    @GetMapping("/{idChamado}/progresso")
-    public ResponseEntity<ChamadoProgressoResponseDTO> getProgressoChamado(@PathVariable("idChamado") Long idChamado) {
-        return new ResponseEntity<>(chamadoService.getProgressoChamado(idChamado), HttpStatus.OK);
+    @GetMapping("/{idChamado}/status")
+    public ResponseEntity<ChamadoStatusResponseDTO> getStatusChamado(@PathVariable("idChamado") Long idChamado) {
+        return new ResponseEntity<>(chamadoService.getStatusChamado(idChamado), HttpStatus.OK);
     }
 
     @PreAuthorize("hasPermission('Criar Chamado')")
@@ -69,9 +69,15 @@ public class ChamadoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idChamado}/status-progresso")
-    public ResponseEntity<Chamado> atualizarStatusProgresso(@PathVariable("idChamado") Long idChamado, @RequestParam StatusProgressoEnum novoStatus) {
-        Chamado chamadoAtualizado = chamadoService.atualizarStatusProgresso(idChamado, novoStatus);
+    @PutMapping("/{idChamado}/atualizar-status-progresso")
+    public ResponseEntity<ChamadoStatusResponseDTO> atualizarStatusProgresso(@PathVariable("idChamado") Long idChamado, @RequestParam StatusProgressoEnum novoStatus) {
+        ChamadoStatusResponseDTO chamadoAtualizado = chamadoService.atualizarStatusProgresso(idChamado, novoStatus);
+        return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
+    }
+
+    @PutMapping("/{idChamado}/atualizar-status-geral")
+    public ResponseEntity<ChamadoStatusResponseDTO> atualizarStatusGeral(@PathVariable("idChamado") Long idChamado, @RequestParam StatusGeralEnum novoStatus) {
+        ChamadoStatusResponseDTO chamadoAtualizado = chamadoService.atualizarStatusGeral(idChamado, novoStatus);
         return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
     }
 

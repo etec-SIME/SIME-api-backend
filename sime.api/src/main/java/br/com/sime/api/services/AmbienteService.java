@@ -71,7 +71,7 @@ public class AmbienteService {
                 .collect(Collectors.toList());
     }
 
-        public AmbienteDTO cadastrarAmbiente( AmbienteDTO dto){
+        public AmbienteDTO cadastrarAmbiente(AmbienteDTO dto){
 
         TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.getIdTipoAmbiente())
                 .orElseThrow(() -> new NotFoundException("Tipo ambiente de ID: " + dto.getIdTipoAmbiente() + "não encontrado"));

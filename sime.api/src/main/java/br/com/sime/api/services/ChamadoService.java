@@ -1,7 +1,7 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.ChamadoCardDTO;
-import br.com.sime.api.DTOs.Responses.ChamadoProgressoResponseDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.entities.chamados.Chamado;
@@ -117,7 +117,7 @@ public class ChamadoService {
         }
     }
 
-    public Chamado atualizarStatusProgresso(Long idChamado, StatusProgressoEnum novoStatus) {
+    public ChamadoStatusResponseDTO atualizarStatusProgresso(Long idChamado, StatusProgressoEnum novoStatus) {
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
 
@@ -139,29 +139,35 @@ public class ChamadoService {
         historicoStatusProgressoRepository.save(historicoStatusProgresso);
 
         chamado.getHistoricoStatusProgressoList().add(historicoStatusProgresso);
-        return chamado;
+        return getStatusChamado(chamado.getIdChamado());
     }
 
-    public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
-        chamado.setPrioridadeChamado(prioridade.getDescricao());
+    public ChamadoStatusResponseDTO atualizarStatusGeral(Long idChamado, StatusGeralEnum novoStatus) {
+        Chamado chamado = chamadoRepository.findById(idChamado)
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
+
+        chamado.setStatusAtualGeralChamado(novoStatus.getDescricao());
+
         chamadoRepository.save(chamado);
+        return getStatusChamado(chamado.getIdChamado());
     }
 
-    public ChamadoProgressoResponseDTO getProgressoChamado(Long idChamado) {
+    public ChamadoStatusResponseDTO getStatusChamado(Long idChamado) {
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
 
         var historicoChamadoList = chamado.getHistoricoStatusProgressoList()
                 .stream()
-                .map(h -> new ChamadoProgressoResponseDTO.HistoricoChamadoList(
+                .map(h -> new ChamadoStatusResponseDTO.HistoricoChamadoList(
                         h.getStatusProgresso(),
                         h.getDiaSemana(),
                         h.getDtAlteracao()
                 )).toList();
 
-        return new ChamadoProgressoResponseDTO(
+        return new ChamadoStatusResponseDTO(
                 chamado.getIdChamado(),
                 chamado.getStatusAtualProgressoChamado(),
+                chamado.getStatusAtualGeralChamado(),
                 historicoChamadoList
         );
     }

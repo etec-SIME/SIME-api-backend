@@ -3,9 +3,10 @@ package br.com.sime.api.DTOs.Responses;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ChamadoProgressoResponseDTO(
+public record ChamadoStatusResponseDTO(
     Long idChamado,
     String statusAtualProgressoChamado,
+    String statusAtualGeralChamado,
     List<HistoricoChamadoList> historicoChamadoList
 ) {
     public record HistoricoChamadoList (
