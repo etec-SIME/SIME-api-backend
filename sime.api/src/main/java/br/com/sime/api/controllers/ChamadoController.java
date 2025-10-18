@@ -69,12 +69,6 @@ public class ChamadoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idChamado}/status-geral")
-    public ResponseEntity<Chamado> atualizarStatusGeral(@PathVariable("idChamado") Long idChamado, @RequestParam StatusGeralEnum novoStatus) {
-        Chamado chamadoAtualizado = chamadoService.atualizarStatusGeral(idChamado, novoStatus);
-        return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
-    }
-
     @PutMapping("/{idChamado}/status-progresso")
     public ResponseEntity<Chamado> atualizarStatusProgresso(@PathVariable("idChamado") Long idChamado, @RequestParam StatusProgressoEnum novoStatus) {
         Chamado chamadoAtualizado = chamadoService.atualizarStatusProgresso(idChamado, novoStatus);

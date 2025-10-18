@@ -59,9 +59,6 @@ public class ChamadoService {
     private ImagemChamadoService imagemChamadoService;
 
     @Autowired
-    private HistoricoStatusGeralRepository historicoStatusGeralRepository;
-
-    @Autowired
     private HistoricoStatusProgressoRepository historicoStatusProgressoRepository;
 
     public List<Chamado> getAllChamados() {
