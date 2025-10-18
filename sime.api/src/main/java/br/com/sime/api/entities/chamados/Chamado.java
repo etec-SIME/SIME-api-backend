@@ -1,5 +1,6 @@
 package br.com.sime.api.entities.chamados;
 
+import br.com.sime.api.entities.chamados.historicos.HistoricoStatusProgresso;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -32,8 +33,11 @@ public class Chamado {
     @Column(name = "titulo_chamado")
     private String tituloChamado;
 
-    @Column(name = "status_chamado", nullable = false)
-    private String statusChamado;
+    @Column(name = "status_atual_geral_chamado", nullable = false)
+    private String statusAtualGeralChamado;
+
+    @Column(name = "status_atual_progresso_chamado", nullable = false)
+    private String statusAtualProgressoChamado;
 
     @Column(name = "prioridade_chamado", nullable = false)
     private String prioridadeChamado;
@@ -65,4 +69,8 @@ public class Chamado {
     @OneToMany(mappedBy = "chamado")
     @JsonManagedReference
     private List<ImagemChamado> imagemChamadoList;
+
+    @OneToMany(mappedBy = "chamado")
+    @JsonManagedReference
+    private List<HistoricoStatusProgresso> historicoStatusProgressoList;
 }

@@ -55,7 +55,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDAwMDIiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiR2VyZW5jaWFyIFBlcmZpcyJ9LHsiYXV0aG9yaXR5IjoiR2VyZW5jaWFyIERlcGFydGFtZW50b3MifSx7ImF1dGhvcml0eSI6IkdlcmVuY2lhciBDaGFtYWRvcyJ9LHsiYXV0aG9yaXR5IjoiQ3JpYXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiVmlzdWFsaXphciBSZWxhdMOzcmlvcyJ9XSwiZW50aWRhZGUiOiJVU1VBUklPIiwiaWF0IjoxNzU5MjA5ODI3LCJleHAiOjE3NTkyOTYyMjd9.eRQfLb6zTsEdfXmiEBBCIdyZen3wOitQVvCIAeAaonk",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODAwMDE5NSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0VTQ09MQSJ9XSwiZW50aWRhZGUiOiJFU0NPTEEiLCJpYXQiOjE3NjAxMTkxNjAsImV4cCI6MTc2MDIwNTU2MH0.uhvU8grmoJCAS2YztfrvKZPhqVge29nWH5ifhZ8ovM4",
 									"type": "string"
 								}
 							]
@@ -69,6 +69,63 @@
 							],
 							"path": [
 								"chamados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProgressoChamado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODAwMDE5NSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0VTQ09MQSJ9XSwiZW50aWRhZGUiOiJFU0NPTEEiLCJpYXQiOjE3NjAxMTkxNjAsImV4cCI6MTc2MDIwNTU2MH0.uhvU8grmoJCAS2YztfrvKZPhqVge29nWH5ifhZ8ovM4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/4/progresso",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"4",
+								"progresso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDetalhesChamado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"4"
 							]
 						}
 					},
@@ -188,6 +245,76 @@
 							"path": [
 								"chamados",
 								"tipos-chamado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizarStatusGeral",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODAwMDE5NSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0VTQ09MQSJ9XSwiZW50aWRhZGUiOiJFU0NPTEEiLCJpYXQiOjE3NjAxMTkxNjAsImV4cCI6MTc2MDIwNTU2MH0.uhvU8grmoJCAS2YztfrvKZPhqVge29nWH5ifhZ8ovM4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/1/status-geral?novoStatus=PENDENTE",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"1",
+								"status-geral"
+							],
+							"query": [
+								{
+									"key": "novoStatus",
+									"value": "PENDENTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizarStatusProgresso",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODAwMDE5NSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0VTQ09MQSJ9XSwiZW50aWRhZGUiOiJFU0NPTEEiLCJpYXQiOjE3NjAxMTkxNjAsImV4cCI6MTc2MDIwNTU2MH0.uhvU8grmoJCAS2YztfrvKZPhqVge29nWH5ifhZ8ovM4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/chamados/7/status-progresso?novoStatus=CONCLUIDO",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"chamados",
+								"7",
+								"status-progresso"
+							],
+							"query": [
+								{
+									"key": "novoStatus",
+									"value": "CONCLUIDO"
+								}
 							]
 						}
 					},
@@ -373,6 +500,36 @@
 					"response": []
 				},
 				{
+					"name": "getAllDepartamentos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codEscola\": \"E01\",\r\n  \"cnpjEscola\": \"12345678000195\",\r\n  \"senhaEscola\": \"senha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escola/departamento",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"departamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getAllAmbientes",
 					"request": {
 						"auth": {
@@ -395,6 +552,34 @@
 							"path": [
 								"escola",
 								"ambiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEquipamentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/equipamento",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"equipamento"
 							]
 						}
 					},

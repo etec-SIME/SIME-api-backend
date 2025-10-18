@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public enum PrioridadeChamadoEnum {
 
-    ALTA_PRIORIDADE("Alta Prioridade"),
+    ALTA_PRIORIDADE("Alta"),
 
-    MEDIA_PRIORIDADE("Média Prioridade"),
+    MEDIA_PRIORIDADE("Média"),
 
-    BAIXA_PRIORIDADE("Baixa Prioridade");
+    BAIXA_PRIORIDADE("Baixa");
 
     private final String descricao;
 

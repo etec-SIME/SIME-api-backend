@@ -2,12 +2,14 @@ package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.ChamadoCardDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoProgressoResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
-import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.enums.StatusGeralEnum;
+import br.com.sime.api.enums.StatusProgressoEnum;
 import br.com.sime.api.security.services.JwtService;
 import br.com.sime.api.services.AmbienteService;
 import br.com.sime.api.services.ChamadoService;
@@ -50,6 +52,11 @@ public class ChamadoController {
         return new ResponseEntity<>(chamadoService.getDetalhesChamado(idChamado), HttpStatus.OK);
     }
 
+    @GetMapping("/{idChamado}/progresso")
+    public ResponseEntity<ChamadoProgressoResponseDTO> getProgressoChamado(@PathVariable("idChamado") Long idChamado) {
+        return new ResponseEntity<>(chamadoService.getProgressoChamado(idChamado), HttpStatus.OK);
+    }
+
     @PreAuthorize("hasPermission('Criar Chamado')")
     @PostMapping(value = "/criar-chamado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> criarChamado(
@@ -60,6 +67,18 @@ public class ChamadoController {
         System.out.println("Arquivos recebidos: " + (files != null ? files.length : 0));
         chamadoService.criarChamado(rmUsuario, ChamadoDTO, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{idChamado}/status-geral")
+    public ResponseEntity<Chamado> atualizarStatusGeral(@PathVariable("idChamado") Long idChamado, @RequestParam StatusGeralEnum novoStatus) {
+        Chamado chamadoAtualizado = chamadoService.atualizarStatusGeral(idChamado, novoStatus);
+        return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
+    }
+
+    @PutMapping("/{idChamado}/status-progresso")
+    public ResponseEntity<Chamado> atualizarStatusProgresso(@PathVariable("idChamado") Long idChamado, @RequestParam StatusProgressoEnum novoStatus) {
+        Chamado chamadoAtualizado = chamadoService.atualizarStatusProgresso(idChamado, novoStatus);
+        return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
     }
 
     @GetMapping("/ambientes")
@@ -81,7 +100,7 @@ public class ChamadoController {
     }
 
     @GetMapping("/prioridade/concluidos")
-    public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status") StatusChamadoEnum status) {
+    public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status") StatusGeralEnum status) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeStatusChamado(prioridade, status);
         return new ResponseEntity<>(chamados, HttpStatus.OK);
     }

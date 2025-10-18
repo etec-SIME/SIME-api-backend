@@ -3,7 +3,7 @@ package br.com.sime.api.services;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
-import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.enums.StatusGeralEnum;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.ChamadoRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
@@ -51,7 +51,7 @@ public class GestorGeralService{
         Chamado chamado = chamadoRepository.findById(idChamado)
                 .orElseThrow(() -> new NotFoundException("Chamado não encontrado com ID: " + idChamado));
 
-        chamado.setStatusChamado(StatusChamadoEnum.PENDENTE.getDescricao());
+        chamado.setStatusAtualGeralChamado(StatusGeralEnum.PENDENTE.getDescricao());
 
         chamadoRepository.save(chamado);
     }

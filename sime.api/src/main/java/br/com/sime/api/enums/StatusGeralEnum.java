@@ -3,7 +3,7 @@ package br.com.sime.api.enums;
 import lombok.Getter;
 
 @Getter
-public enum StatusChamadoEnum {
+public enum StatusGeralEnum {
 
     AGUARDANDO_APROVACAO("Aguardando Aprovação"),
 
@@ -13,7 +13,7 @@ public enum StatusChamadoEnum {
 
     private final String descricao;
 
-    StatusChamadoEnum(String descricao) {
+    StatusGeralEnum(String descricao) {
         this.descricao = descricao;
     }
 }

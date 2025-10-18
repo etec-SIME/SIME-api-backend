@@ -1,17 +1,20 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.ChamadoCardDTO;
+import br.com.sime.api.DTOs.Responses.ChamadoProgressoResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.entities.chamados.ImagemChamado;
 import br.com.sime.api.entities.chamados.TipoChamado;
+import br.com.sime.api.entities.chamados.historicos.HistoricoStatusProgresso;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
-import br.com.sime.api.enums.StatusChamadoEnum;
+import br.com.sime.api.enums.StatusGeralEnum;
+import br.com.sime.api.enums.StatusProgressoEnum;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -51,6 +57,12 @@ public class ChamadoService {
 
     @Autowired
     private ImagemChamadoService imagemChamadoService;
+
+    @Autowired
+    private HistoricoStatusGeralRepository historicoStatusGeralRepository;
+
+    @Autowired
+    private HistoricoStatusProgressoRepository historicoStatusProgressoRepository;
 
     public List<Chamado> getAllChamados() {
         try {
@@ -91,7 +103,8 @@ public class ChamadoService {
         chamado.setTipoChamado(tipoChamado);
         chamado.setTipoAmbiente(tipoAmbiente);
         chamado.setDtAberturaChamado(dto.dataAbertura());
-        chamado.setStatusChamado(StatusChamadoEnum.AGUARDANDO_APROVACAO.getDescricao());
+        chamado.setStatusAtualGeralChamado(StatusGeralEnum.AGUARDANDO_APROVACAO.getDescricao());
+        chamado.setStatusAtualProgressoChamado(StatusProgressoEnum.EM_ANALISE.getDescricao());
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
         chamadoRepository.save(chamado);
@@ -107,9 +120,53 @@ public class ChamadoService {
         }
     }
 
+    public Chamado atualizarStatusProgresso(Long idChamado, StatusProgressoEnum novoStatus) {
+        Chamado chamado = chamadoRepository.findById(idChamado)
+                .orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
+
+        chamado.setStatusAtualProgressoChamado(novoStatus.getDescricao());
+        chamadoRepository.save(chamado);
+
+        HistoricoStatusProgresso historicoStatusProgresso = new HistoricoStatusProgresso();
+        historicoStatusProgresso.setChamado(chamado);
+        historicoStatusProgresso.setStatusProgresso(novoStatus.getDescricao());
+
+        LocalDateTime agora = LocalDateTime.now();
+        historicoStatusProgresso.setDtAlteracao(agora);
+
+        // Dia da semana com primeira letra maiúscula e sem "feira"
+        String diaSemana = agora.getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, new Locale("pt", "BR"));
+        diaSemana = capitalizeFirstLetter(removeFeira(diaSemana));
+        historicoStatusProgresso.setDiaSemana(diaSemana);
+        historicoStatusProgressoRepository.save(historicoStatusProgresso);
+
+        chamado.getHistoricoStatusProgressoList().add(historicoStatusProgresso);
+        return chamado;
+    }
+
     public void definirPrioridadeChamado(Chamado chamado, PrioridadeChamadoEnum prioridade) {
         chamado.setPrioridadeChamado(prioridade.getDescricao());
         chamadoRepository.save(chamado);
+    }
+
+    public ChamadoProgressoResponseDTO getProgressoChamado(Long idChamado) {
+        Chamado chamado = chamadoRepository.findById(idChamado)
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
+
+        var historicoChamadoList = chamado.getHistoricoStatusProgressoList()
+                .stream()
+                .map(h -> new ChamadoProgressoResponseDTO.HistoricoChamadoList(
+                        h.getStatusProgresso(),
+                        h.getDiaSemana(),
+                        h.getDtAlteracao()
+                )).toList();
+
+        return new ChamadoProgressoResponseDTO(
+                chamado.getIdChamado(),
+                chamado.getStatusAtualProgressoChamado(),
+                historicoChamadoList
+        );
     }
 
     public Optional<ChamadoResponseDTO> getDetalhesChamado(Long idChamado) {
@@ -122,11 +179,12 @@ public class ChamadoService {
         return chamado.map(c -> new ChamadoResponseDTO(
                 c.getIdChamado(),
                 c.getTituloChamado(),
-                c.getStatusChamado(),
+                c.getStatusAtualGeralChamado(),
                 c.getDescChamado(),
                 c.getTipoChamado().getNomeTipoChamado(),
                 c.getPrioridadeChamado(),
                 c.getDtAberturaChamado(),
+                c.getDtConclusaoChamado(),
                 c.getImagemChamadoList()
                         .stream()
                         .map(caminhoImagem -> caminhoImagem.getCaminho())
@@ -134,8 +192,8 @@ public class ChamadoService {
         ));
     }
 
-    public List<ChamadoCardDTO> getByPrioridadeStatusChamado(PrioridadeChamadoEnum prioridade, StatusChamadoEnum status) {
-        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamadoAndStatusChamado(
+    public List<ChamadoCardDTO> getByPrioridadeStatusChamado(PrioridadeChamadoEnum prioridade, StatusGeralEnum status) {
+        List<Chamado> chamados = chamadoRepository.findAllByPrioridadeChamadoAndStatusAtualGeralChamado(
                 prioridade.getDescricao(), status.getDescricao());
 
         if (chamados.isEmpty()) {
@@ -163,7 +221,7 @@ public class ChamadoService {
         return mapToChamadoCardDTOList(chamados);
     }
 
-    //Método auxiliar
+    //Metodos Auxiliares
     public List<ChamadoCardDTO> mapToChamadoCardDTOList(List<Chamado> chamados) {
         if (chamados.isEmpty()) {
             throw new NotFoundException("Nenhum chamado encontrado", "Nenhum chamado encontrado");
@@ -177,9 +235,20 @@ public class ChamadoService {
                         chamado.getDtAberturaChamado().format(formatter),
                         chamado.getDescChamado(),
                         chamado.getPrioridadeChamado(),
-                        chamado.getStatusChamado()
+                        chamado.getStatusAtualGeralChamado()
                 ))
                 .toList();
+    }
+
+    private String removeFeira(String dia) {
+        return dia.replace("feira", "")
+                .replace("-", "")
+                .trim();
+    }
+
+    private String capitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
 //    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {

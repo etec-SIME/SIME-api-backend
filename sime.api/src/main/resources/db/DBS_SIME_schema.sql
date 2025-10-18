@@ -111,10 +111,11 @@ CREATE TABLE Equipamento (
 CREATE TABLE Chamado (
 	id_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
 	prioridade_chamado VARCHAR(20),
-	status_chamado VARCHAR(20),
-	dt_abertura_chamado DATETIME,
+	status_atual_geral_chamado VARCHAR(50),
+	status_atual_progresso_chamado VARCHAR(50),
+	dt_abertura_chamado DATETIME DEFAULT GETDATE(),
 	desc_chamado VARCHAR(450),
-	dt_conclusao_chamado DATETIME,
+	dt_conclusao_chamado DATETIME DEFAULT GETDATE(),
 	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
@@ -126,13 +127,14 @@ CREATE TABLE Chamado (
 	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente),
-	CHECK (prioridade_chamado IN ('Alta Prioridade', 'Média Prioridade', 'Baixa Prioridade')),
-	CHECK (status_chamado IN ('Aguardando Aprovação', 'Concluído', 'Pendente'))
+	CHECK (prioridade_chamado IN ('Alta', 'Média', 'Baixa')),
+	CHECK (status_atual_geral_chamado IN ('Aguardando Aprovação', 'Concluído', 'Pendente')),
+	CHECK (status_atual_progresso_chamado IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))
 )
 
 CREATE TABLE Feedback (
 	id_feedback BIGINT IDENTITY(1,1) PRIMARY KEY,
-	dt_feedback DATETIME,
+	dt_feedback DATETIME DEFAULT GETDATE(),
 	desc_feedback VARCHAR(450),
 	destinatario_feedback VARCHAR(50),
 	remetente_feedback VARCHAR(50),
@@ -154,6 +156,16 @@ CREATE TABLE Imagem_Chamado (
     caminho_imagem_chamado VARCHAR(255),
     id_chamado BIGINT,
     FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
+)
+
+CREATE TABLE Historico_Status_Progresso (
+	id_historico_status_progresso BIGINT IDENTITY(1,1) PRIMARY KEY,
+	status_progresso VARCHAR(50),
+	dt_alteracao DATETIME DEFAULT GETDATE(),
+	dia_semana VARCHAR(20),
+	id_chamado BIGINT,
+	FOREIGN KEY (id_chamado) REFERENCES Chamado (id_chamado),
+	CHECK (status_progresso IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))
 )
 
 DROP DATABASE DBS_SIME

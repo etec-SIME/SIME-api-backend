@@ -194,11 +194,12 @@ INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
 -- =====================================
 -- CHAMADO
 -- =====================================
-INSERT INTO Chamado (prioridade_chamado, status_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente)
-VALUES
-('Alta Prioridade', 'Aguardando Aprovação', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idAmb202),
-('Média Prioridade', 'Pendente', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idAmb101),
-('Baixa Prioridade', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idAmb303);
+INSERT INTO Chamado
+(prioridade_chamado, status_atual_geral_chamado, status_atual_progresso_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente) VALUES
+('Alta', 'Aguardando Aprovação', 'Em análise', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idAmb202),
+('Média', 'Pendente', 'Em andamento', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idAmb101),
+('Baixa', 'Concluído', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idAmb303);
+
 
 -- =====================================
 -- FEEDBACK
@@ -207,3 +208,12 @@ INSERT INTO Feedback (dt_feedback, desc_feedback, destinatario_feedback, remeten
 (GETDATE(), 'Problema resolvido rapidamente, ótimo suporte!', 'Carlos Gestor', 'João Usuário', 1, '200005'),
 (GETDATE(), 'Ainda aguardando manutenção do projetor', 'Fernanda Dep', 'Rafael Func', 2, '200004'),
 (GETDATE(), 'Estante consertada, ambiente normalizado', 'Rafael Func', 'João Usuário', 3, '200005');
+
+-- =====================================
+-- HISTORICO STATUS PROGRESSO
+-- =====================================
+INSERT INTO Historico_Status_Progresso (id_chamado, status_progresso, dt_alteracao, dia_semana)
+VALUES
+(1, 'Em análise', GETDATE(), FORMAT(GETDATE(), 'dddd', 'pt-BR')),
+(2, 'Em andamento', GETDATE(), FORMAT(GETDATE(), 'dddd', 'pt-BR')),
+(3, 'Concluído', GETDATE(), FORMAT(GETDATE(), 'dddd', 'pt-BR'));
