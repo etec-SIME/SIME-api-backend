@@ -1,5 +1,7 @@
 package br.com.sime.api.DTOs.Requests;
 
+import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
+
 import java.util.List;
 
 public record AmbienteRequestDTO(
@@ -8,9 +10,6 @@ public record AmbienteRequestDTO(
     String descricaoAmbiente,
     Long idTipoAmbiente,
     String nomeTipoAmbiente,
-    List<CodEquipamentos> equipamentosList
+    List<CodEquipamentoResponseDTO> equipamentosList
 ) {
-    public record CodEquipamentos (
-        String codEquipamento
-    ) { }
 }

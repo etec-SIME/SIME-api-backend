@@ -1,6 +1,7 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
+import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
@@ -139,6 +140,12 @@ public class EscolaController {
     public ResponseEntity<List<TipoEquipamento>> getAllTipoEquipamentoAmbiente(@PathVariable Long idAmbiente){
         List<TipoEquipamento> tipoEquipamentoList = ambienteService.getAllTipoEquipamentoAmbiente(idAmbiente);
         return new ResponseEntity<>(tipoEquipamentoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/equipamento/sem-ambiente")
+    public ResponseEntity<EquipamentoCodigosResponseDTO> getEquipamentodSemAmbiente(){
+        EquipamentoCodigosResponseDTO equipamentos = equipamentoService.getEquipamentosSemAmbiente();
+        return new ResponseEntity<>(equipamentos, HttpStatus.OK);
     }
 
     // --- POSTs - cadastrato/criação---

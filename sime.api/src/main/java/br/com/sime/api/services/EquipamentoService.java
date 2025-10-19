@@ -1,16 +1,21 @@
 package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.EquipamentoDTO;
+import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
+import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.exceptions.NotFoundException;
+import br.com.sime.api.repositories.AmbienteRepository;
 import br.com.sime.api.repositories.EquipamentoRepository;
 import br.com.sime.api.repositories.TipoEquipamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +25,9 @@ public class EquipamentoService {
 
     @Autowired
     private TipoEquipamentoRepository tipoEquipamentoRepository;
+
+    @Autowired
+    private AmbienteRepository ambienteRepository;
 
     public List<EquipamentoResponseDTO> getAllEquipamentos(){
         try {
@@ -40,6 +48,24 @@ public class EquipamentoService {
     public Equipamento getEquipamentoById(Long idEquipamento){
         return equipamentoRepository.findById(idEquipamento)
                 .orElseThrow(() -> new NotFoundException("Equipamento de ID: " + idEquipamento + "não encontrado"));
+    }
+
+    public EquipamentoCodigosResponseDTO getEquipamentosSemAmbiente(){
+        List<Ambiente> ambientes = ambienteRepository.findAll();
+        List<Equipamento> equipamentos = equipamentoRepository.findAll();
+
+        Set<String> equipamentosComAmbiente = ambientes.stream()
+                .flatMap(ambiente -> ambiente.getTipoEquipamentoList().stream())
+                .flatMap(tipoEquipamento -> tipoEquipamento.getEquipamentoList().stream())
+                .map(Equipamento::getCodEquipamento)
+                .collect(Collectors.toSet());
+
+        List<CodEquipamentoResponseDTO> codigosEquipamentos =  equipamentos.stream()
+                .filter(equipamento -> !equipamentosComAmbiente.contains(equipamento.getCodEquipamento()))
+                .map(equipamento -> new CodEquipamentoResponseDTO(equipamento.getCodEquipamento()))
+                .collect(Collectors.toList());
+
+        return new EquipamentoCodigosResponseDTO(codigosEquipamentos);
     }
 
     //getEquipamentoByTipoEquipamento

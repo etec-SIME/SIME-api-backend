@@ -2,6 +2,7 @@ package br.com.sime.api.services;
 import br.com.sime.api.DTOs.AmbienteDTO;
 import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
+import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
@@ -73,7 +74,7 @@ public class AmbienteService {
         //Agrupa os codigos dos equipamentos do dto
         List<String> codigosEquipamentos = request.equipamentosList()
                         .stream()
-                                .map(AmbienteRequestDTO.CodEquipamentos::codEquipamento)
+                                .map(CodEquipamentoResponseDTO::codEquipamento)
                                         .toList();
         //Procura no banco
         List<Equipamento> equipamentosSelecionados = equipamentoRepository.findAllByCodEquipamentoIn(codigosEquipamentos);
@@ -89,10 +90,10 @@ public class AmbienteService {
         ambiente.setTipoEquipamentoList(tiposEquipamentos);
         ambienteRepository.save(ambiente);
 
-        List<AmbienteRequestDTO.CodEquipamentos> equipamentosList = ambiente.getTipoEquipamentoList()
+        List<CodEquipamentoResponseDTO> equipamentosList = ambiente.getTipoEquipamentoList()
                 .stream()
                 .flatMap(tipoEquipamento -> tipoEquipamento.getEquipamentoList().stream())
-                .map(equipamento -> new AmbienteRequestDTO.CodEquipamentos(
+                .map(equipamento -> new CodEquipamentoResponseDTO(
                         equipamento.getCodEquipamento()
                 )).toList();
 

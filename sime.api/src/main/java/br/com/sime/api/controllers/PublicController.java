@@ -27,7 +27,7 @@ public class PublicController {
         return ResponseEntity.ok(tipoPerfis);
     }
 
-    @GetMapping("nigga")
+    @GetMapping("")
     public List<Ambiente> getAllAmbientes() {
         return ambienteRepository.findAll();
     }
