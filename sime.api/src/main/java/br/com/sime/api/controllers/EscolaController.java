@@ -1,5 +1,6 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
+import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
@@ -155,10 +156,16 @@ public class EscolaController {
     }
 
     @PostMapping("/ambiente")
-    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
-        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
+    public ResponseEntity<AmbienteRequestDTO> cadastrarAmbiente(@Valid @RequestBody AmbienteRequestDTO dto){
+        AmbienteRequestDTO ambiente = ambienteService.cadastrarAmbiente(dto);
         return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
     }
+
+//    @PostMapping("/ambiente")
+//    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
+//        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
+//        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
+//    }
 
     @PostMapping("/departamento")
     public ResponseEntity<?> criarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO){
