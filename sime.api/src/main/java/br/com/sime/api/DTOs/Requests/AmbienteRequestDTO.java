@@ -11,5 +11,4 @@ public record AmbienteRequestDTO(
     Long idTipoAmbiente,
     String nomeTipoAmbiente,
     List<CodEquipamentoResponseDTO> equipamentosList
-) {
-}
+) { }
