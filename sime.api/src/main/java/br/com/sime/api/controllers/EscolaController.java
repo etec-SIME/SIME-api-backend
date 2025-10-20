@@ -10,7 +10,6 @@ import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
-import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.services.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
