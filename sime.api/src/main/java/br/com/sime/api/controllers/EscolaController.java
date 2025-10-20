@@ -155,16 +155,10 @@ public class EscolaController {
     }
 
     @PostMapping("/ambiente")
-    public ResponseEntity<AmbienteRequestDTO> cadastrarAmbiente(@Valid @RequestBody AmbienteRequestDTO dto){
-        AmbienteRequestDTO ambiente = ambienteService.cadastrarAmbiente(dto);
+    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
+        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
         return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
     }
-
-//    @PostMapping("/ambiente")
-//    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
-//        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
-//        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
-//    }
 
     @PostMapping("/departamento")
     public ResponseEntity<?> criarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO){

@@ -1,6 +1,8 @@
 package br.com.sime.api.controllers;
 
 import br.com.sime.api.DTOs.Responses.TipoPerfilResponseDTO;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
+import br.com.sime.api.repositories.AmbienteRepository;
 import br.com.sime.api.services.TipoPerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,17 @@ public class PublicController {
     @Autowired
     private TipoPerfilService tipoPerfilService;
 
+    @Autowired
+    private AmbienteRepository ambienteRepository;
+
     @GetMapping("/tipos-perfil")
     public ResponseEntity<List<TipoPerfilResponseDTO>> getTipoPerfilNomes() {
         List<TipoPerfilResponseDTO> tipoPerfis = tipoPerfilService.getTipoPerfilNomes();
         return ResponseEntity.ok(tipoPerfis);
+    }
+
+    @GetMapping("")
+    public List<Ambiente> getAllAmbientes() {
+        return ambienteRepository.findAll();
     }
 }
