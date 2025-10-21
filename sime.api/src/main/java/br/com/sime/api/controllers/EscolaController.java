@@ -1,11 +1,14 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
+import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
+import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -133,11 +136,16 @@ public class EscolaController {
         return new ResponseEntity<>(permissaoList, HttpStatus.OK);
     }
 
-
     @GetMapping("/ambiente/{idAmbiente}/tipo-equipamento")
-    public ResponseEntity<List<TipoEquipamento>> getAllTipoEquipamentoAmbiente(@PathVariable Long idAmbiente){
-        List<TipoEquipamento> tipoEquipamentoList = ambienteService.getAllTipoEquipamentoAmbiente(idAmbiente);
-        return new ResponseEntity<>(tipoEquipamentoList, HttpStatus.OK);
+    public ResponseEntity<List<Equipamento>> getAllTipoEquipamentoAmbiente(@PathVariable Long idAmbiente){
+        List<Equipamento> equipamentoList = ambienteService.getAllEquipamentoAmbiente(idAmbiente);
+        return new ResponseEntity<>(equipamentoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/equipamento/sem-ambiente")
+    public ResponseEntity<EquipamentoCodigosResponseDTO> getEquipamentosSemAmbiente() {
+        EquipamentoCodigosResponseDTO equipamentosSemAmbienteList = equipamentoService.getEquipamentosSemAmbiente();
+        return new ResponseEntity<>(equipamentosSemAmbienteList, HttpStatus.OK);
     }
 
     // --- POSTs - cadastrato/criação---
@@ -154,11 +162,11 @@ public class EscolaController {
         return new ResponseEntity<>(tipoPerfil, HttpStatus.CREATED);
     }
 
-    @PostMapping("/ambiente")
-    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
-        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
-        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
-    }
+//    @PostMapping("/ambiente")
+//    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteRequestDTO dto){
+//        AmbienteRequestDTO ambiente = ambienteService.cadastrarAmbiente(dto);
+//        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
+//    }
 
     @PostMapping("/departamento")
     public ResponseEntity<?> criarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO){
@@ -173,8 +181,8 @@ public class EscolaController {
     }
 
     @PostMapping("/equipamento")
-    public ResponseEntity<EquipamentoResponseDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoDTO equipamentoDTO){
-        EquipamentoResponseDTO equipamentoResponseDTO = equipamentoService.cadastrarEquipamento(equipamentoDTO);
+    public ResponseEntity<EquipamentoRequestDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoRequestDTO equipamentoDTO){
+        EquipamentoRequestDTO equipamentoResponseDTO = equipamentoService.cadastrarEquipamento(equipamentoDTO);
         return new ResponseEntity<>(equipamentoResponseDTO, HttpStatus.CREATED);
     }
 
@@ -225,7 +233,7 @@ public class EscolaController {
     }
 
     @PutMapping("/equipamento/{codEquipamento}")
-    public  ResponseEntity<?> editarEquipamento(@PathVariable Long codEquipamento,@Valid @RequestBody EquipamentoDTO equipamentoDTO ){
+    public  ResponseEntity<?> editarEquipamento(@PathVariable Long codEquipamento,@Valid @RequestBody EquipamentoRequestDTO equipamentoDTO ){
         EquipamentoResponseDTO equipamentoAtualizado = equipamentoService.editarEquipamento(codEquipamento, equipamentoDTO);
         return new ResponseEntity<>(equipamentoAtualizado, HttpStatus.OK);
     }

@@ -1,4 +1,5 @@
 package br.com.sime.api.entities.escola.ambiente;
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -28,13 +29,8 @@ public class Ambiente {
     @JoinColumn(name = "id_tipo_ambiente")
     private TipoAmbiente tipoAmbiente;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "ambiente")
     @JsonManagedReference
-    @JoinTable(
-            name = "Contem",
-            joinColumns = @JoinColumn(name = "id_ambiente"),
-            inverseJoinColumns = @JoinColumn(name = "id_tipo_equipamento")
-    )
-    private List<TipoEquipamento> tipoEquipamentoList;
+    private List<Equipamento> equipamentosList;
 
 }

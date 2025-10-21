@@ -75,7 +75,7 @@
 					"response": []
 				},
 				{
-					"name": "getProgressoChamado",
+					"name": "getStatusChamado",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -266,14 +266,14 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/chamados/1/status-geral?novoStatus=PENDENTE",
+							"raw": "{{baseURL}}/chamados/1/atualizar-status-geral?novoStatus=PENDENTE",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"chamados",
 								"1",
-								"status-geral"
+								"atualizar-status-geral"
 							],
 							"query": [
 								{
@@ -301,19 +301,19 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/chamados/7/status-progresso?novoStatus=CONCLUIDO",
+							"raw": "{{baseURL}}/chamados/4/atualizar-status-progresso?novoStatus=APROVADO",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"chamados",
-								"7",
-								"status-progresso"
+								"4",
+								"atualizar-status-progresso"
 							],
 							"query": [
 								{
 									"key": "novoStatus",
-									"value": "CONCLUIDO"
+									"value": "APROVADO"
 								}
 							]
 						}
@@ -618,6 +618,60 @@
 								"tipo-perfil",
 								"1",
 								"permissao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrarAmbiente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"numAmbiente\": 505,\r\n  \"descricaoAmbiente\": \"Sala 505 no terceiro andar\",\r\n  \"idTipoAmbiente\": 1,\r\n  \"nomeTipoAmbiente\": \"Sala de Aula\",\r\n  \"equipamentosList\": [\r\n    { \"codEquipamento\": \"PC-LAB-01\" }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escola/ambiente",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"ambiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cadastrarEquipamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codEquipamento\": \"equipamento2\",\r\n    \"idTipoEquipamento\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escola/equipamento",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"equipamento"
 							]
 						}
 					},

@@ -25,10 +25,6 @@ public class TipoEquipamento {
     @JsonManagedReference
     private List<Equipamento> equipamentoList;
 
-    @ManyToMany(mappedBy = "tipoEquipamentoList")
-    @JsonBackReference
-    private List<Ambiente> ambienteList;
-
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "id_tipo_chamado")
