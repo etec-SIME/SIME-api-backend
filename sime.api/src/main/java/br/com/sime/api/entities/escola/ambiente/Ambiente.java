@@ -31,6 +31,5 @@ public class Ambiente {
 
     @OneToMany(mappedBy = "ambiente")
     @JsonManagedReference
-    private List<Equipamento> equipamentosList;
-
+    private List<Equipamento> equipamentoList;
 }

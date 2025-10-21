@@ -54,7 +54,7 @@ public class EquipamentoService {
         List<Equipamento> equipamentos = equipamentoRepository.findAll();
 
         Set<String> equipamentosComAmbiente = ambientes.stream()
-                .flatMap(ambiente -> ambiente.getEquipamentosList().stream())
+                .flatMap(ambiente -> ambiente.getEquipamentoList().stream())
                 .map(Equipamento::getCodEquipamento)
                 .collect(Collectors.toSet());
 
