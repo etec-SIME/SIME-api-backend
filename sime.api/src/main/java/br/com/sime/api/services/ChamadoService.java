@@ -89,9 +89,6 @@ public class ChamadoService {
             throw new NotFoundException("O ambiente não corresponde ao tipo ambiente selecionado");
         }
 
-        if(!ambiente.getTipoEquipamentoList().contains(equipamento.getTipoEquipamento())) {
-            throw new NotFoundException("O tipo equipamento não faz parte daquele ambiente");
-        }
 
         Chamado chamado = new Chamado();
         chamado.setTituloChamado(dto.tituloChamado());

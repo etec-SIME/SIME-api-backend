@@ -4,6 +4,7 @@ import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.AmbienteRepository;
@@ -91,37 +92,37 @@ public class AmbienteService {
         return ambienteDTO;
     }
 
-    public List<TipoEquipamento> getAllTipoEquipamentoAmbiente(Long idAmbiente){
-        Ambiente ambiente = ambienteRepository.findById(idAmbiente)
-                .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
-        return ambiente.getTipoEquipamentoList();
-    }
+//    public List<Equipamento> getAllTipoEquipamentoAmbiente(Long idAmbiente){
+//        Ambiente ambiente = ambienteRepository.findById(idAmbiente)
+//                .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
+//        return ambiente.getEquipamentoList();
+//    }
 
-    public Ambiente atribuirTipoEquipamentos(Long idAmbiente, TipoEquipamentoAmbienteDTO dto){
-        Ambiente ambiente =  ambienteRepository.findById(idAmbiente)
-                .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
-
-        List<TipoEquipamento> tipoEquipamentos = tipoEquipamentoRepository.findAllById(dto.getIdsTipoEquipamento());
-
-        Set<Long> idsEncontrados = tipoEquipamentos.stream()
-                .map(TipoEquipamento::getIdTipoEquipamento)
-                .collect(Collectors.toSet());
-
-        List<Long> idsNaoEncontrados = dto.getIdsTipoEquipamento().stream()
-                .filter( id -> !idsEncontrados.contains(id))//Verifica se o idPermissao existe
-                .toList();
-
-        if (!idsNaoEncontrados.isEmpty()) {
-            throw new NotFoundException(
-                    "Tipos de equipamento não encontradas",
-                    "IDs inválidos: " + idsNaoEncontrados
-            );
-        }
-
-        ambiente.setTipoEquipamentoList(tipoEquipamentos);
-
-        return ambienteRepository.save(ambiente);
-    }
+//    public Ambiente atribuirTipoEquipamentos(Long idAmbiente, TipoEquipamentoAmbienteDTO dto){
+//        Ambiente ambiente =  ambienteRepository.findById(idAmbiente)
+//                .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
+//
+//        List<TipoEquipamento> tipoEquipamentos = tipoEquipamentoRepository.findAllById(dto.getIdsTipoEquipamento());
+//
+//        Set<Long> idsEncontrados = tipoEquipamentos.stream()
+//                .map(TipoEquipamento::getIdTipoEquipamento)
+//                .collect(Collectors.toSet());
+//
+//        List<Long> idsNaoEncontrados = dto.getIdsTipoEquipamento().stream()
+//                .filter( id -> !idsEncontrados.contains(id))//Verifica se o idPermissao existe
+//                .toList();
+//
+//        if (!idsNaoEncontrados.isEmpty()) {
+//            throw new NotFoundException(
+//                    "Tipos de equipamento não encontradas",
+//                    "IDs inválidos: " + idsNaoEncontrados
+//            );
+//        }
+//
+//        ambiente.setEquipamentoList(tipoEquipamentos);
+//
+//        return ambienteRepository.save(ambiente);
+//    }
 
     public Ambiente editarAmbiente(Long idAmbiente, AmbienteDTO ambienteDTO){
         Ambiente ambiente = ambienteRepository.findById(idAmbiente)
