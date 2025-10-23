@@ -50,7 +50,7 @@ public class EquipamentoService {
                 .orElseThrow(() -> new NotFoundException("Equipamento de ID: " + idEquipamento + "não encontrado"));
     }
 
-    public EquipamentoCodigosResponseDTO getEquipamentosSemAmbiente(){
+    public List<CodEquipamentoResponseDTO> getEquipamentosSemAmbiente(){
         List<Ambiente> ambientes = ambienteRepository.findAll();
         List<Equipamento> equipamentos = equipamentoRepository.findAll();
 
@@ -59,12 +59,12 @@ public class EquipamentoService {
                 .map(Equipamento::getCodEquipamento)
                 .collect(Collectors.toSet());
 
-        List<CodEquipamentoResponseDTO> codigosEquipamentos =  equipamentos.stream()
+        List<CodEquipamentoResponseDTO> equipamentosSemAmbiente =  equipamentos.stream()
                 .filter(equipamento -> !equipamentosComAmbiente.contains(equipamento.getCodEquipamento()))
-                .map(equipamento -> new CodEquipamentoResponseDTO(equipamento.getCodEquipamento()))
+                .map(equipamento -> new CodEquipamentoResponseDTO(equipamento.getCodEquipamento(), equipamento.getTipoEquipamento().getIdTipoEquipamento()))
                 .collect(Collectors.toList());
 
-        return new EquipamentoCodigosResponseDTO(codigosEquipamentos);
+        return equipamentosSemAmbiente;
     }
 
     //getEquipamentoByTipoEquipamento

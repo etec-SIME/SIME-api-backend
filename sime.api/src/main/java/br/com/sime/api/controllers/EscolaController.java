@@ -1,6 +1,7 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
+import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
@@ -136,8 +137,8 @@ public class EscolaController {
 
 
     @GetMapping("/equipamento/sem-ambiente")
-    public ResponseEntity<EquipamentoCodigosResponseDTO> getEquipamentodSemAmbiente(){
-        EquipamentoCodigosResponseDTO equipamentos = equipamentoService.getEquipamentosSemAmbiente();
+    public ResponseEntity<List<CodEquipamentoResponseDTO>> getEquipamentodSemAmbiente(){
+        List<CodEquipamentoResponseDTO> equipamentos = equipamentoService.getEquipamentosSemAmbiente();
         return new ResponseEntity<>(equipamentos, HttpStatus.OK);
     }
 
