@@ -125,7 +125,7 @@ public class AmbienteService {
     public List<Equipamento> getAllEquipamentoAmbiente(Long idAmbiente){
         Ambiente ambiente = ambienteRepository.findById(idAmbiente)
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
-        return ambiente.getEquipamentosList();
+        return ambiente.getEquipamentoList();
     }
 
     public Ambiente atribuirTipoEquipamentos(Long idAmbiente, TipoEquipamentoAmbienteDTO dto){
