@@ -1,10 +1,11 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
-import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
 import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
+import br.com.sime.api.DTOs.Requests.PermissaoTipoPerfilRequestDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
+import br.com.sime.api.DTOs.Responses.TipoPerfilPermissoesResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
@@ -86,6 +87,12 @@ public class EscolaController {
         return new ResponseEntity<>(escolas, HttpStatus.OK);
     }
 
+    @GetMapping("/permissoes")
+    public ResponseEntity<List<Permissao>> getAllPermissoes() {
+        List<Permissao> permissaoList = permissaoService.getAllPermissoes();
+        return new ResponseEntity<>(permissaoList, HttpStatus.OK);
+    }
+
     @GetMapping("/tipo-perfil")
     public ResponseEntity<List<TipoPerfil>> getAllTipoPerfis(){
         List<TipoPerfil> tipoPerfilList = tipoPerfilService.getAllTipoPerfis();
@@ -130,10 +137,16 @@ public class EscolaController {
 
     // --- GETs - consultar listas ---
 
-    @GetMapping("/tipo-perfil/{idTipoPerfil}/permissao")
+    @GetMapping("/tipo-perfil/{idTipoPerfil}/permissoes")
     public ResponseEntity<List<Permissao>> getAllPermissaoTipoPerfil(@PathVariable Long idTipoPerfil){
         List<Permissao> permissaoList = tipoPerfilService.getAllPermissaoTipoPerfil(idTipoPerfil);
         return new ResponseEntity<>(permissaoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/tipo-perfil/permissoes")
+    public ResponseEntity<List<TipoPerfilPermissoesResponseDTO>> getTipoPerfilPermissoes() {
+        List<TipoPerfilPermissoesResponseDTO> tipoPerfilPermissoesList = tipoPerfilService.getTipoPerfilPermissoes();
+        return new ResponseEntity<>(tipoPerfilPermissoesList, HttpStatus.OK);
     }
 
     @GetMapping("/ambiente/{idAmbiente}/tipo-equipamento")
@@ -201,7 +214,7 @@ public class EscolaController {
     // --- PUTs - atribuição ---
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}/permissao")
-    public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilDTO permissoesTipoPerfilDTO){
+    public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilRequestDTO permissoesTipoPerfilDTO){
         List<Permissao> permissaoList = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
         return new ResponseEntity<>(permissaoList, HttpStatus.ACCEPTED);
     }
