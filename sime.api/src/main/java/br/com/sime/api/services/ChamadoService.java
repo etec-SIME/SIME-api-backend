@@ -1,5 +1,8 @@
 package br.com.sime.api.services;
 
+import br.com.sime.api.DTOs.Responses.ChamadosAmbienteResponseDTO;
+import br.com.sime.api.DTOs.TipoAmbienteDTO;
+import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
@@ -250,6 +253,48 @@ public class ChamadoService {
         if (str == null || str.isEmpty()) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+	
+	public List<ChamadosAmbienteResponseDTO> getAllChamadosAmbiente(){
+        try {
+
+            List<Chamado> chamados = chamadoRepository.findAll();
+
+            if (chamados == null || chamados.isEmpty()) {
+                throw new NotFoundException("Nenhum chamado encontrado");
+            }
+
+            return chamados.stream()
+                    .map(chamado -> {
+                        TipoChamadoSelectDTO tipoChamadoDTO = new TipoChamadoSelectDTO(
+                                chamado.getTipoChamado().getIdTipoChamado(),
+                                chamado.getTipoChamado().getNomeTipoChamado()
+                        );
+
+                        TipoAmbienteDTO tipoAmbienteDTO = new TipoAmbienteDTO();
+                        tipoAmbienteDTO.setIdTipoAmbiente(chamado.getTipoAmbiente().getIdTipoAmbiente());
+                        tipoAmbienteDTO.setNomeTipoAmbiente(chamado.getTipoAmbiente().getNomeTipoAmbiente());
+
+                        AmbienteSelectDTO ambienteDTO = new AmbienteSelectDTO(
+                                chamado.getAmbiente().getIdAmbiente(),
+                                chamado.getAmbiente().getNumAmbiente(),
+                                chamado.getAmbiente().getTipoAmbiente().getIdTipoAmbiente(),
+                                chamado.getAmbiente().getTipoAmbiente().getNomeTipoAmbiente()
+                        );
+
+                        return new ChamadosAmbienteResponseDTO(
+                                chamado.getTituloChamado(),
+                                chamado.getDescChamado(),
+                                chamado.getDtAberturaChamado(),
+                                ambienteDTO,
+                                tipoChamadoDTO,
+                                tipoAmbienteDTO
+                        );
+                    })
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar os chamados do ambiente: " + e.getMessage(), e);
+        }
 
 //    public void mandarResolucaoChamado(Chamado chamado, String msgResolucao) {
 //        chamado.setDtConclusaoChamado(LocalDateTime.now());

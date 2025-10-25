@@ -104,4 +104,10 @@ public class ChamadoController {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeStatusChamado(prioridade, status);
         return new ResponseEntity<>(chamados, HttpStatus.OK);
     }
+	
+	@GetMapping("/chamados-ambiente")
+    public ResponseEntity<List<ChamadosAmbienteResponseDTO>> getAllChamadosAmbiente() {
+        List<ChamadosAmbienteResponseDTO> chamados = chamadoService.getAllChamadosAmbiente();
+        return new ResponseEntity<>(chamados, HttpStatus.OK);
+    }
 }

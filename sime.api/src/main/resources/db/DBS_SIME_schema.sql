@@ -110,11 +110,13 @@ CREATE TABLE Chamado (
 	rm_usuario_responsavel CHAR(6),
 	id_tipo_chamado BIGINT,
 	id_tipo_ambiente BIGINT,
+	id_ambiente BIGINT,
 
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente),
+	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	CHECK (prioridade_chamado IN ('Alta', 'Média', 'Baixa')),
 	CHECK (status_atual_geral_chamado IN ('Aguardando Aprovação', 'Concluído', 'Pendente')),
 	CHECK (status_atual_progresso_chamado IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))

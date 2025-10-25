@@ -1,6 +1,7 @@
 package br.com.sime.api.entities.chamados;
 
 import br.com.sime.api.entities.chamados.historicos.HistoricoStatusProgresso;
+import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -62,6 +63,11 @@ public class Chamado {
     @JsonManagedReference
     @JoinColumn(name = "id_tipo_ambiente")
     private TipoAmbiente tipoAmbiente;
+	
+	@ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "id_ambiente", referencedColumnName = "id_ambiente")
+    private Ambiente ambiente;
 
     @OneToMany(mappedBy = "chamado")
     @JsonManagedReference
