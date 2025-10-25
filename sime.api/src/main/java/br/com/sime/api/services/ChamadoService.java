@@ -1,5 +1,6 @@
 package br.com.sime.api.services;
 
+import br.com.sime.api.DTOs.AmbienteSelectDTO;
 import br.com.sime.api.DTOs.Responses.ChamadosAmbienteResponseDTO;
 import br.com.sime.api.DTOs.TipoAmbienteDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
@@ -31,6 +32,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChamadoService {
@@ -88,7 +90,7 @@ public class ChamadoService {
         Equipamento equipamento = equipamentoRepository.findByCodEquipamentoWithTipoEquipamento(dto.codEquipamento())
                 .orElseThrow(() -> new NotFoundException("Equipamento não encontrado", "Código do equipamento: " + dto.codEquipamento()));
 
-        if(!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
+        if (!ambiente.getTipoAmbiente().getIdTipoAmbiente().equals(tipoAmbiente.getIdTipoAmbiente())) {
             throw new NotFoundException("O ambiente não corresponde ao tipo ambiente selecionado");
         }
 
@@ -253,8 +255,8 @@ public class ChamadoService {
         if (str == null || str.isEmpty()) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-	
-	public List<ChamadosAmbienteResponseDTO> getAllChamadosAmbiente(){
+
+    public List<ChamadosAmbienteResponseDTO> getAllChamadosAmbiente() {
         try {
 
             List<Chamado> chamados = chamadoRepository.findAll();
@@ -304,4 +306,5 @@ public class ChamadoService {
 //        chamadoRepository.save(chamado);
 //    }
 
+    }
 }

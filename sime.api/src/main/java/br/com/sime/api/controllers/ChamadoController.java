@@ -5,6 +5,7 @@ import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
+import br.com.sime.api.DTOs.Responses.ChamadosAmbienteResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;

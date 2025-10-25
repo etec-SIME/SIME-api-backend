@@ -102,7 +102,10 @@ public class TipoPerfilService {
             );
         }
 
-        permissoes.forEach(permissao -> tipoPerfil.getPermissaoList().add(permissao));
+        tipoPerfil.getPermissaoList().clear();
+
+        tipoPerfil.getPermissaoList().addAll(permissoes);
+
         tipoPerfilRepository.save(tipoPerfil);
 
         return permissoes;
