@@ -5,6 +5,7 @@ import br.com.sime.api.DTOs.ChamadoCardDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
+import br.com.sime.api.DTOs.Responses.ChamadosAmbienteResponseDTO;
 import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
@@ -102,6 +103,12 @@ public class ChamadoController {
     @GetMapping("/prioridade/concluidos")
     public ResponseEntity<List<ChamadoCardDTO>> getByPrioridadeStatusChamado(@RequestParam("prioridade") PrioridadeChamadoEnum prioridade, @RequestParam("status") StatusGeralEnum status) {
         List<ChamadoCardDTO> chamados = chamadoService.getByPrioridadeStatusChamado(prioridade, status);
+        return new ResponseEntity<>(chamados, HttpStatus.OK);
+    }
+	
+	@GetMapping("/chamados-ambiente")
+    public ResponseEntity<List<ChamadosAmbienteResponseDTO>> getAllChamadosAmbiente() {
+        List<ChamadosAmbienteResponseDTO> chamados = chamadoService.getAllChamadosAmbiente();
         return new ResponseEntity<>(chamados, HttpStatus.OK);
     }
 }

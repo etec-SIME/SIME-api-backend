@@ -1,7 +1,3 @@
-CREATE DATABASE DBS_SIME
-
-USE DBS_SIME
-
 CREATE TABLE Escola (
 	cod_escola CHAR(3) PRIMARY KEY,
 	cnpj_escola CHAR(14),
@@ -48,7 +44,7 @@ CREATE TABLE Usuario (
 	telefone_usuario CHAR(11),
 	cpf_usuario CHAR(11),
 	id_tipo_perfil BIGINT,
-	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil) 
+	FOREIGN KEY (id_tipo_perfil) REFERENCES Tipo_perfil(id_tipo_perfil)
 )
 
 CREATE TABLE Departamento (
@@ -88,24 +84,16 @@ CREATE TABLE Tipo_Chamado(
 CREATE TABLE Tipo_equipamento (
 	id_tipo_equipamento BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_equipamento VARCHAR(50),
-	id_ambiente BIGINT,
 	id_tipo_chamado BIGINT,
-	FOREIGN KEY (id_ambiente) REFERENCES Ambiente (id_ambiente),
 	FOREIGN KEY (id_tipo_chamado) REFERENCES Tipo_Chamado (id_tipo_chamado)
-)
-
-CREATE TABLE Contem (
-	id_ambiente BIGINT,
-	id_tipo_equipamento BIGINT,
-	PRIMARY KEY (id_ambiente, id_tipo_equipamento),
-	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
-	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento (id_tipo_equipamento)
 )
 
 CREATE TABLE Equipamento (
 	cod_equipamento VARCHAR(255) PRIMARY KEY,
 	id_tipo_equipamento BIGINT,
-	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento)
+	id_ambiente BIGINT,
+	FOREIGN KEY(id_tipo_equipamento) REFERENCES Tipo_equipamento(id_tipo_equipamento),
+	FOREIGN KEY(id_ambiente) REFERENCES Ambiente(id_ambiente)
 )
 
 CREATE TABLE Chamado (
@@ -122,11 +110,13 @@ CREATE TABLE Chamado (
 	rm_usuario_responsavel CHAR(6),
 	id_tipo_chamado BIGINT,
 	id_tipo_ambiente BIGINT,
+	id_ambiente BIGINT,
 
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(rm_usuario_responsavel) REFERENCES Usuario (rm_usuario),
 	FOREIGN KEY(id_tipo_chamado) REFERENCES Tipo_Chamado(id_tipo_chamado),
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente),
+	FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente),
 	CHECK (prioridade_chamado IN ('Alta', 'Média', 'Baixa')),
 	CHECK (status_atual_geral_chamado IN ('Aguardando Aprovação', 'Concluído', 'Pendente')),
 	CHECK (status_atual_progresso_chamado IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))
@@ -142,12 +132,6 @@ CREATE TABLE Feedback (
 	rm_usuario CHAR(6),
 	FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado),
 	FOREIGN KEY(rm_usuario) REFERENCES Usuario (rm_usuario)
-)
-
-CREATE TABLE Tem (
-    id_ambiente BIGINT,
-    id_tipo_equipamento BIGINT,
-    FOREIGN KEY(id_ambiente) REFERENCES Ambiente (id_ambiente)
 )
 
 CREATE TABLE Imagem_Chamado (
@@ -167,5 +151,3 @@ CREATE TABLE Historico_Status_Progresso (
 	FOREIGN KEY (id_chamado) REFERENCES Chamado (id_chamado),
 	CHECK (status_progresso IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))
 )
-
-DROP DATABASE DBS_SIME

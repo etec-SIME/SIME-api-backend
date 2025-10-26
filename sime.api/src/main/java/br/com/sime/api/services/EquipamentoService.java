@@ -1,6 +1,6 @@
 package br.com.sime.api.services;
 
-import br.com.sime.api.DTOs.EquipamentoDTO;
+import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
@@ -33,20 +33,19 @@ public class EquipamentoService {
             List<Equipamento> equipamentoList = equipamentoRepository.findAll();
 
              return equipamentoList.stream()
-                    .map( equipamento ->{
-                        EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
-                        equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-                        equipamentoResponseDTO.setIdTipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
-                        return equipamentoResponseDTO;}).collect(Collectors.toList());
+                    .map( equipamento -> (
+                        new EquipamentoResponseDTO(
+                                equipamento.getCodEquipamento(),
+                                equipamento.getTipoEquipamento().getIdTipoEquipamento()
+                        ))).collect(Collectors.toList());
 
-        }catch (Exception e){
+        } catch (Exception e){
             throw new RuntimeException("Erro ao buscar os equipamentos:"+ e.getMessage(), e);
         }
     }
 
-    public Equipamento getEquipamentoById(Long idEquipamento){
-        return equipamentoRepository.findById(idEquipamento)
-                .orElseThrow(() -> new NotFoundException("Equipamento de ID: " + idEquipamento + "não encontrado"));
+    public Equipamento getEquipamentoByCodEquipamento(String codEquipamento){
+        return equipamentoRepository.findByCodEquipamento(codEquipamento).orElseThrow(() -> new NotFoundException("Equipamento de ID: " + codEquipamento + "não encontrado"));
     }
 
     public List<CodEquipamentoResponseDTO> getEquipamentosSemAmbiente(){
@@ -54,7 +53,7 @@ public class EquipamentoService {
         List<Equipamento> equipamentos = equipamentoRepository.findAll();
 
         Set<String> equipamentosComAmbiente = ambientes.stream()
-                .flatMap(equipamento -> equipamento.getEquipamentoList().stream())
+                .flatMap(ambiente -> ambiente.getEquipamentoList().stream())
                 .map(Equipamento::getCodEquipamento)
                 .collect(Collectors.toSet());
 
@@ -66,40 +65,37 @@ public class EquipamentoService {
         return equipamentosSemAmbiente;
     }
 
-    //getEquipamentoByTipoEquipamento
-    //getEquipamentoByAmbiente
-
-    public EquipamentoResponseDTO cadastrarEquipamento(EquipamentoDTO dto){
-        TipoEquipamento tipoEquipamento = tipoEquipamentoRepository.findById(dto.getIdTipoEquipamento())
-                .orElseThrow(() -> new NotFoundException("Tipo equipamento de código: " + dto.getIdTipoEquipamento() + "não encontrado"));
+    public EquipamentoRequestDTO cadastrarEquipamento(EquipamentoRequestDTO dto){
+        TipoEquipamento tipoEquipamento = tipoEquipamentoRepository.findById(dto.idTipoEquipamento())
+                .orElseThrow(() -> new NotFoundException("Tipo equipamento de código: " + dto.idTipoEquipamento() + " não encontrado"));
 
         Equipamento equipamento = new Equipamento();
-        equipamento.setCodEquipamento(dto.getCodEquipamento());
+        equipamento.setCodEquipamento(dto.codEquipamento());
         equipamento.setTipoEquipamento(tipoEquipamento);
+
         equipamentoRepository.save(equipamento);
 
-        EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
-        equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-        equipamentoResponseDTO.setIdTipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
-
-        return equipamentoResponseDTO;
+        return new EquipamentoRequestDTO(
+                equipamento.getCodEquipamento(),
+                equipamento.getTipoEquipamento().getIdTipoEquipamento()
+        );
     }
 
-    public EquipamentoResponseDTO editarEquipamento(Long codEquipamento, EquipamentoDTO equipamentoDTO){
+    public EquipamentoResponseDTO editarEquipamento(Long codEquipamento, EquipamentoRequestDTO equipamentoDTO){
         Equipamento equipamento = equipamentoRepository.findById(codEquipamento)
                 .orElseThrow(() -> new NotFoundException("Equipamento de código: " + codEquipamento + "não encontrado"));
 
-        TipoEquipamento tipoEquipamento = tipoEquipamentoRepository.findById(equipamentoDTO.getIdTipoEquipamento())
-                        .orElseThrow(() -> new NotFoundException("Tipo equipamenro de ID: " + equipamentoDTO.getIdTipoEquipamento()+ "não encontrado"));
+        TipoEquipamento tipoEquipamento = tipoEquipamentoRepository.findById(equipamentoDTO.idTipoEquipamento())
+                        .orElseThrow(() -> new NotFoundException("Tipo equipamenro de ID: " + equipamentoDTO.idTipoEquipamento()+ "não encontrado"));
 
-        equipamento.setCodEquipamento(equipamentoDTO.getCodEquipamento());
+        equipamento.setCodEquipamento(equipamentoDTO.codEquipamento());
         equipamento.setTipoEquipamento(tipoEquipamento);
 
         equipamentoRepository.save(equipamento);
 
-        EquipamentoResponseDTO equipamentoResponseDTO = new EquipamentoResponseDTO();
-        equipamentoResponseDTO.setCodEquipamento(equipamento.getCodEquipamento());
-        equipamentoResponseDTO.setIdTipoEquipamento(equipamento.getTipoEquipamento().getIdTipoEquipamento());
-        return equipamentoResponseDTO;
+        return new EquipamentoResponseDTO(
+                equipamento.getCodEquipamento(),
+                equipamento.getTipoEquipamento().getIdTipoEquipamento()
+        );
     }
 }

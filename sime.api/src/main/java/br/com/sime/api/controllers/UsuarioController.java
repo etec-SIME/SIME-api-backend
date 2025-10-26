@@ -28,6 +28,7 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
     }
 
+
     @PostMapping("login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login, HttpServletResponse response) {
         TokenDTO token = usuarioService.login(login);

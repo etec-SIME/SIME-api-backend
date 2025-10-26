@@ -1,9 +1,9 @@
 package br.com.sime.api.services;
 
-import br.com.sime.api.DTOs.PermissaoTipoPerfilDTO;
+import br.com.sime.api.DTOs.Requests.PermissaoTipoPerfilRequestDTO;
+import br.com.sime.api.DTOs.Responses.TipoPerfilPermissoesResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoPerfilResponseDTO;
 import br.com.sime.api.DTOs.TipoPerfilDTO;
-import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -13,7 +13,6 @@ import br.com.sime.api.repositories.TipoPerfilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,6 +53,21 @@ public class TipoPerfilService {
         }
     }
 
+    public List<TipoPerfilPermissoesResponseDTO> getTipoPerfilPermissoes() {
+        List<TipoPerfil> tipoPerfils = tipoPerfilRepository.findAll();
+
+        if (tipoPerfils.isEmpty()) {
+            throw new NotFoundException("Nenhum Tipo Perfil encontrado");
+        }
+
+        return tipoPerfils.stream()
+                .map(tipoPerfil -> new TipoPerfilPermissoesResponseDTO(
+                        tipoPerfil.getIdTipoPerfil(),
+                        tipoPerfil.getNomeTipoPerfil(),
+                        tipoPerfil.getPermissaoList()
+                )).toList();
+    }
+
     public List<Permissao> getAllPermissaoTipoPerfil(Long idTipoPerfil){
        TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
                .orElseThrow(() -> new NotFoundException("Tipo perfil de ID: " + idTipoPerfil +"não encontrado"));
@@ -67,17 +81,17 @@ public class TipoPerfilService {
         return tipoPerfilRepository.save(tipoPerfil);
     }
 
-    public List<Permissao> atribuirPermissoes(Long idTipoPerfil, PermissaoTipoPerfilDTO dto){
+    public List<Permissao> atribuirPermissoes(Long idTipoPerfil, PermissaoTipoPerfilRequestDTO dto){
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(idTipoPerfil)
                 .orElseThrow(() -> new NotFoundException("Tipo perfil de ID: " + idTipoPerfil +"não encontrado"));
 
-        List<Permissao> permissoes = permissaoRepository.findAllById(dto.getIdPermissoes());
+        List<Permissao> permissoes = permissaoRepository.findAllById(dto.idPermissoes());
 
         Set<Long> idsEncontrados = permissoes.stream()
                 .map(Permissao::getIdPermissao)
                 .collect(Collectors.toSet());
 
-        List<Long> idsNaoEncontrados = dto.getIdPermissoes().stream()
+        List<Long> idsNaoEncontrados = dto.idPermissoes().stream()
                 .filter( id -> !idsEncontrados.contains(id))
                 .toList();
 
@@ -88,11 +102,13 @@ public class TipoPerfilService {
             );
         }
 
-        tipoPerfil.setPermissaoList(permissoes);
+        tipoPerfil.getPermissaoList().clear();
+
+        tipoPerfil.getPermissaoList().addAll(permissoes);
+
         tipoPerfilRepository.save(tipoPerfil);
 
         return permissoes;
-
     }
 
     public TipoPerfilDTO editarTipoPerfil(Long idTipoPerfil, TipoPerfilDTO tipoPerfilDTO){

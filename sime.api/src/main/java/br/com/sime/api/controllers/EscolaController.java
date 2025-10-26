@@ -1,5 +1,7 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
+import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
+import br.com.sime.api.DTOs.Requests.PermissaoTipoPerfilRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
@@ -173,8 +175,8 @@ public class EscolaController {
     }
 
     @PostMapping("/equipamento")
-    public ResponseEntity<EquipamentoResponseDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoDTO equipamentoDTO){
-        EquipamentoResponseDTO equipamentoResponseDTO = equipamentoService.cadastrarEquipamento(equipamentoDTO);
+    public ResponseEntity<EquipamentoRequestDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoRequestDTO equipamentoDTO){
+        EquipamentoRequestDTO equipamentoResponseDTO = equipamentoService.cadastrarEquipamento(equipamentoDTO);
         return new ResponseEntity<>(equipamentoResponseDTO, HttpStatus.CREATED);
     }
 
@@ -193,7 +195,7 @@ public class EscolaController {
     // --- PUTs - atribuição ---
 
     @PutMapping("/tipo-perfil/{idTipoPerfil}/permissao")
-    public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilDTO permissoesTipoPerfilDTO){
+    public ResponseEntity<?> atribuirPermissoesTipoPerfil(@PathVariable Long idTipoPerfil, @Valid @RequestBody PermissaoTipoPerfilRequestDTO permissoesTipoPerfilDTO){
         List<Permissao> permissaoList = tipoPerfilService.atribuirPermissoes(idTipoPerfil, permissoesTipoPerfilDTO);
         return new ResponseEntity<>(permissaoList, HttpStatus.ACCEPTED);
     }
@@ -225,7 +227,7 @@ public class EscolaController {
     }
 
     @PutMapping("/equipamento/{codEquipamento}")
-    public  ResponseEntity<?> editarEquipamento(@PathVariable Long codEquipamento,@Valid @RequestBody EquipamentoDTO equipamentoDTO ){
+    public  ResponseEntity<?> editarEquipamento(@PathVariable Long codEquipamento,@Valid @RequestBody EquipamentoRequestDTO equipamentoDTO ){
         EquipamentoResponseDTO equipamentoAtualizado = equipamentoService.editarEquipamento(codEquipamento, equipamentoDTO);
         return new ResponseEntity<>(equipamentoAtualizado, HttpStatus.OK);
     }

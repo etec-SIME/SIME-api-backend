@@ -153,52 +153,33 @@ INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Limpeza o
 -- =====================================
 DECLARE @idEqPC BIGINT, @idEqProjetor BIGINT, @idEqAr BIGINT, @idEqWifi BIGINT, @idEqEstante BIGINT, @idEqBasquete BIGINT;
 
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Computador', @idAmb202, @idChamComputador); SET @idEqPC = SCOPE_IDENTITY();
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Projetor', @idAmb101, @idChamEletrico); SET @idEqProjetor = SCOPE_IDENTITY();
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Ar-condicionado', @idAmb101, @idChamEletrico); SET @idEqAr = SCOPE_IDENTITY();
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Rede Wi-Fi', @idAmb202, @idChamComputador); SET @idEqWifi = SCOPE_IDENTITY();
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Estante de Livros', @idAmb303, @idChamEstrutura); SET @idEqEstante = SCOPE_IDENTITY();
-INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_ambiente, id_tipo_chamado) VALUES ('Tabela de Basquete', @idAmb404, @idChamEstrutura); SET @idEqBasquete = SCOPE_IDENTITY();
-
--- =====================================
--- CONTEM e TEM
--- =====================================
-INSERT INTO Contem (id_ambiente, id_tipo_equipamento) VALUES
-(@idAmb202, @idEqPC),
-(@idAmb101, @idEqProjetor),
-(@idAmb101, @idEqAr),
-(@idAmb202, @idEqWifi),
-(@idAmb303, @idEqEstante),
-(@idAmb404, @idEqBasquete);
-
-INSERT INTO Tem (id_ambiente, id_tipo_equipamento) VALUES
-(@idAmb202, @idEqPC),
-(@idAmb101, @idEqProjetor),
-(@idAmb101, @idEqAr),
-(@idAmb202, @idEqWifi),
-(@idAmb303, @idEqEstante),
-(@idAmb404, @idEqBasquete);
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado) VALUES ('Computador', @idChamComputador); SET @idEqPC = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Projetor', @idChamEletrico); SET @idEqProjetor = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Ar-condicionado', @idChamEletrico); SET @idEqAr = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Rede Wi-Fi', @idChamComputador); SET @idEqWifi = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Estante de Livros', @idChamEstrutura); SET @idEqEstante = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Tabela de Basquete', @idChamEstrutura); SET @idEqBasquete = SCOPE_IDENTITY();
 
 -- =====================================
 -- EQUIPAMENTO
 -- =====================================
-INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento) VALUES
-('PC-LAB-01', @idEqPC),
-('PC-LAB-02', @idEqPC),
-('PROJ-101', @idEqProjetor),
-('AC-101', @idEqAr),
-('WIFI-202', @idEqWifi),
-('EST-303', @idEqEstante),
-('BASK-404', @idEqBasquete);
+INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento, id_ambiente) VALUES
+('PC-LAB-01', @idEqPC, @idAmb202),        -- Laboratório de Informática
+('PC-LAB-02', @idEqPC, @idAmb202),        -- Laboratório de Informática
+('PROJ-101', @idEqProjetor, @idAmb101),   -- Sala de Aula 101
+('AC-101', @idEqAr, @idAmb101),           -- Sala de Aula 101
+('WIFI-202', @idEqWifi, @idAmb202),       -- Laboratório de Informática
+('EST-303', @idEqEstante, @idAmb303),     -- Biblioteca Central
+('BASK-404', @idEqBasquete, @idAmb404);   -- Quadra poliesportiva
 
 -- =====================================
 -- CHAMADO
 -- =====================================
 INSERT INTO Chamado
-(prioridade_chamado, status_atual_geral_chamado, status_atual_progresso_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente) VALUES
-('Alta', 'Aguardando Aprovação', 'Em análise', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idAmb202),
-('Média', 'Pendente', 'Em andamento', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idAmb101),
-('Baixa', 'Concluído', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idAmb303);
+(prioridade_chamado, status_atual_geral_chamado, status_atual_progresso_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente, id_ambiente) VALUES
+('Alta', 'Aguardando Aprovação', 'Em análise', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idTipoLab, @idAmb202),
+('Média', 'Pendente', 'Em andamento', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idTipoSala, @idAmb101),
+('Baixa', 'Concluído', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idTipoBiblioteca, @idAmb303);
 
 
 -- =====================================
