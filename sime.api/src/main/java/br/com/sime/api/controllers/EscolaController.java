@@ -1,8 +1,6 @@
 package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
-import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
-import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;

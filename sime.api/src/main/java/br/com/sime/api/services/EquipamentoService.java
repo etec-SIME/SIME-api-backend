@@ -2,7 +2,6 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.EquipamentoDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
-import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
