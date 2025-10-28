@@ -65,6 +65,7 @@ public class ChamadoController {
             @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
         String rmUsuario = jwtService.getRmFromToken();
+        System.out.println("RM do usuario: " + rmUsuario);
         System.out.println("Arquivos recebidos: " + (files != null ? files.length : 0));
         chamadoService.criarChamado(rmUsuario, ChamadoDTO, files);
         return new ResponseEntity<>(HttpStatus.CREATED);

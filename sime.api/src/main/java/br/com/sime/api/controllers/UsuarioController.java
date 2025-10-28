@@ -38,7 +38,7 @@ public class UsuarioController {
         cookie.setHttpOnly(true); // 🔒 Não acessível por JS
         cookie.setSecure(false);   // 🔒 Só HTTPS (dev = false, prod = true)
         cookie.setPath("/");      // válido para toda a aplicação
-        cookie.setMaxAge(60 * 60); // 1h
+        cookie.setMaxAge(60 * 60 * 60 * 60 * 60); // 1h
 
         response.addCookie(cookie);
 

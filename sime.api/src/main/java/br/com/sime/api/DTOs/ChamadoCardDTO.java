@@ -5,5 +5,5 @@ public record ChamadoCardDTO (
     String dtAberturaChamado,
     String descChamado,
     String prioridadeChamado,
-    String statusChamado
+    String statusAtualGeralChamado
 ) {}

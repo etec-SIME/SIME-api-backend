@@ -122,36 +122,39 @@ INSERT INTO Conduz (rm_usuario, id_departamento) VALUES
 -- =====================================
 -- TIPO AMBIENTE
 -- =====================================
-DECLARE @idTipoSala BIGINT, @idTipoLab BIGINT, @idTipoBiblioteca BIGINT, @idTipoQuadra BIGINT;
+DECLARE @idTipoSala BIGINT, @idTipoLab BIGINT, @idTipoBiblioteca BIGINT, @idTipoQuadra BIGINT, @idTipoBanheiro BIGINT;
 
 INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Sala de Aula'); SET @idTipoSala = SCOPE_IDENTITY();
 INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Laboratório de Informática'); SET @idTipoLab = SCOPE_IDENTITY();
 INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Biblioteca'); SET @idTipoBiblioteca = SCOPE_IDENTITY();
 INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Quadra Esportiva'); SET @idTipoQuadra = SCOPE_IDENTITY();
+INSERT INTO Tipo_Ambiente (nome_tipo_ambiente) VALUES ('Banheiro'); SET @idTipoBanheiro = SCOPE_IDENTITY();
 
 -- =====================================
 -- AMBIENTE
 -- =====================================
-DECLARE @idAmb101 BIGINT, @idAmb202 BIGINT, @idAmb303 BIGINT, @idAmb404 BIGINT;
+DECLARE @idAmb101 BIGINT, @idAmb202 BIGINT, @idAmb303 BIGINT, @idAmb404 BIGINT, @idAmb505 BIGINT;
 
 INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (101, 'Sala de aula do 3º ano', @idTipoSala); SET @idAmb101 = SCOPE_IDENTITY();
 INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (202, 'Laboratório de Redes e Computadores', @idTipoLab); SET @idAmb202 = SCOPE_IDENTITY();
 INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (303, 'Biblioteca Central', @idTipoBiblioteca); SET @idAmb303 = SCOPE_IDENTITY();
 INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (404, 'Quadra poliesportiva coberta', @idTipoQuadra); SET @idAmb404 = SCOPE_IDENTITY();
+INSERT INTO Ambiente (num_ambiente, desc_ambiente, id_tipo_ambiente) VALUES (505, 'Banheiro do 2º andar', @idTipoBanheiro); SET @idAmb505 = SCOPE_IDENTITY();
 
 -- =====================================
 -- TIPO CHAMADO
 -- =====================================
-DECLARE @idChamEletrico BIGINT, @idChamComputador BIGINT, @idChamEstrutura BIGINT;
+DECLARE @idChamEletrico BIGINT, @idChamComputador BIGINT, @idChamEstrutura BIGINT, @idChamHidraulico BIGINT;
 
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Problema Elétrico', @idDeptEletrica); SET @idChamEletrico = SCOPE_IDENTITY();
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Problema de Computador', @idDeptTI); SET @idChamComputador = SCOPE_IDENTITY();
 INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Limpeza ou Estrutura', @idDeptEstrutural); SET @idChamEstrutura = SCOPE_IDENTITY();
+INSERT INTO Tipo_Chamado (nome_tipo_chamado, id_departamento) VALUES ('Problema Hidráulico', @idDeptEstrutural); SET @idChamHidraulico = SCOPE_IDENTITY();
 
 -- =====================================
 -- TIPO EQUIPAMENTO
 -- =====================================
-DECLARE @idEqPC BIGINT, @idEqProjetor BIGINT, @idEqAr BIGINT, @idEqWifi BIGINT, @idEqEstante BIGINT, @idEqBasquete BIGINT;
+DECLARE @idEqPC BIGINT, @idEqProjetor BIGINT, @idEqAr BIGINT, @idEqWifi BIGINT, @idEqEstante BIGINT, @idEqBasquete BIGINT, @idEqPia BIGINT;
 
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado) VALUES ('Computador', @idChamComputador); SET @idEqPC = SCOPE_IDENTITY();
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Projetor', @idChamEletrico); SET @idEqProjetor = SCOPE_IDENTITY();
@@ -159,6 +162,7 @@ INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Ar
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Rede Wi-Fi', @idChamComputador); SET @idEqWifi = SCOPE_IDENTITY();
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Estante de Livros', @idChamEstrutura); SET @idEqEstante = SCOPE_IDENTITY();
 INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado)VALUES ('Tabela de Basquete', @idChamEstrutura); SET @idEqBasquete = SCOPE_IDENTITY();
+INSERT INTO Tipo_equipamento (nome_tipo_equipamento, id_tipo_chamado) VALUES ('Pia', @idChamHidraulico); SET @idEqPia = SCOPE_IDENTITY();
 
 -- =====================================
 -- EQUIPAMENTO
@@ -170,7 +174,8 @@ INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento, id_ambiente) VALU
 ('AC-101', @idEqAr, @idAmb101),           -- Sala de Aula 101
 ('WIFI-202', @idEqWifi, @idAmb202),       -- Laboratório de Informática
 ('EST-303', @idEqEstante, @idAmb303),     -- Biblioteca Central
-('BASK-404', @idEqBasquete, @idAmb404);   -- Quadra poliesportiva
+('BASK-404', @idEqBasquete, @idAmb404),   -- Quadra poliesportiva
+('PIA-505', @idEqPia, @idAmb505);         -- Banheiro
 
 -- =====================================
 -- CHAMADO
