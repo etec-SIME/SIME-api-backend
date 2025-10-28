@@ -55,7 +55,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODAwMDE5NSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0VTQ09MQSJ9XSwiZW50aWRhZGUiOiJFU0NPTEEiLCJpYXQiOjE3NjAxMTkxNjAsImV4cCI6MTc2MDIwNTU2MH0.uhvU8grmoJCAS2YztfrvKZPhqVge29nWH5ifhZ8ovM4",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -90,14 +90,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/chamados/4/progresso",
+							"raw": "{{baseURL}}/chamados/1/status",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"chamados",
-								"4",
-								"progresso"
+								"1",
+								"status"
 							]
 						}
 					},
@@ -266,7 +266,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/chamados/1/atualizar-status-geral?novoStatus=PENDENTE",
+							"raw": "{{baseURL}}/chamados/1/atualizar-status-geral?novoStatus=AGUARDANDO_APROVACAO",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -278,7 +278,7 @@
 							"query": [
 								{
 									"key": "novoStatus",
-									"value": "PENDENTE"
+									"value": "AGUARDANDO_APROVACAO"
 								}
 							]
 						}
@@ -301,19 +301,19 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/chamados/4/atualizar-status-progresso?novoStatus=APROVADO",
+							"raw": "{{baseURL}}/chamados/1/atualizar-status-progresso?novoStatus=EM_ANALISE",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"chamados",
-								"4",
+								"1",
 								"atualizar-status-progresso"
 							],
 							"query": [
 								{
 									"key": "novoStatus",
-									"value": "APROVADO"
+									"value": "EM_ANALISE"
 								}
 							]
 						}
@@ -558,6 +558,96 @@
 					"response": []
 				},
 				{
+					"name": "getEquipamentoSemAmbiente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/equipamento/sem-ambiente",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"equipamento",
+								"sem-ambiente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAmbientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/public",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAmbientes Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/public/teste?codEquipamento=equipamentoTeste1234",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"public",
+								"teste"
+							],
+							"query": [
+								{
+									"key": "codEquipamento",
+									"value": "equipamentoTeste1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getAllEquipamentos",
 					"request": {
 						"auth": {
@@ -580,6 +670,34 @@
 							"path": [
 								"escola",
 								"equipamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllPermissoes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiQWRtaW4ifSx7ImF1dGhvcml0eSI6IlZpc3VhbGl6YXIgQ2hhbWFkbyJ9LHsiYXV0aG9yaXR5IjoiRWRpdGFyIENoYW1hZG8ifSx7ImF1dGhvcml0eSI6IkNyaWFyIENoYW1hZG8ifV0sImVudGlkYWRlIjoiVVNVQVJJTyIsImlhdCI6MTc1Njg1MjQ2MCwiZXhwIjoxNzU2OTM4ODYwfQ.gSqZ1rxpwj8sd3AMX6JX0laHGf_CXLGQsfeAQOk5Lps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/permissoes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"permissoes"
 							]
 						}
 					},
@@ -609,14 +727,62 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/escola/tipo-perfil/1/permissao",
+							"raw": "{{baseURL}}/escola/tipo-perfil/5/permissoes",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"escola",
 								"tipo-perfil",
-								"1",
+								"5",
+								"permissoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tipoPerfilPermissoesList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/escola/tipo-perfil/permissoes",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"tipo-perfil",
+								"permissoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atribuirPermissoesTipoPerfil",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPermissoes\": [4,3,5]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escola/tipo-perfil/3/permissao",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"tipo-perfil",
+								"3",
 								"permissao"
 							]
 						}
@@ -651,13 +817,40 @@
 					"response": []
 				},
 				{
+					"name": "cadastrarTipoPerfil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeTipoPerfil\": \"Teste\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/escola/tipo-perfil",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"escola",
+								"tipo-perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "cadastrarEquipamento",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codEquipamento\": \"equipamento2\",\r\n    \"idTipoEquipamento\": 1\r\n}\r\n",
+							"raw": "{\r\n    \"codEquipamento\": \"equipamentoSemAmbienteTeste2\",\r\n    \"idTipoEquipamento\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
