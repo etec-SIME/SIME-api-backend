@@ -129,6 +129,12 @@ public class EscolaController {
         return new ResponseEntity<>(tipoAmbienteList, HttpStatus.OK);
     }
 
+    @GetMapping("/permissoes")
+    public ResponseEntity<List<Permissao>> getAllPermissoes() {
+        List<Permissao> permissaoList = permissaoService.getAllPermissoes();
+        return new ResponseEntity<>(permissaoList, HttpStatus.OK);
+    }
+
     // --- GETs - consultar listas ---
 
     @GetMapping("/tipo-perfil/{idTipoPerfil}/permissao")
