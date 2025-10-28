@@ -13,5 +13,6 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> 
     Optional<Equipamento> findByCodEquipamentoWithTipoEquipamento(@Param("cod") String cod);
 
     List<Equipamento> findAllByCodEquipamentoIn(List<String> codigos);
-    Optional<Equipamento> findByCodEquipamento(String codigo);
+
+    Optional<Equipamento> findByCodEquipamento(String codEquipamento);
 }

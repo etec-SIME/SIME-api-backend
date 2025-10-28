@@ -2,14 +2,12 @@ package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
 import br.com.sime.api.DTOs.Requests.PermissaoTipoPerfilRequestDTO;
-import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
+import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
-import br.com.sime.api.DTOs.Responses.TipoPerfilPermissoesResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
-import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -87,12 +85,6 @@ public class EscolaController {
         return new ResponseEntity<>(escolas, HttpStatus.OK);
     }
 
-    @GetMapping("/permissoes")
-    public ResponseEntity<List<Permissao>> getAllPermissoes() {
-        List<Permissao> permissaoList = permissaoService.getAllPermissoes();
-        return new ResponseEntity<>(permissaoList, HttpStatus.OK);
-    }
-
     @GetMapping("/tipo-perfil")
     public ResponseEntity<List<TipoPerfil>> getAllTipoPerfis(){
         List<TipoPerfil> tipoPerfilList = tipoPerfilService.getAllTipoPerfis();
@@ -137,28 +129,17 @@ public class EscolaController {
 
     // --- GETs - consultar listas ---
 
-    @GetMapping("/tipo-perfil/{idTipoPerfil}/permissoes")
+    @GetMapping("/tipo-perfil/{idTipoPerfil}/permissao")
     public ResponseEntity<List<Permissao>> getAllPermissaoTipoPerfil(@PathVariable Long idTipoPerfil){
         List<Permissao> permissaoList = tipoPerfilService.getAllPermissaoTipoPerfil(idTipoPerfil);
         return new ResponseEntity<>(permissaoList, HttpStatus.OK);
     }
 
-    @GetMapping("/tipo-perfil/permissoes")
-    public ResponseEntity<List<TipoPerfilPermissoesResponseDTO>> getTipoPerfilPermissoes() {
-        List<TipoPerfilPermissoesResponseDTO> tipoPerfilPermissoesList = tipoPerfilService.getTipoPerfilPermissoes();
-        return new ResponseEntity<>(tipoPerfilPermissoesList, HttpStatus.OK);
-    }
-
-    @GetMapping("/ambiente/{idAmbiente}/tipo-equipamento")
-    public ResponseEntity<List<Equipamento>> getAllTipoEquipamentoAmbiente(@PathVariable Long idAmbiente){
-        List<Equipamento> equipamentoList = ambienteService.getAllEquipamentoAmbiente(idAmbiente);
-        return new ResponseEntity<>(equipamentoList, HttpStatus.OK);
-    }
 
     @GetMapping("/equipamento/sem-ambiente")
-    public ResponseEntity<EquipamentoCodigosResponseDTO> getEquipamentosSemAmbiente() {
-        EquipamentoCodigosResponseDTO equipamentosSemAmbienteList = equipamentoService.getEquipamentosSemAmbiente();
-        return new ResponseEntity<>(equipamentosSemAmbienteList, HttpStatus.OK);
+    public ResponseEntity<List<CodEquipamentoResponseDTO>> getEquipamentodSemAmbiente(){
+        List<CodEquipamentoResponseDTO> equipamentos = equipamentoService.getEquipamentosSemAmbiente();
+        return new ResponseEntity<>(equipamentos, HttpStatus.OK);
     }
 
     // --- POSTs - cadastrato/criação---
@@ -175,11 +156,11 @@ public class EscolaController {
         return new ResponseEntity<>(tipoPerfil, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/ambiente")
-//    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteRequestDTO dto){
-//        AmbienteRequestDTO ambiente = ambienteService.cadastrarAmbiente(dto);
-//        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
-//    }
+    @PostMapping("/ambiente")
+    public ResponseEntity<?> cadastrarAmbiente(@Valid @RequestBody AmbienteDTO ambienteDTO){
+        AmbienteDTO ambiente = ambienteService.cadastrarAmbiente(ambienteDTO);
+        return new ResponseEntity<>(ambiente, HttpStatus.CREATED);
+    }
 
     @PostMapping("/departamento")
     public ResponseEntity<?> criarDepartamento(@Valid @RequestBody DepartamentoDTO departamentoDTO){
@@ -219,11 +200,11 @@ public class EscolaController {
         return new ResponseEntity<>(permissaoList, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/ambiente/{idAmbiente}/tipo-equipamento")
-    public ResponseEntity<?> atribuirTipoEquipamentoAmbiente(@PathVariable Long idAmbiente, @Valid @RequestBody TipoEquipamentoAmbienteDTO tipoEquipamentoAmbienteDTO){
-        Ambiente ambiente = ambienteService.atribuirTipoEquipamentos(idAmbiente, tipoEquipamentoAmbienteDTO);
-        return new ResponseEntity<>(ambiente, HttpStatus.ACCEPTED);
-    }
+//    @PutMapping("/ambiente/{idAmbiente}/tipo-equipamento")
+//    public ResponseEntity<?> atribuirTipoEquipamentoAmbiente(@PathVariable Long idAmbiente, @Valid @RequestBody TipoEquipamentoAmbienteDTO tipoEquipamentoAmbienteDTO){
+//        Ambiente ambiente = ambienteService.atribuirTipoEquipamentos(idAmbiente, tipoEquipamentoAmbienteDTO);
+//        return new ResponseEntity<>(ambiente, HttpStatus.ACCEPTED);
+//    }
 
     // --- PUTs - edição---
 

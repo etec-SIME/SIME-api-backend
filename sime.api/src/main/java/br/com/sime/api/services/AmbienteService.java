@@ -10,6 +10,7 @@ import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.exceptions.NotFoundException;
 import br.com.sime.api.repositories.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,13 +42,23 @@ public class AmbienteService {
         try {
             List<Ambiente> ambienteList = ambienteRepository.findAll();
 
+
             return ambienteList.stream()
                     .map( ambiente -> {
-                        AmbienteDTO ambienteDTO = new AmbienteDTO();
-                        ambienteDTO.setNumAmbiente(ambiente.getNumAmbiente());
-                        ambienteDTO.setDescricaoAmbiente(ambiente.getDescricaoAmbiente());
-                        ambienteDTO.setIdTipoAmbiente(ambiente.getTipoAmbiente().getIdTipoAmbiente());
-                        return ambienteDTO;
+                                AmbienteDTO ambienteDTO = new AmbienteDTO();
+                                ambienteDTO.setNumAmbiente(ambiente.getNumAmbiente());
+                                ambienteDTO.setDescricaoAmbiente(ambiente.getDescricaoAmbiente());
+                                ambienteDTO.setIdTipoAmbiente(ambiente.getTipoAmbiente().getIdTipoAmbiente());
+
+                                List<CodEquipamentoResponseDTO> equipamentoListDTO = ambiente.getEquipamentoList().stream()
+                                        .map(equip -> new CodEquipamentoResponseDTO(
+                                                equip.getCodEquipamento(),
+                                                equip.getTipoEquipamento().getIdTipoEquipamento()
+                                        ))
+                                        .collect(Collectors.toList());
+
+                                ambienteDTO.setEquipamentoList(equipamentoListDTO);
+                                return ambienteDTO;
                             }
                     ).collect(Collectors.toList());
 
@@ -75,52 +86,47 @@ public class AmbienteService {
                 .collect(Collectors.toList());
     }
 
-//    public AmbienteRequestDTO cadastrarAmbiente(AmbienteRequestDTO request) {
-//        TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(request.idTipoAmbiente())
-//                .orElseThrow(() -> new NotFoundException("Tipo Ambiente não encontrado"));
-//
-//
-//        Ambiente ambiente = new Ambiente();
-//        ambiente.setIdAmbiente(request.idAmbiente());
-//        ambiente.setNumAmbiente(request.numAmbiente());
-//        ambiente.setDescricaoAmbiente(request.descricaoAmbiente());
-//        ambiente.setTipoAmbiente(tipoAmbiente);
-//
-//        //Agrupa os codigos dos equipamentos do dto
-//        List<String> codigosEquipamentos = request.equipamentosList()
-//                .stream()
-//                .map(CodEquipamentoResponseDTO::codEquipamento)
-//                .toList();
-//        //Procura no banco
-//        List<Equipamento> equipamentosSelecionados = equipamentoRepository.findAllByCodEquipamentoIn(codigosEquipamentos);
-//
-//        //Associa com Tipo Equipamento
-//        Map<TipoEquipamento, List<Equipamento>> agrupados = equipamentosSelecionados.stream()
-//                .collect(Collectors.groupingBy(Equipamento::getTipoEquipamento));
-//
-//        List<TipoEquipamento> tiposEquipamentos = new ArrayList<>(agrupados.keySet());
-//        tiposEquipamentos.forEach(tipo -> tipo.setEquipamentoList(agrupados.get(tipo)));
-//
-//        //Salva no ambiente
-//        ambiente.setTipoEquipamentoList(tiposEquipamentos);
-//        ambienteRepository.save(ambiente);
-//
-//        List<CodEquipamentoResponseDTO> equipamentosList = ambiente.getTipoEquipamentoList()
-//                .stream()
-//                .flatMap(tipoEquipamento -> tipoEquipamento.getEquipamentoList().stream())
-//                .map(equipamento -> new CodEquipamentoResponseDTO(
-//                        equipamento.getCodEquipamento()
-//                )).toList();
-//
-//        return new AmbienteRequestDTO(
-//                ambiente.getIdAmbiente(),
-//                ambiente.getNumAmbiente(),
-//                ambiente.getDescricaoAmbiente(),
-//                ambiente.getTipoAmbiente().getIdTipoAmbiente(),
-//                ambiente.getTipoAmbiente().getNomeTipoAmbiente(),
-//                equipamentosList
-//        );
-//    }
+    public AmbienteDTO cadastrarAmbiente(AmbienteDTO dto){
+
+        TipoAmbiente tipoAmbiente = tipoAmbienteRepository.findById(dto.getIdTipoAmbiente())
+                .orElseThrow(() -> new NotFoundException("Tipo ambiente de ID: " + dto.getIdTipoAmbiente() + "não encontrado"));
+
+        Ambiente ambiente = new Ambiente();
+        ambiente.setNumAmbiente(dto.getNumAmbiente());
+        ambiente.setDescricaoAmbiente(dto.getDescricaoAmbiente());
+        ambiente.setTipoAmbiente(tipoAmbiente);
+
+        List<Equipamento> equipamentos = new ArrayList<>();
+
+        for(CodEquipamentoResponseDTO equipDto : dto.getEquipamentoList()){
+
+            Equipamento equipamento = equipamentoRepository.findByCodEquipamento(equipDto.codEquipamento())
+                    .orElseThrow(() -> new NotFoundException("Equipamento com código: " + equipDto.codEquipamento() + " não encontrado!"));
+
+            equipamento.setAmbiente(ambiente);
+            equipamentos.add(equipamento);
+        }
+
+        ambiente.setEquipamentoList(equipamentos);
+
+        ambienteRepository.save(ambiente);
+
+
+        List<CodEquipamentoResponseDTO> equipamentoListDTO = ambiente.getEquipamentoList().stream()
+                .map(equip -> new CodEquipamentoResponseDTO(
+                        equip.getCodEquipamento(),
+                        equip.getTipoEquipamento().getIdTipoEquipamento()
+                ))
+                .collect(Collectors.toList());
+
+        AmbienteDTO ambienteDTO = new AmbienteDTO();
+        ambienteDTO.setNumAmbiente(ambiente.getNumAmbiente());
+        ambienteDTO.setDescricaoAmbiente(ambiente.getDescricaoAmbiente());
+        ambienteDTO.setIdTipoAmbiente(ambiente.getTipoAmbiente().getIdTipoAmbiente());
+        ambienteDTO.setEquipamentoList(equipamentoListDTO);
+
+        return ambienteDTO;
+    }
 
     public List<Equipamento> getAllEquipamentoAmbiente(Long idAmbiente){
         Ambiente ambiente = ambienteRepository.findById(idAmbiente)

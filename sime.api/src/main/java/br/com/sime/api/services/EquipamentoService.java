@@ -2,7 +2,6 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
-import br.com.sime.api.DTOs.Responses.EquipamentoCodigosResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
@@ -49,7 +48,7 @@ public class EquipamentoService {
         return equipamentoRepository.findByCodEquipamento(codEquipamento).orElseThrow(() -> new NotFoundException("Equipamento de ID: " + codEquipamento + "não encontrado"));
     }
 
-    public EquipamentoCodigosResponseDTO getEquipamentosSemAmbiente(){
+    public List<CodEquipamentoResponseDTO> getEquipamentosSemAmbiente(){
         List<Ambiente> ambientes = ambienteRepository.findAll();
         List<Equipamento> equipamentos = equipamentoRepository.findAll();
 
@@ -58,12 +57,12 @@ public class EquipamentoService {
                 .map(Equipamento::getCodEquipamento)
                 .collect(Collectors.toSet());
 
-        List<CodEquipamentoResponseDTO> codigosEquipamentos =  equipamentos.stream()
+        List<CodEquipamentoResponseDTO> equipamentosSemAmbiente =  equipamentos.stream()
                 .filter(equipamento -> !equipamentosComAmbiente.contains(equipamento.getCodEquipamento()))
-                .map(equipamento -> new CodEquipamentoResponseDTO(equipamento.getCodEquipamento()))
+                .map(equipamento -> new CodEquipamentoResponseDTO(equipamento.getCodEquipamento(), equipamento.getTipoEquipamento().getIdTipoEquipamento()))
                 .collect(Collectors.toList());
 
-        return new EquipamentoCodigosResponseDTO(codigosEquipamentos);
+        return equipamentosSemAmbiente;
     }
 
     public EquipamentoRequestDTO cadastrarEquipamento(EquipamentoRequestDTO dto){
