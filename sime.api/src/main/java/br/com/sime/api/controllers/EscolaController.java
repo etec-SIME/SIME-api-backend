@@ -5,9 +5,11 @@ import br.com.sime.api.DTOs.Requests.PermissaoTipoPerfilRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.TipoChamadoResponseDTO;
+import br.com.sime.api.DTOs.Responses.TipoPerfilPermissoesResponseDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.Escola;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
+import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
 import br.com.sime.api.entities.outros.Departamento;
 import br.com.sime.api.entities.usuarios.Permissao;
@@ -135,6 +137,17 @@ public class EscolaController {
         return new ResponseEntity<>(permissaoList, HttpStatus.OK);
     }
 
+    @GetMapping("/tipo-perfil/permissoes")
+    public ResponseEntity<List<TipoPerfilPermissoesResponseDTO>> getTipoPerfilPermissoes() {
+        List<TipoPerfilPermissoesResponseDTO> tipoPerfilPermissoesList = tipoPerfilService.getTipoPerfilPermissoes();
+        return new ResponseEntity<>(tipoPerfilPermissoesList, HttpStatus.OK);
+    }
+
+    @GetMapping("/ambiente/{idAmbiente}/tipo-equipamento")
+    public ResponseEntity<List<Equipamento>> getAllTipoEquipamentoAmbiente(@PathVariable Long idAmbiente){
+        List<Equipamento> equipamentoList = ambienteService.getAllEquipamentoAmbiente(idAmbiente);
+        return new ResponseEntity<>(equipamentoList, HttpStatus.OK);
+    }
 
     @GetMapping("/equipamento/sem-ambiente")
     public ResponseEntity<List<CodEquipamentoResponseDTO>> getEquipamentodSemAmbiente(){
