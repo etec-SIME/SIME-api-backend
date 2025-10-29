@@ -22,7 +22,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PreAuthorize("hasPermission('Admin')")
+    //@PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<UsuarioProjection>> getAllUsuarios() {
         return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);

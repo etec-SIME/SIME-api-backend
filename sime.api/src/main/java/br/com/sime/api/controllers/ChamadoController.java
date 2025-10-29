@@ -42,7 +42,7 @@ public class ChamadoController {
     @Autowired
     private JwtService jwtService;
 
-    @PreAuthorize("hasPermission('Admin')")
+    //@PreAuthorize("hasPermission('Admin')")
     @GetMapping
     public ResponseEntity<List<Chamado>> getAllChamados() {
         return new ResponseEntity<>(chamadoService.getAllChamados(), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class ChamadoController {
         return new ResponseEntity<>(chamadoService.getStatusChamado(idChamado), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasPermission('Criar Chamado')")
+    //@PreAuthorize("hasPermission('Criar Chamado')")
     @PostMapping(value = "/criar-chamado", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> criarChamado(
             @RequestPart("chamado") @Valid ChamadoRequestDTO ChamadoDTO,

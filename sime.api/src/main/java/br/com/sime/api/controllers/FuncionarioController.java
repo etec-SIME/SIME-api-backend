@@ -16,20 +16,20 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
-    @PreAuthorize("hasPermission('Admin')") //"permitAll()"
+    //@PreAuthorize("hasPermission('Admin')") //"permitAll()"
     @GetMapping
     public ResponseEntity<?> getAllFuncionarios() {
         return new ResponseEntity<>(funcionarioService.getAllFuncionarios(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasPermission('Funcionario')") //"permitAll()"
+    //@PreAuthorize("hasPermission('Funcionario')") //"permitAll()"
     @GetMapping("/pendentes")
     public ResponseEntity<?> getAllChamadosPendentes() {
         List<Chamado> chamadosPendentes = funcionarioService.getAllChamadosPendentes();
         return new ResponseEntity<>(chamadosPendentes, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasPermission('Funcionario')" ) //"permitAll()"
+    //@PreAuthorize("hasPermission('Funcionario')" ) //"permitAll()"
     @GetMapping("/concluidos")
     public ResponseEntity<?> getAllChamadosConcluidos() {
         List<Chamado> chamadosConcluidos = funcionarioService.getAllChamadosConcluidos();
