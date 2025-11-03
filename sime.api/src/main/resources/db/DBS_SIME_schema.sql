@@ -74,7 +74,7 @@ CREATE TABLE Ambiente (
 	FOREIGN KEY(id_tipo_ambiente) REFERENCES Tipo_Ambiente (id_tipo_ambiente)
 )
 
-CREATE TABLE Tipo_Chamado(
+CREATE TABLE Tipo_Chamado (
 	id_tipo_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
 	nome_tipo_chamado VARCHAR(50),
 	id_departamento BIGINT,
