@@ -276,7 +276,7 @@ public class ChamadoService {
                         tipoAmbienteDTO.setIdTipoAmbiente(chamado.getTipoAmbiente().getIdTipoAmbiente());
                         tipoAmbienteDTO.setNomeTipoAmbiente(chamado.getTipoAmbiente().getNomeTipoAmbiente());
 
-                        AmbienteSelectDTO ambienteDTO = new AmbienteSelectDTO(
+                        AmbienteSelectDTO ambienteDTO = new AmbienteSelectDTO (
                                 chamado.getAmbiente().getIdAmbiente(),
                                 chamado.getAmbiente().getNumAmbiente(),
                                 chamado.getAmbiente().getTipoAmbiente().getIdTipoAmbiente(),

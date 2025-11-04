@@ -3,6 +3,7 @@ package br.com.sime.api.services;
 import br.com.sime.api.DTOs.Requests.EquipamentoRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
 import br.com.sime.api.DTOs.Responses.EquipamentoResponseDTO;
+import br.com.sime.api.DTOs.TipoEquipamentoSelectDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
 import br.com.sime.api.entities.escola.equipamentos.TipoEquipamento;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,34 @@ public class EquipamentoService {
                 .collect(Collectors.toList());
 
         return equipamentosSemAmbiente;
+    }
+
+    public List<TipoEquipamentoSelectDTO> getAllEquipamentosSelect() {
+        List<Equipamento> equipamentoList = equipamentoRepository.findAll();
+
+        if (equipamentoList.isEmpty()) {
+            throw new NotFoundException("Nenhum equipamento encontrado");
+        }
+
+        // Agrupa todos os equipamentos por tipo
+        Map<TipoEquipamento, List<Equipamento>> equipamentosPorTipo =
+                equipamentoList.stream()
+                        .collect(Collectors.groupingBy(Equipamento::getTipoEquipamento));
+
+        // Mapeia cada tipo em um TipoEquipamentoSelectDTO único
+        return equipamentosPorTipo.entrySet().stream()
+                .map(entry -> new TipoEquipamentoSelectDTO(
+                        entry.getKey().getIdTipoEquipamento(),
+                        entry.getKey().getNomeTipoEquipamento(),
+                        entry.getKey().getTipoChamado().getIdTipoChamado(),
+                        entry.getKey().getTipoChamado().getNomeTipoChamado(),
+                        entry.getValue().stream()
+                                .map(e -> new TipoEquipamentoSelectDTO.CodEquipamentoList(
+                                        e.getCodEquipamento()
+                                ))
+                                .toList()
+                ))
+                .toList();
     }
 
     public EquipamentoRequestDTO cadastrarEquipamento(EquipamentoRequestDTO dto){

@@ -205,7 +205,7 @@
 					"response": []
 				},
 				{
-					"name": "getAmbienteChamadoSelect",
+					"name": "AmbienteChamadoSelect",
 					"request": {
 						"auth": {
 							"type": "bearer",

@@ -1,9 +1,7 @@
 package br.com.sime.api.services;
-import br.com.sime.api.DTOs.AmbienteDTO;
-import br.com.sime.api.DTOs.AmbienteSelectDTO;
+import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Requests.AmbienteRequestDTO;
 import br.com.sime.api.DTOs.Responses.CodEquipamentoResponseDTO;
-import br.com.sime.api.DTOs.TipoEquipamentoAmbienteDTO;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
 import br.com.sime.api.entities.escola.equipamentos.Equipamento;
@@ -73,17 +71,39 @@ public class AmbienteService {
                 .orElseThrow(() -> new NotFoundException("Ambiente de ID: " + idAmbiente + "não encontrado"));
     }
 
-
-    public List<AmbienteSelectDTO> getAllAmbienteChamadoSelect() {
+    public List<AmbienteChamadoSelectDTO> getAllAmbienteChamadoSelect() {
         return ambienteRepository.findAll()
                 .stream()
-                .map(a -> new AmbienteSelectDTO(
-                        a.getIdAmbiente(),
-                        a.getNumAmbiente(),
-                        a.getTipoAmbiente().getIdTipoAmbiente(),
-                        a.getTipoAmbiente().getNomeTipoAmbiente()
-                ))
-                .collect(Collectors.toList());
+                .map(a -> {
+                    // Agrupa equipamentos por tipo de equipamento
+                    Map<TipoEquipamento, List<Equipamento>> equipamentosPorTipo =
+                            a.getEquipamentoList().stream()
+                                    .collect(Collectors.groupingBy(Equipamento::getTipoEquipamento));
+
+                    // Transforma os grupos em TipoEquipamentoSelectDTO
+                    List<TipoEquipamentoSelectDTO> tipoEquipamentoList = equipamentosPorTipo.entrySet().stream()
+                            .map(entry -> new TipoEquipamentoSelectDTO(
+                                    entry.getKey().getIdTipoEquipamento(),
+                                    entry.getKey().getNomeTipoEquipamento(),
+                                    entry.getKey().getTipoChamado().getIdTipoChamado(),
+                                    entry.getKey().getTipoChamado().getNomeTipoChamado(),
+                                    entry.getValue().stream()
+                                            .map(e -> new TipoEquipamentoSelectDTO.CodEquipamentoList(
+                                                    e.getCodEquipamento()
+                                            ))
+                                            .toList()
+                            ))
+                            .toList();
+
+                    return new AmbienteChamadoSelectDTO(
+                            a.getIdAmbiente(),
+                            a.getNumAmbiente(),
+                            a.getTipoAmbiente().getIdTipoAmbiente(),
+                            a.getTipoAmbiente().getNomeTipoAmbiente(),
+                            tipoEquipamentoList
+                    );
+                })
+                .toList();
     }
 
     public AmbienteDTO cadastrarAmbiente(AmbienteDTO dto){

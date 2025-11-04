@@ -1,12 +1,10 @@
 package br.com.sime.api.controllers;
 
-import br.com.sime.api.DTOs.AmbienteSelectDTO;
-import br.com.sime.api.DTOs.ChamadoCardDTO;
+import br.com.sime.api.DTOs.*;
 import br.com.sime.api.DTOs.Responses.ChamadoStatusResponseDTO;
 import br.com.sime.api.DTOs.Requests.ChamadoRequestDTO;
 import br.com.sime.api.DTOs.Responses.ChamadoResponseDTO;
 import br.com.sime.api.DTOs.Responses.ChamadosAmbienteResponseDTO;
-import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import br.com.sime.api.entities.chamados.Chamado;
 import br.com.sime.api.enums.PrioridadeChamadoEnum;
 import br.com.sime.api.enums.StatusGeralEnum;
@@ -14,13 +12,13 @@ import br.com.sime.api.enums.StatusProgressoEnum;
 import br.com.sime.api.security.services.JwtService;
 import br.com.sime.api.services.AmbienteService;
 import br.com.sime.api.services.ChamadoService;
+import br.com.sime.api.services.EquipamentoService;
 import br.com.sime.api.services.TipoChamadoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +36,9 @@ public class ChamadoController {
 
     @Autowired
     private TipoChamadoService tipoChamadoService;
+
+    @Autowired
+    private EquipamentoService equipamentoService;
 
     @Autowired
     private JwtService jwtService;
@@ -84,8 +85,8 @@ public class ChamadoController {
     }
 
     @GetMapping("/ambientes")
-    public ResponseEntity<List<AmbienteSelectDTO>> getAllAmbienteChamadoSelect() {
-        List<AmbienteSelectDTO> ambientes = ambienteService.getAllAmbienteChamadoSelect();
+    public ResponseEntity<List<AmbienteChamadoSelectDTO>> getAllAmbienteChamadoSelect() {
+        List<AmbienteChamadoSelectDTO> ambientes = ambienteService.getAllAmbienteChamadoSelect();
         return new ResponseEntity<>(ambientes, HttpStatus.OK);
     }
 
@@ -93,6 +94,12 @@ public class ChamadoController {
     public ResponseEntity<List<TipoChamadoSelectDTO>> getAllTipoChamadoSelect() {
         List<TipoChamadoSelectDTO> tiposChamados = tipoChamadoService.getAllTipoChamadoSelect();
         return new ResponseEntity<>(tiposChamados, HttpStatus.OK);
+    }
+
+    @GetMapping("/equipamento")
+    public ResponseEntity<List<TipoEquipamentoSelectDTO>> getAllEquipamentoSelect() {
+        List<TipoEquipamentoSelectDTO> equipamentos = equipamentoService.getAllEquipamentosSelect();
+        return new ResponseEntity<>(equipamentos, HttpStatus.OK);
     }
 
     @GetMapping("/prioridade")
