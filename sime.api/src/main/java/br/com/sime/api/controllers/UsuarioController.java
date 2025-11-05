@@ -3,6 +3,7 @@ package br.com.sime.api.controllers;
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
 import br.com.sime.api.DTOs.Projections.UsuarioProjection;
+import br.com.sime.api.DTOs.UserInfoDTO;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.services.UsuarioService;
 import jakarta.servlet.http.Cookie;
@@ -28,6 +29,10 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
     }
 
+    @GetMapping("/user-info")
+    public ResponseEntity<UserInfoDTO> getUserInfo() {
+        return new ResponseEntity<>(usuarioService.getUserInfo(), HttpStatus.OK);
+    }
 
     @PostMapping("login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO login, HttpServletResponse response) {
@@ -35,8 +40,8 @@ public class UsuarioController {
 
         Cookie cookie = new Cookie("jwt", token.getToken());
 
-        cookie.setHttpOnly(true); // 🔒 Não acessível por JS
-        cookie.setSecure(false);   // 🔒 Só HTTPS (dev = false, prod = true)
+        cookie.setHttpOnly(true); // Não acessível por JS
+        cookie.setSecure(false);   // Só HTTPS (dev = false, prod = true)
         cookie.setPath("/");      // válido para toda a aplicação
         cookie.setMaxAge(60 * 60); // 1h
 
