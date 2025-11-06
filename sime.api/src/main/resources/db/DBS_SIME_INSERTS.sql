@@ -26,66 +26,94 @@ SET @idUsuario = SCOPE_IDENTITY();
 -- =====================================
 -- PERMISSAO
 -- =====================================
-DECLARE @idGerenciarSistema BIGINT, @idGerenciarPerfis BIGINT, @idGerenciarDept BIGINT,
-        @idGerenciarChamados BIGINT, @idCriarChamado BIGINT, @idVisualizarChamados BIGINT,
-        @idVisualizarRelatorios BIGINT;
+DECLARE
+    @idAtualizarPrioridadeChamado BIGINT,
+    @idAtualizarBarraProgressoChamado BIGINT,
+    @idAprovarChamado BIGINT,
+    @idReprovarChamado BIGINT,
+    @idConcluirChamado BIGINT,
+    @idCadastrarTipoPerfil BIGINT,
+    @idAtribuirPermissoesTipoPerfil BIGINT,
+    @idCadastrarLocal BIGINT,
+    @idCadastrarTipoChamado BIGINT,
+    @idCadastrarPerfil BIGINT,
+    @idCadastrarDepartamento BIGINT,
+    @idCadastrarEquipamento BIGINT;
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Sistema', 'Pode gerenciar todas as escolas, usuários e permissões');
-SET @idGerenciarSistema = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Atualizar Prioridade de Chamado', 'Pode atualizar a prioridade dos chamados');
+SET @idAtualizarPrioridadeChamado = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Perfis', 'Pode criar e editar perfis de acesso');
-SET @idGerenciarPerfis = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Atualizar Barra de Progresso de Chamado', 'Pode atualizar a barra de progresso de um chamado');
+SET @idAtualizarBarraProgressoChamado = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Departamentos', 'Pode criar, editar e remover departamentos');
-SET @idGerenciarDept = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Aprovar Chamado', 'Pode aprovar chamados pendentes');
+SET @idAprovarChamado = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Gerenciar Chamados', 'Pode abrir, atribuir, atualizar e concluir chamados');
-SET @idGerenciarChamados = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Reprovar Chamado', 'Pode reprovar chamados pendentes');
+SET @idReprovarChamado = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Criar Chamado', 'Pode abrir chamados no sistema');
-SET @idCriarChamado = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Concluir Chamado', 'Pode concluir chamados em andamento');
+SET @idConcluirChamado = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Visualizar Chamados', 'Pode visualizar os chamados criados');
-SET @idVisualizarChamados = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Tipo de Perfil', 'Pode cadastrar novos tipos de perfil de acesso');
+SET @idCadastrarTipoPerfil = SCOPE_IDENTITY();
 
-INSERT INTO Permissao (nome_permissao, desc_permissao) VALUES ('Visualizar Relatórios', 'Pode gerar e visualizar relatórios de chamados e departamentos');
-SET @idVisualizarRelatorios = SCOPE_IDENTITY();
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Atribuir Permissões Tipo de Perfil', 'Pode vincular permissões a tipos de perfil');
+SET @idAtribuirPermissoesTipoPerfil = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Local', 'Pode cadastrar e gerenciar locais físicos da escola');
+SET @idCadastrarLocal = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Tipo de Chamado', 'Pode cadastrar novos tipos de chamados');
+SET @idCadastrarTipoChamado = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Perfil', 'Pode criar e gerenciar perfis de usuários');
+SET @idCadastrarPerfil = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Departamento', 'Pode cadastrar e editar departamentos da escola');
+SET @idCadastrarDepartamento = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Equipamento', 'Pode cadastrar e gerenciar equipamentos nos ambientes');
+SET @idCadastrarEquipamento = SCOPE_IDENTITY();
 
 -- =====================================
 -- POSSUI (Permissão x Tipo Perfil)
 -- =====================================
 -- Gestor Geral
 INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
-(@idGerenciarPerfis, @idGestorGeral),
-(@idGerenciarDept, @idGestorGeral),
-(@idGerenciarChamados, @idGestorGeral),
-(@idCriarChamado, @idGestorGeral),
-(@idVisualizarRelatorios, @idGestorGeral);
-
--- Gestor Departamento
-INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
-(@idGerenciarDept, @idGestorDep),
-(@idGerenciarChamados, @idGestorDep),
-(@idCriarChamado, @idGestorDep),
-(@idVisualizarRelatorios, @idGestorDep);
-
--- Funcionário
-INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
-(@idGerenciarChamados, @idFuncionario),
-(@idCriarChamado, @idFuncionario),
-(@idVisualizarChamados, @idFuncionario);
-
--- Usuário Comum
-INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
-(@idCriarChamado, @idUsuario),
-(@idVisualizarChamados, @idUsuario);
+(@idAtualizarPrioridadeChamado, @idGestorGeral),
+(@idAtualizarBarraProgressoChamado, @idGestorGeral),
+(@idAprovarChamado, @idGestorGeral),
+(@idReprovarChamado, @idGestorGeral),
+(@idConcluirChamado, @idGestorGeral),
+(@idCadastrarTipoPerfil, @idGestorGeral),
+(@idAtribuirPermissoesTipoPerfil, @idGestorGeral),
+(@idCadastrarLocal, @idGestorGeral),
+(@idCadastrarTipoChamado, @idGestorGeral),
+(@idCadastrarPerfil, @idGestorGeral),
+(@idCadastrarDepartamento, @idGestorGeral),
+(@idCadastrarEquipamento, @idGestorGeral);
 
 -- =====================================
 -- CADASTRA (Escola x Tipo Perfil)
 -- =====================================
 INSERT INTO Cadastra (cod_escola, id_tipo_perfil) VALUES
 ('E01', @idGestorGeral),
-('E02', @idGestorGeral);
+('E01', @idGestorDep),
+('E01', @idFuncionario),
+('E01', @idUsuario)
 
 -- =====================================
 -- USUARIOS
