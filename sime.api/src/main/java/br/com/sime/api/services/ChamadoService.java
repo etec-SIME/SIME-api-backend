@@ -239,8 +239,11 @@ public class ChamadoService {
                         chamado.getIdChamado(),
                         chamado.getDtAberturaChamado().format(formatter),
                         chamado.getDescChamado(),
+                        chamado.getTituloChamado(),
                         chamado.getPrioridadeChamado(),
-                        chamado.getStatusAtualGeralChamado()
+                        chamado.getStatusAtualGeralChamado(),
+                        chamado.getAmbiente().getNumAmbiente(),
+                        chamado.getAmbiente().getTipoAmbiente().getNomeTipoAmbiente()
                 ))
                 .toList();
     }
