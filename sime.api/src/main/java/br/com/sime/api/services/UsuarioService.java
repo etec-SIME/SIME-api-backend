@@ -2,11 +2,15 @@ package br.com.sime.api.services;
 
 import br.com.sime.api.DTOs.LoginDTO;
 import br.com.sime.api.DTOs.TokenDTO;
+import br.com.sime.api.DTOs.UserInfoDTO;
 import br.com.sime.api.DTOs.UsuarioRequestDTO;
+import br.com.sime.api.entities.escola.Escola;
+import br.com.sime.api.entities.usuarios.Permissao;
 import br.com.sime.api.entities.usuarios.TipoPerfil;
 import br.com.sime.api.repositories.DepartamentoRepository;
 import br.com.sime.api.repositories.EscolaRepository;
 import br.com.sime.api.DTOs.Projections.UsuarioProjection;
+import br.com.sime.api.security.EscolaDetailsImpl;
 import br.com.sime.api.security.UserDetailsImpl;
 import br.com.sime.api.entities.usuarios.Usuario;
 import br.com.sime.api.exceptions.NotFoundException;
@@ -15,10 +19,14 @@ import br.com.sime.api.repositories.TipoPerfilRepository;
 import br.com.sime.api.repositories.UsuarioRepository;
 import br.com.sime.api.security.services.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -31,7 +39,6 @@ public class UsuarioService {
     private DepartamentoRepository departamentoRepository;
     @Autowired
     private EscolaRepository escolaRepository;
-
     @Autowired
     private JwtService jwtService;
     @Autowired
@@ -57,7 +64,7 @@ public class UsuarioService {
         if (!getEscola)
             throw new NotFoundException("Escola não encontrada", "Escola com código: " + login.getCodEscola() + " não encontrada para o tipo de perfil: " + login.getIdTipoPerfil());
 
-        Usuario usuario = usuarioRepository.findUsuarioTipoPerfilAndEscola(
+        Usuario usuario = usuarioRepository.findUsuarioTipoPerfilAndEscola (
                 login.getRmUsuario(),
                 login.getIdTipoPerfil(),
                 login.getCodEscola()
@@ -71,6 +78,40 @@ public class UsuarioService {
         return new TokenDTO(token);
     }
 
+    public UserInfoDTO getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetailsImpl userDetails) {
+            Usuario usuario = userDetails.getUsuario();
+            List<String> permissoes = usuario.getTipoPerfil()
+                    .getPermissaoList()
+                    .stream()
+                    .map(Permissao::getNomePermissao)
+                    .toList();
+
+            return new UserInfoDTO(
+                    "USUARIO",
+                    usuario.getRmUsuario(),
+                    permissoes
+            );
+
+        } else if (principal instanceof EscolaDetailsImpl escolaDetails) {
+            Escola escola = escolaDetails.getEscola();
+
+            List<String> permissoes = List.of("ROLE_ESCOLA");
+
+            return new UserInfoDTO(
+                    "ESCOLA",
+                    escola.getCnpjEscola(),
+                    permissoes
+            );
+
+        } else {
+            throw new IllegalStateException("Entidade autenticada desconhecida");
+        }
+    }
+
     public void cadastrarUsuario(UsuarioRequestDTO dto)
 
     {
@@ -79,7 +120,6 @@ public class UsuarioService {
 
 
         TipoPerfil tipoPerfil = tipoPerfilRepository.findById(4L).orElseThrow(() -> new NotFoundException(""));
-
 
         Usuario usuario = new Usuario();
         usuario.setRmUsuario(dto.getRmUsuario());
@@ -100,8 +140,5 @@ public class UsuarioService {
         usuarioRequestDTO.setSenhaUsuario(usuario.getSenhaUsuario());
         usuarioRequestDTO.setCpfUsuario(usuario.getCpfUsuario());
 
-        return;
     }
-
-
 }
