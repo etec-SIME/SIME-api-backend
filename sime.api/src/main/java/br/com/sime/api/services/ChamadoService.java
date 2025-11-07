@@ -101,6 +101,7 @@ public class ChamadoService {
         chamado.setUsuario(usuario);
         chamado.setTipoChamado(tipoChamado);
         chamado.setTipoAmbiente(tipoAmbiente);
+        chamado.setAmbiente(ambiente);
         chamado.setDtAberturaChamado(dto.dataAbertura());
         chamado.setStatusAtualGeralChamado(StatusGeralEnum.AGUARDANDO_APROVACAO.getDescricao());
         chamado.setStatusAtualProgressoChamado(StatusProgressoEnum.EM_ANALISE.getDescricao());

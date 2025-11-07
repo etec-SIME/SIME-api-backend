@@ -197,10 +197,10 @@ INSERT INTO Equipamento (cod_equipamento, id_tipo_equipamento, id_ambiente) VALU
 -- CHAMADO
 -- =====================================
 INSERT INTO Chamado
-(prioridade_chamado, status_atual_geral_chamado, status_atual_progresso_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, local_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente, id_ambiente) VALUES
-('Alta', 'Aguardando Aprovação', 'Em análise', GETDATE(), 'Computador não liga', NULL, 'Laboratório - PC-LAB-01', 'PC não funciona', '200005', '200002', @idChamComputador, @idTipoLab, @idAmb202),
-('Média', 'Pendente', 'Em andamento', GETDATE(), 'Projetor queimado na sala', NULL, 'Sala 101', 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idTipoSala, @idAmb101),
-('Baixa', 'Concluído', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Biblioteca Central', 'Estante danificada', '200005', '200004', @idChamEstrutura, @idTipoBiblioteca, @idAmb303);
+(prioridade_chamado, status_atual_geral_chamado, status_atual_progresso_chamado, dt_abertura_chamado, desc_chamado, dt_conclusao_chamado, titulo_chamado, rm_usuario, rm_usuario_responsavel, id_tipo_chamado, id_tipo_ambiente, id_ambiente) VALUES
+('Alta', 'Aguardando Aprovação', 'Em análise', GETDATE(), 'Computador não liga', NULL, 'PC não funciona', '200005', '200002', @idChamComputador, @idTipoLab, @idAmb202),
+('Média', 'Pendente', 'Em andamento', GETDATE(), 'Projetor queimado na sala', NULL, 'Projetor não funciona', '200004', '200003', @idChamEletrico, @idTipoSala, @idAmb101),
+('Baixa', 'Concluído', 'Concluído', GETDATE(), 'Estante quebrada precisa conserto', GETDATE(), 'Estante danificada', '200005', '200004', @idChamEstrutura, @idTipoBiblioteca, @idAmb303);
 
 
 -- =====================================

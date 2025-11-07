@@ -104,7 +104,6 @@ CREATE TABLE Chamado (
 	dt_abertura_chamado DATETIME DEFAULT GETDATE(),
 	desc_chamado VARCHAR(450),
 	dt_conclusao_chamado DATETIME DEFAULT GETDATE(),
-	local_chamado VARCHAR(255),
 	titulo_chamado VARCHAR(255),
 	rm_usuario CHAR(6),
 	rm_usuario_responsavel CHAR(6),
