@@ -36,7 +36,6 @@ DECLARE
     @idCadastrarPerfil BIGINT,
     @idCadastrarDepartamento BIGINT,
     @idCadastrarEquipamento BIGINT,
-    @idCadastrarTipoLocal BIGINT,
     @idCadastrarTipoEquipamento BIGINT;
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
@@ -76,10 +75,6 @@ VALUES ('Cadastrar Equipamento', 'Pode cadastrar e gerenciar equipamentos nos am
 SET @idCadastrarEquipamento = SCOPE_IDENTITY();
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Cadastrar Tipo de Local', 'Pode cadastrar e gerenciar tipos de locais físicos');
-SET @idCadastrarTipoLocal = SCOPE_IDENTITY();
-
-INSERT INTO Permissao (nome_permissao, desc_permissao)
 VALUES ('Cadastrar Tipo de Equipamento', 'Pode cadastrar e gerenciar tipos de equipamentos');
 SET @idCadastrarTipoEquipamento = SCOPE_IDENTITY();
 
@@ -97,7 +92,6 @@ INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
 (@idCadastrarPerfil, @idGestorGeral),
 (@idCadastrarDepartamento, @idGestorGeral),
 (@idCadastrarEquipamento, @idGestorGeral),
-(@idCadastrarTipoLocal, @idGestorGeral),
 (@idCadastrarTipoEquipamento, @idGestorGeral);
 
 -- =====================================
