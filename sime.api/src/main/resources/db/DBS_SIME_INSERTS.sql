@@ -29,44 +29,31 @@ SET @idUsuario = SCOPE_IDENTITY();
 DECLARE
     @idAtualizarPrioridadeChamado BIGINT,
     @idAtualizarBarraProgressoChamado BIGINT,
-    @idAprovarChamado BIGINT,
-    @idReprovarChamado BIGINT,
-    @idConcluirChamado BIGINT,
+    @idAprovarOuReprovarChamado BIGINT,
     @idCadastrarTipoPerfil BIGINT,
-    @idAtribuirPermissoesTipoPerfil BIGINT,
     @idCadastrarLocal BIGINT,
     @idCadastrarTipoChamado BIGINT,
     @idCadastrarPerfil BIGINT,
     @idCadastrarDepartamento BIGINT,
-    @idCadastrarEquipamento BIGINT;
+    @idCadastrarEquipamento BIGINT,
+    @idCadastrarTipoLocal BIGINT,
+    @idCadastrarTipoEquipamento BIGINT;
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
 VALUES ('Atualizar Prioridade de Chamado', 'Pode atualizar a prioridade dos chamados');
 SET @idAtualizarPrioridadeChamado = SCOPE_IDENTITY();
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Atualizar Barra de Progresso de Chamado', 'Pode atualizar a barra de progresso de um chamado');
+VALUES ('Atualizar Barra de Progresso de Chamado', 'Pode atualizar a barra de progresso dos chamados');
 SET @idAtualizarBarraProgressoChamado = SCOPE_IDENTITY();
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Aprovar Chamado', 'Pode aprovar chamados pendentes');
-SET @idAprovarChamado = SCOPE_IDENTITY();
-
-INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Reprovar Chamado', 'Pode reprovar chamados pendentes');
-SET @idReprovarChamado = SCOPE_IDENTITY();
-
-INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Concluir Chamado', 'Pode concluir chamados em andamento');
-SET @idConcluirChamado = SCOPE_IDENTITY();
+VALUES ('Aprovar ou Reprovar Chamado', 'Pode aprovar ou reprovar chamados pendentes');
+SET @idAprovarOuReprovarChamado = SCOPE_IDENTITY();
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
 VALUES ('Cadastrar Tipo de Perfil', 'Pode cadastrar novos tipos de perfil de acesso');
 SET @idCadastrarTipoPerfil = SCOPE_IDENTITY();
-
-INSERT INTO Permissao (nome_permissao, desc_permissao)
-VALUES ('Atribuir Permissões Tipo de Perfil', 'Pode vincular permissões a tipos de perfil');
-SET @idAtribuirPermissoesTipoPerfil = SCOPE_IDENTITY();
 
 INSERT INTO Permissao (nome_permissao, desc_permissao)
 VALUES ('Cadastrar Local', 'Pode cadastrar e gerenciar locais físicos da escola');
@@ -88,6 +75,14 @@ INSERT INTO Permissao (nome_permissao, desc_permissao)
 VALUES ('Cadastrar Equipamento', 'Pode cadastrar e gerenciar equipamentos nos ambientes');
 SET @idCadastrarEquipamento = SCOPE_IDENTITY();
 
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Tipo de Local', 'Pode cadastrar e gerenciar tipos de locais físicos');
+SET @idCadastrarTipoLocal = SCOPE_IDENTITY();
+
+INSERT INTO Permissao (nome_permissao, desc_permissao)
+VALUES ('Cadastrar Tipo de Equipamento', 'Pode cadastrar e gerenciar tipos de equipamentos');
+SET @idCadastrarTipoEquipamento = SCOPE_IDENTITY();
+
 -- =====================================
 -- POSSUI (Permissão x Tipo Perfil)
 -- =====================================
@@ -95,16 +90,15 @@ SET @idCadastrarEquipamento = SCOPE_IDENTITY();
 INSERT INTO Possui (id_permissao, id_tipo_perfil) VALUES
 (@idAtualizarPrioridadeChamado, @idGestorGeral),
 (@idAtualizarBarraProgressoChamado, @idGestorGeral),
-(@idAprovarChamado, @idGestorGeral),
-(@idReprovarChamado, @idGestorGeral),
-(@idConcluirChamado, @idGestorGeral),
+(@idAprovarOuReprovarChamado, @idGestorGeral),
 (@idCadastrarTipoPerfil, @idGestorGeral),
-(@idAtribuirPermissoesTipoPerfil, @idGestorGeral),
 (@idCadastrarLocal, @idGestorGeral),
 (@idCadastrarTipoChamado, @idGestorGeral),
 (@idCadastrarPerfil, @idGestorGeral),
 (@idCadastrarDepartamento, @idGestorGeral),
-(@idCadastrarEquipamento, @idGestorGeral);
+(@idCadastrarEquipamento, @idGestorGeral),
+(@idCadastrarTipoLocal, @idGestorGeral),
+(@idCadastrarTipoEquipamento, @idGestorGeral);
 
 -- =====================================
 -- CADASTRA (Escola x Tipo Perfil)
