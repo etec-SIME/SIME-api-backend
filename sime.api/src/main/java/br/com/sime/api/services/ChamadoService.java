@@ -291,6 +291,7 @@ public class ChamadoService {
                                 chamado.getTituloChamado(),
                                 chamado.getDescChamado(),
                                 chamado.getDtAberturaChamado(),
+                                chamado.getStatusAtualGeralChamado(),
                                 ambienteDTO,
                                 tipoChamadoDTO,
                                 tipoAmbienteDTO

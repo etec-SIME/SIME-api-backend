@@ -8,6 +8,7 @@ public record ChamadosAmbienteResponseDTO(
         String tituloChamado,
         String descChamado,
         LocalDateTime dtAberturaChamado,
+        String statusAtualGeralChamado,
         AmbienteSelectDTO ambiente,
         TipoChamadoSelectDTO tipoChamado,
         TipoAmbienteDTO tipoAmbiente
