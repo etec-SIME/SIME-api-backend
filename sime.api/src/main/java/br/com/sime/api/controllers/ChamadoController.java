@@ -84,6 +84,12 @@ public class ChamadoController {
         return new ResponseEntity<>(chamadoAtualizado, HttpStatus.OK);
     }
 
+    @PutMapping("/{idChamado}/atualizar-prioridade-chamado")
+    public ResponseEntity<Void> atualizarPrioridadeChamado(@PathVariable("idChamado") Long idChamado, @RequestParam PrioridadeChamadoEnum novaPrioridade) {
+        chamadoService.atualizarPrioridadeChamado(idChamado, novaPrioridade);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/ambientes")
     public ResponseEntity<List<AmbienteChamadoSelectDTO>> getAllAmbienteChamadoSelect() {
         List<AmbienteChamadoSelectDTO> ambientes = ambienteService.getAllAmbienteChamadoSelect();

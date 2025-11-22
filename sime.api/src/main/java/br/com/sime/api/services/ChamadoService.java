@@ -227,6 +227,14 @@ public class ChamadoService {
         return mapToChamadoCardDTOList(chamados);
     }
 
+    public void atualizarPrioridadeChamado(Long idChamado, PrioridadeChamadoEnum novaPrioridade) {
+        Chamado chamado = chamadoRepository.findById(idChamado)
+                .orElseThrow(() -> new NotFoundException("Chamado não encontrado"));
+
+        chamado.setPrioridadeChamado(novaPrioridade.getDescricao());
+        chamadoRepository.save(chamado);
+    }
+
     //Metodos Auxiliares
     public List<ChamadoCardDTO> mapToChamadoCardDTOList(List<Chamado> chamados) {
         if (chamados.isEmpty()) {
