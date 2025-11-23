@@ -3,6 +3,7 @@ package br.com.sime.api.entities.chamados;
 import br.com.sime.api.entities.chamados.historicos.HistoricoStatusProgresso;
 import br.com.sime.api.entities.escola.ambiente.Ambiente;
 import br.com.sime.api.entities.escola.ambiente.TipoAmbiente;
+import br.com.sime.api.entities.usuarios.Mensagem;
 import br.com.sime.api.entities.usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -80,4 +81,8 @@ public class Chamado {
     @OneToMany(mappedBy = "chamado")
     @JsonManagedReference
     private List<HistoricoStatusProgresso> historicoStatusProgressoList;
+
+    @OneToMany(mappedBy = "chamado")
+    @JsonManagedReference
+    private List<Mensagem> mensagemList;
 }

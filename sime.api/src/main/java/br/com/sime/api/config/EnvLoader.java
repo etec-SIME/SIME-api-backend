@@ -6,9 +6,9 @@ public class EnvLoader {
     public static void loadEnv() {
         Dotenv dotenv = Dotenv.load();
 
-        setIfPresent("AZURE_URL", dotenv);
-        setIfPresent("AZURE_USER", dotenv);
-        setIfPresent("AZURE_PASSWORD", dotenv);
+        setIfPresent("DB_URL", dotenv);
+        setIfPresent("DB_USER", dotenv);
+        setIfPresent("DB_PASSWORD", dotenv);
         setIfPresent("JWT_SECRET", dotenv);
     }
 

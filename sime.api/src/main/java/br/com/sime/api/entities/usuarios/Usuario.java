@@ -66,4 +66,13 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "id_departamento")
     )
     private List<Departamento> departamentoList;
+
+    @ManyToMany
+    @JsonManagedReference
+    @JoinTable(
+            name = "Recebe",
+            joinColumns = @JoinColumn(name = "rm_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_notificacao")
+    )
+    private List<Notificacao> notificacaoList;
 }

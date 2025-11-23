@@ -150,3 +150,29 @@ CREATE TABLE Historico_Status_Progresso (
 	FOREIGN KEY (id_chamado) REFERENCES Chamado (id_chamado),
 	CHECK (status_progresso IN ('Em análise', 'Aprovado', 'Análise da APM', 'Em andamento', 'Concluído'))
 )
+
+CREATE TABLE Mensagem (
+    id_mensagem BIGINT IDENTITY(1,1) PRIMARY KEY,
+    tipo_mensagem VARCHAR(30),
+    texto VARCHAR(255),
+    data_envio DATETIME DEFAULT GETDATE(),
+    id_chamado BIGINT,
+    FOREIGN KEY (id_chamado) REFERENCES Chamado (id_chamado),
+    CHECK (tipo_mensagem IN ('Automática', 'Personalizada'))
+)
+
+CREATE TABLE Notificacao (
+    id_notificacao BIGINT IDENTITY(1,1) PRIMARY KEY,
+    data_notificacao DATETIME DEFAULT GETDATE(),
+    visualizacao BIT DEFAULT 0,
+    id_mensagem BIGINT,
+    FOREIGN KEY (id_mensagem) REFERENCES Mensagem (id_mensagem)
+)
+
+CREATE TABLE Recebe (
+    id_notificacao BIGINT,
+    rm_usuario CHAR(6),
+    PRIMARY KEY(id_notificacao, rm_usuario),
+    FOREIGN KEY (id_notificacao) REFERENCES Notificacao (id_notificacao),
+    FOREIGN KEY (rm_usuario) REFERENCES Usuario (rm_usuario)
+)

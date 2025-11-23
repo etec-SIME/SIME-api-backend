@@ -43,4 +43,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     List<Usuario> findAllByTipoPerfil_IdTipoPerfilAndDepartamentoList_IdDepartamento(Long idtipoPerfil, Long idDepartamento);
     List<UsuarioProjection> findAllBy();
+
+    List<Usuario> findByTipoPerfil_Permissoes_Nome(String nomePermissao);
 }

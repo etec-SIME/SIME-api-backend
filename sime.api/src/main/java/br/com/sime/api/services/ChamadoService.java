@@ -64,6 +64,9 @@ public class ChamadoService {
     private ImagemChamadoService imagemChamadoService;
 
     @Autowired
+    private NotificacaoService notificacaoService;
+
+    @Autowired
     private HistoricoStatusProgressoRepository historicoStatusProgressoRepository;
 
     public List<Chamado> getAllChamados() {
@@ -107,13 +110,12 @@ public class ChamadoService {
         chamado.setStatusAtualProgressoChamado(StatusProgressoEnum.EM_ANALISE.getDescricao());
         chamado.setPrioridadeChamado(PrioridadeChamadoEnum.ALTA_PRIORIDADE.getDescricao());
 
-        chamadoRepository.save(chamado);
-
         if (files != null && files.length > 0) {
             try {
                 List<ImagemChamado> imagens = imagemChamadoService.salvarImagens(chamado.getIdChamado(), files);
                 chamado.setImagemChamadoList(imagens);
                 chamadoRepository.save(chamado);
+                notificacaoService.enviarNotificacaoCompartilhada(chamado);
             } catch (IOException e) {
                 throw new RuntimeException("Erro ao salvar imagens: " + e.getMessage(), e);
             }
