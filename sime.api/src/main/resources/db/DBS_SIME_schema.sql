@@ -136,7 +136,7 @@ CREATE TABLE Feedback (
 CREATE TABLE Imagem_Chamado (
     id_imagem_chamado BIGINT IDENTITY(1,1) PRIMARY KEY,
     nome_arquivo_imagem_chamado VARCHAR(255),
-    caminho_imagem_chamado VARCHAR(255),
+    caminho_imagem_chamado VARCHAR(500),
     id_chamado BIGINT,
     FOREIGN KEY(id_chamado) REFERENCES Chamado (id_chamado)
 )

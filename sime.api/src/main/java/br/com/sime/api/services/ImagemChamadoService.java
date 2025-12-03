@@ -24,6 +24,8 @@ public class ImagemChamadoService {
     private ImagemChamadoRepository imagemChamadoRepository;
     @Autowired
     private ChamadoRepository chamadoRepository;
+    @Autowired
+    private AzureBlobService azureBlobService;
 
     public List<ImagemChamado> salvarImagens(Long chamadoId, MultipartFile[] files) throws IOException {
         Chamado chamado = chamadoRepository.findById(chamadoId)
@@ -40,13 +42,11 @@ public class ImagemChamadoService {
                 throw new RuntimeException("Apenas imagens são permitidas: " + file.getOriginalFilename());
             }
 
-            String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
-            Path destinationFile = rootLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            String urlImagem = azureBlobService.uploadFile(file);
 
             ImagemChamado imagemChamado = new ImagemChamado();
             imagemChamado.setNomeArquivo(file.getOriginalFilename());
-            imagemChamado.setCaminho("/uploads/" + fileName);
+            imagemChamado.setCaminho(urlImagem);
             imagemChamado.setChamado(chamado);
 
             imagens.add(imagemChamado);

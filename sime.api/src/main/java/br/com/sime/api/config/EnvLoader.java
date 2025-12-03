@@ -6,6 +6,7 @@ public class EnvLoader {
     public static void loadEnv() {
         Dotenv dotenv = Dotenv.load();
 
+        setIfPresent("AZURE_STORAGE_CONNECTION_STRING", dotenv);
         setIfPresent("AZURE_URL", dotenv);
         setIfPresent("AZURE_USER", dotenv);
         setIfPresent("AZURE_PASSWORD", dotenv);
