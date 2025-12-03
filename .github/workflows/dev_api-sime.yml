@@ -30,7 +30,7 @@ jobs:
           AZURE_USER: ${{ secrets.AZURE_USER }}
           AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-	      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
@@ -65,5 +65,4 @@ jobs:
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-
           package: '*.jar'
