@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
           AZURE_URL: ${{ secrets.AZURE_URL }}
           AZURE_USERNAME: ${{ secrets.AZURE_USER }}
           AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
-	  AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
@@ -42,8 +42,8 @@ jobs:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -65,4 +65,3 @@ jobs:
           app-name: 'api-sime'
           slot-name: 'Production'
           package: '*.jar'
-          
