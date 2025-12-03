@@ -27,7 +27,7 @@ jobs:
       - name: Build with Maven
         env:
           AZURE_URL: ${{ secrets.AZURE_URL }}
-          AZURE_USERNAME: ${{ secrets.AZURE_USER }}
+          AZURE_USER: ${{ secrets.AZURE_USER }}
           AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: mvn clean install
