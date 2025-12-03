@@ -13,50 +13,51 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read  # Required for actions/checkout
+      contents: read #This is required for actions/checkout
 
     steps:
-      # Passo 1: pegar o código
       - uses: actions/checkout@v4
 
-      # Passo 2: configurar Java
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
 
-      # Passo 3: build do Maven
       - name: Build with Maven
-        working-directory: ./sime.api
-        run: mvn clean install -DskipTests
+        run: mvn clean install
 
-      # Passo 4: enviar artifact para o job de deploy
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: './sime.api/target/*.jar'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: windows-latest
     needs: build
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
-        steps:
+    steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-
-
-      # Uncomment if the JAR is not directly inside java-app
-      # - name: Move JAR to java-app
-      #   run: mkdir java-app && move java-app\*.jar java-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7333E4ACB6E7479B93DE8C29D5AD557D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7301589B99CE4D429896A66368EB63A5 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63F98BB1C3C842A78929C867B020726F }}
 
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: ./java-app/*.jar
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650DEC61F4874A3DB210DBFF676AD336 }}
+          package: '*.jar'
+          
