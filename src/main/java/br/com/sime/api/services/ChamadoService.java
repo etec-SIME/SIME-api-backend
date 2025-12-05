@@ -296,6 +296,7 @@ public class ChamadoService {
                         );
 
                         return new ChamadosAmbienteResponseDTO(
+								chamado.getIdChamado(),
                                 chamado.getTituloChamado(),
                                 chamado.getDescChamado(),
                                 chamado.getDtAberturaChamado(),

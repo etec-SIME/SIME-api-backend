@@ -5,6 +5,7 @@ import br.com.sime.api.DTOs.TipoChamadoSelectDTO;
 import java.time.LocalDateTime;
 
 public record ChamadosAmbienteResponseDTO(
+		Long idChamado,
         String tituloChamado,
         String descChamado,
         LocalDateTime dtAberturaChamado,
