@@ -1,6 +1,6 @@
 package br.com.sime.api;
 
-import br.com.sime.api.config.EnvLoader;
+//import br.com.sime.api.config.EnvLoader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
