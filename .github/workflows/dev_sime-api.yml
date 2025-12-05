@@ -63,6 +63,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'api-sime'
+          app-name: 'sime-api'
           slot-name: 'Production'
           package: '*.jar'
+
