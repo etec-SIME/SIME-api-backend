@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - sime-api
+name: Build and deploy JAR app to Azure Web App - api-sime
 
 on:
   push:
@@ -11,9 +11,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -25,6 +25,12 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
+        env:
+          AZURE_URL: ${{ secrets.AZURE_URL }}
+          AZURE_USER: ${{ secrets.AZURE_USER }}
+          AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+	        JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
@@ -34,12 +40,12 @@ jobs:
           path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-  
+      id-token: write
+      contents: read
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -49,15 +55,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B421D44DEDA644CDAA849D26E1FC3528 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_39475C47C18B43D9AA0FD584B169FFEE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9D0C91A8C92D4264930961CDC2B31A28 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7333E4ACB6E7479B93DE8C29D5AD557D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7301589B99CE4D429896A66368EB63A5 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63F98BB1C3C842A78929C867B020726F }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'sime-api'
+          app-name: 'api-sime'
           slot-name: 'Production'
           package: '*.jar'
-          
