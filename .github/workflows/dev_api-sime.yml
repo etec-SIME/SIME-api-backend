@@ -51,7 +51,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
+      - name: Prepare deployment folder
+        run: |
+          mkdir deploy
+          copy *.jar deploy\
+          copy ${{ github.workspace }}\web.config deploy\
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -60,9 +66,8 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63F98BB1C3C842A78929C867B020726F }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'api-sime'
           slot-name: 'Production'
-          package: '*.jar'
+          package: 'deploy'
