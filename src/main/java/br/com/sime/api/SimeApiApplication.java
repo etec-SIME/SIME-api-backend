@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SimeApiApplication {
 	public static void main(String[] args) {
 		// Carrega variáveis de ambiente do arquivo .env
-		EnvLoader.loadEnv();
+		//EnvLoader.loadEnv();
 		SpringApplication.run(SimeApiApplication.class, args);
 	}
 }
