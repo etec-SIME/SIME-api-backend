@@ -41,9 +41,10 @@ public class UsuarioController {
         Cookie cookie = new Cookie("jwt", token.getToken());
 
         cookie.setHttpOnly(true); // Não acessível por JS
-        cookie.setSecure(false);   // Só HTTPS (dev = false, prod = true)
+        cookie.setSecure(true);   // Só HTTPS (dev = false, prod = true)
         cookie.setPath("/");      // válido para toda a aplicação
         cookie.setMaxAge(60 * 60); // 1h
+        cookie.setAttribute("SameSite", "None");
 
         response.addCookie(cookie);
 
